@@ -16,7 +16,7 @@ struct AlertSettingsTests {
     @Test("ค่าเริ่มต้นของการตั้งค่าการเตือนถูกต้อง")
     func defaultPreferencesAreCorrect() {
         let prefs = UserAlertPreferences.default
-        #expect(prefs.deliveryMode == .notification)
+        #expect(prefs.deliveryMode == .both)
         #expect(prefs.soundMode == .soundAndHaptic)
         #expect(prefs.autoStopDelay == .sixtySeconds)
     }
@@ -51,20 +51,20 @@ struct AlertSettingsTests {
         let persistence = NoopTripPersistence()
         let store = TripStore(persistence: persistence)
 
-        #expect(store.alertPreferences.deliveryMode == .notification)
+        #expect(store.alertPreferences.deliveryMode == .both)
         #expect(store.alertPreferences.autoStopDelay == .sixtySeconds)
 
         var newPrefs = UserAlertPreferences()
-        newPrefs.deliveryMode = .both
+        newPrefs.deliveryMode = .notification
         newPrefs.soundMode = .soundAndHaptic
         newPrefs.autoStopDelay = .fortyFiveSeconds
 
         store.updateAlertPreferences(newPrefs)
 
-        #expect(store.alertPreferences.deliveryMode == .both)
+        #expect(store.alertPreferences.deliveryMode == .notification)
         #expect(store.alertPreferences.soundMode == .soundAndHaptic)
         #expect(store.alertPreferences.autoStopDelay == .fortyFiveSeconds)
-        #expect(persistence.loadAlertPreferences().deliveryMode == .both)
+        #expect(persistence.loadAlertPreferences().deliveryMode == .notification)
         #expect(persistence.loadAlertPreferences().soundMode == .soundAndHaptic)
         #expect(persistence.loadAlertPreferences().autoStopDelay == .fortyFiveSeconds)
     }
@@ -414,7 +414,7 @@ struct AlertSettingsTests {
 
         #expect(notifications.arrivalCount == 0)
         #expect(store.alertSent == false)
-        #expect(store.lastAlertDeliveryResult == .deliveryUnavailable(reason: .notificationUnavailable))
+        #expect(store.lastAlertDeliveryResult == .deliveryUnavailable(reason: .noAvailablePath))
 
         notifications.readinessValue = .init(
             permission: .authorized,

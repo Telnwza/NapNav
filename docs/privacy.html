@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - NapNav</title>
+    <style>
+        :root {
+            --primary: #007aff;
+            --bg: #f2f2f7;
+            --card-bg: #ffffff;
+            --text-main: #1c1c1e;
+            --text-sub: #636366;
+            --border: #e5e5ea;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #0a84ff;
+                --bg: #000000;
+                --card-bg: #1c1c1e;
+                --text-main: #f2f2f7;
+                --text-sub: #aeaeb2;
+                --border: #38383a;
+            }
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            background-color: var(--bg);
+            margin: 0;
+            padding: 24px 16px;
+        }
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 36px 32px;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+        .lang-switch {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .lang-btn {
+            background: none;
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--text-sub);
+            font-weight: 500;
+        }
+        .lang-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+        h1 {
+            color: var(--primary);
+            font-size: 26px;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        .updated-date {
+            color: var(--text-sub);
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+        .highlight-box {
+            background-color: rgba(0, 122, 255, 0.08);
+            border-left: 4px solid var(--primary);
+            padding: 14px 18px;
+            border-radius: 0 10px 10px 0;
+            margin: 20px 0;
+            font-size: 14.5px;
+        }
+        h2 {
+            font-size: 18px;
+            margin-top: 28px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+        p, li {
+            font-size: 15px;
+            color: var(--text-main);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            margin-top: 36px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--text-sub);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="lang-switch">
+        <button class="lang-btn active" id="btn-th" onclick="setLanguage('th')">ภาษาไทย</button>
+        <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">English</button>
+    </div>
+
+    <!-- Thai Content -->
+    <div id="content-th">
+        <h1>นโยบายความเป็นส่วนตัว (Privacy Policy)</h1>
+        <div class="updated-date">แอปพลิเคชัน NapNav • อัปเดตล่าสุด: กันยายน 2026</div>
+
+        <div class="highlight-box">
+            <strong>หัวใจสำคัญด้านความเป็นส่วนตัว:</strong> NapNav พัฒนาขึ้นโดยยึดหลัก <strong>Privacy by Design</strong> ไม่มีการเก็บข้อมูลส่วนบุคคล ไม่มีการติดตามพฤติกรรม (No Tracking 100%) และประมวลผลข้อมูลตำแหน่งบนอุปกรณ์ของผู้ใช้โดยตรง
+        </div>
+
+        <h2>1. ข้อมูลที่เราใช้งานและวัตถุประสงค์</h2>
+        <ul>
+            <li><strong>ข้อมูลตำแหน่งที่แม่นยำและโดยประมาณ (Precise & Coarse Location):</strong> แอปขอสิทธิ์เข้าถึงตำแหน่งเพื่อคำนวณระยะทางแบบเรียลไทม์ระหว่างจุดที่คุณอยู่กับจุดหมายปลายทาง เพื่อทำการปลุกหรือแจ้งเตือนเมื่อคุณเข้าสู่รัศมีที่ตั้งไว้ ข้อมูลพิกัด GPS ทั้งหมดจะถูกประมวลผลในหน่วยความจำชั่วคราวของอุปกรณ์เท่านั้น <strong>ไม่มีการบันทึกประวัติเส้นทาง และไม่มีการส่งข้อมูลพิกัดออกไปยังเซิร์ฟเวอร์ภายนอก</strong></li>
+            <li><strong>การแจ้งเตือนและระบบนาฬิกาปลุก (Notifications & AlarmKit):</strong> ใช้สำหรับส่งเสียงเตือนและการแสดงสถานะการเดินทางบนหน้าจอล็อก (Live Activities) เมื่อใกล้ถึงหรือถึงจุดหมายปลายทาง</li>
+            <li><strong>การจัดเก็บข้อมูลภายในเครื่อง (Local Storage):</strong> การตั้งค่าเสียง ตัวเลือกรัศมีการเตือน และรายชื่อสถานที่โปรด (Favorites) จะถูกบันทึกไว้ในพื้นที่หน่วยความจำของอุปกรณ์ (UserDefaults) เท่านั้น เพื่อความสะดวกในการใช้งานซ้ำ</li>
+        </ul>
+
+        <h2>2. ไม่มีการติดตามและไม่มีบุคคลที่สาม (No Tracking & No Third-Parties)</h2>
+        <ul>
+            <li>แอปไม่มีการติดตั้งระบบโฆษณา (Ad Networks) หรือชุดพัฒนาเครื่องมือเก็บข้อมูลสถิติของบุคคลภายนอก (Third-Party SDKs / Analytics)</li>
+            <li>แอปไม่มีการสร้างตัวระบุตัวตนของผู้ใช้ (User ID / Device Fingerprinting)</li>
+            <li>ไม่มีการขาย แลกเปลี่ยน หรือส่งต่อข้อมูลใดๆ ทั้งสิ้น</li>
+        </ul>
+
+        <h2>3. สิทธิ์และการควบคุมของผู้ใช้</h2>
+        <p>คุณสามารถจัดการ เปิด หรือปิดสิทธิ์การเข้าถึงตำแหน่งและการแจ้งเตือนได้ตลอดเวลา โดยไปที่ <strong>การตั้งค่า (Settings) &gt; NapNav</strong> บนอุปกรณ์ iOS ของคุณ</p>
+
+        <h2>4. ช่องทางติดต่อและบริการช่วยเหลือ (Support)</h2>
+        <p>หากคุณมีคำถาม ข้อเสนอแนะ หรือต้องการความช่วยเหลือเกี่ยวกับการใช้งาน NapNav สามารถติดต่อทีมพัฒนาได้ที่:</p>
+        <ul>
+            <li><strong>GitHub Repository & Issues:</strong> <a href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">https://github.com/Telnwza/NapNav/issues</a></li>
+        </ul>
+    </div>
+
+    <!-- English Content -->
+    <div id="content-en" style="display: none;">
+        <h1>Privacy Policy</h1>
+        <div class="updated-date">NapNav Application • Last Updated: September 2026</div>
+
+        <div class="highlight-box">
+            <strong>Core Privacy Principle:</strong> NapNav is built with <strong>Privacy by Design</strong>. We collect no personal data, implement zero user tracking, and perform all location processing locally on your device.
+        </div>
+
+        <h2>1. Data Usage & Purpose</h2>
+        <ul>
+            <li><strong>Precise & Coarse Location:</strong> Requested solely to compute real-time distance between your current location and your chosen destination, triggering alerts upon entering your selected radius. All GPS coordinates are processed entirely on-device in temporary memory. <strong>No route history is recorded, and no location data is ever transmitted to remote servers.</strong></li>
+            <li><strong>Notifications & AlarmKit:</strong> Used to deliver alerts, alarms, and Lock Screen / Dynamic Island updates (Live Activities) when approaching or arriving at your destination.</li>
+            <li><strong>On-Device Local Storage:</strong> Preferences, radius options, and saved places (Favorites) are stored strictly within on-device local storage (`UserDefaults`) for your convenience.</li>
+        </ul>
+
+        <h2>2. Zero Tracking & No Third-Party Analytics</h2>
+        <ul>
+            <li>No advertising networks, analytics frameworks, or tracking SDKs are embedded.</li>
+            <li>No user identifiers or device fingerprinting are created or tracked.</li>
+            <li>We do not sell, rent, or share any data with third parties.</li>
+        </ul>
+
+        <h2>3. Your Rights & Control</h2>
+        <p>You can revoke or adjust location and notification permissions at any time via <strong>Settings &gt; NapNav</strong> on your iOS device.</p>
+
+        <h2>4. Contact & Support</h2>
+        <p>For questions, support, or feedback regarding NapNav, please reach out via:</p>
+        <ul>
+            <li><strong>GitHub Repository & Issues:</strong> <a href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">https://github.com/Telnwza/NapNav/issues</a></li>
+        </ul>
+    </div>
+
+    <footer>
+        &copy; 2026 NapNav. All rights reserved.
+    </footer>
+</div>
+
+<script>
+    function setLanguage(lang) {
+        document.getElementById('content-th').style.display = lang === 'th' ? 'block' : 'none';
+        document.getElementById('content-en').style.display = lang === 'en' ? 'block' : 'none';
+        document.getElementById('btn-th').classList.toggle('active', lang === 'th');
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    }
+</script>
+</body>
+</html>

@@ -747,6 +747,9 @@ struct TripStoreTests {
             locationClient: MockLocationClient(),
             notificationClient: notifications
         )
+        var preferences = store.alertPreferences
+        preferences.deliveryMode = .notification
+        store.updateAlertPreferences(preferences)
 
         await store.startTrip()
 

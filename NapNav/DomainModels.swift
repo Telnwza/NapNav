@@ -361,33 +361,33 @@ enum ArrivalDecision: Equatable, Sendable {
 }
 
 enum AlertDeliveryMode: String, CaseIterable, Identifiable, Codable, Sendable {
+    case both = "both"
     case notification = "notification"
     case alarmKit = "alarmKit"
-    case both = "both"
 
     var id: Self { self }
 
     var title: String {
         switch self {
+        case .both: AppLocalization.string("เตือนทั้งสองแบบ")
         case .notification: AppLocalization.string("การแจ้งเตือนทั่วไป")
         case .alarmKit: AppLocalization.string("ระบบนาฬิกาปลุก")
-        case .both: AppLocalization.string("เตือนทั้งสองแบบ")
         }
     }
 
     var subtitle: String {
         switch self {
+        case .both: AppLocalization.string("ใช้ AlarmKit เป็นเสียงหลัก พร้อม Notification แบบไม่มีเสียง")
         case .notification: AppLocalization.string("ส่งเสียงเตือนและแบนเนอร์แบบด่วน")
         case .alarmKit: AppLocalization.string("ใช้ AlarmKit เมื่อรองรับและได้รับอนุญาต (iOS 26+)")
-        case .both: AppLocalization.string("ใช้ AlarmKit เป็นเสียงหลัก พร้อม Notification แบบไม่มีเสียง")
         }
     }
 
     var systemImage: String {
         switch self {
+        case .both: "bell.and.waves.left.and.right.fill"
         case .notification: "bell.badge.fill"
         case .alarmKit: "alarm.fill"
-        case .both: "bell.and.waves.left.and.right.fill"
         }
     }
 }
@@ -698,7 +698,7 @@ enum AutoStopDelay: Int, CaseIterable, Identifiable, Codable, Sendable {
 }
 
 struct UserAlertPreferences: Codable, Equatable, Sendable {
-    var deliveryMode: AlertDeliveryMode = .notification
+    var deliveryMode: AlertDeliveryMode = .both
     var soundMode: AlertSoundMode = .soundAndHaptic
     var autoStopDelay: AutoStopDelay = .sixtySeconds
 
@@ -711,7 +711,7 @@ struct UserAlertPreferences: Codable, Equatable, Sendable {
     }
 
     init(
-        deliveryMode: AlertDeliveryMode = .notification,
+        deliveryMode: AlertDeliveryMode = .both,
         soundMode: AlertSoundMode = .soundAndHaptic,
         autoStopDelay: AutoStopDelay = .sixtySeconds
     ) {
@@ -724,12 +724,12 @@ struct UserAlertPreferences: Codable, Equatable, Sendable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         if let modeString = try container.decodeIfPresent(String.self, forKey: .deliveryMode) {
             if modeString == "auto" {
-                self.deliveryMode = .notification
+                self.deliveryMode = .both
             } else {
-                self.deliveryMode = AlertDeliveryMode(rawValue: modeString) ?? .notification
+                self.deliveryMode = AlertDeliveryMode(rawValue: modeString) ?? .both
             }
         } else {
-            self.deliveryMode = .notification
+            self.deliveryMode = .both
         }
         self.soundMode = .soundAndHaptic
         self.autoStopDelay = try container.decodeIfPresent(AutoStopDelay.self, forKey: .autoStopDelay) ?? .sixtySeconds

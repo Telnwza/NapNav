@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NapNav Support & Help</title>
+    <style>
+        :root {
+            --primary: #007aff;
+            --bg: #f2f2f7;
+            --card-bg: #ffffff;
+            --text-main: #1c1c1e;
+            --text-sub: #636366;
+            --border: #e5e5ea;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #0a84ff;
+                --bg: #000000;
+                --card-bg: #1c1c1e;
+                --text-main: #f2f2f7;
+                --text-sub: #aeaeb2;
+                --border: #38383a;
+            }
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            background-color: var(--bg);
+            margin: 0;
+            padding: 24px 16px;
+        }
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 36px 32px;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+        h1 {
+            color: var(--primary);
+            font-size: 26px;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            color: var(--text-sub);
+            font-size: 15px;
+            margin-bottom: 24px;
+        }
+        .faq-item {
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        .faq-question {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+        .faq-answer {
+            font-size: 14.5px;
+            color: var(--text-sub);
+            margin: 0;
+        }
+        .contact-box {
+            background-color: rgba(0, 122, 255, 0.08);
+            border: 1px solid rgba(0, 122, 255, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 32px;
+            text-align: center;
+        }
+        .contact-box h3 {
+            margin: 0 0 8px 0;
+            color: var(--primary);
+        }
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+        .footer-links {
+            margin-top: 32px;
+            text-align: center;
+            font-size: 13px;
+        }
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>NapNav Support & FAQ</h1>
+    <div class="subtitle">ศูนย์ช่วยเหลือและคำถามที่พบบ่อยสำหรับผู้ใช้งาน NapNav</div>
+
+    <div class="faq-item">
+        <div class="faq-question">1. ทำไมแอปต้องขอสิทธิ์ตำแหน่ง (Location) แบบ Always?</div>
+        <p class="faq-answer">เพื่อให้แอปสามารถคำนวณระยะทางและส่งสัญญาณเตือนได้แม้ในขณะที่คุณล็อกหน้าจอ หรือเปิดใช้งานแอปอื่นระหว่างเดินทาง</p>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question">2. สัญญาณเตือนแบบ "Use Both" ทำงานอย่างไร?</div>
+        <p class="faq-answer">เป็นการทำงานร่วมกันระหว่างนาฬิกาปลุกเสียงเด่นชัด (AlarmKit บนอุปกรณ์ที่รองรับ) และการแจ้งเตือนแบบแบนเนอร์ ช่วยให้คุณตื่นได้แน่นอนแม้ปิดเสียงโทรศัพท์ไว้</p>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question">3. แอปกินแบตเตอรี่มากไหม?</div>
+        <p class="faq-answer">NapNav ใช้ระบบ Smart Geofencing และตรวจจับการเคลื่อนไหว เมื่อคุณยังอยู่ห่างจากจุดหมาย ระบบจะปรับการตรวจจับตำแหน่งเป็นแบบประหยัดพลังงาน และจะเริ่มตรวจสอบความแม่นยำสูงเมื่อเข้าใกล้รัศมีที่กำหนดเท่านั้น</p>
+    </div>
+
+    <div class="contact-box">
+        <h3>ต้องการความช่วยเหลือเพิ่มเติมหรือพบปัญหา?</h3>
+        <p style="margin: 0; font-size: 14px; color: var(--text-sub);">คุณสามารถส่งรายงานข้อผิดพลาดหรือข้อเสนอแนะฟีเจอร์ใหม่ได้ผ่าน GitHub Issues</p>
+        <a class="btn" href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">เปิดข้อความแจ้งปัญหา (GitHub Issues)</a>
+    </div>
+
+    <div class="footer-links">
+        <a href="privacy.html">นโยบายความเป็นส่วนตัว (Privacy Policy)</a>
+        <span>•</span>
+        <a href="https://github.com/Telnwza/NapNav">GitHub Repository</a>
+    </div>
+</div>
+</body>
+</html>
