@@ -4,24 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NapNav - ปลุกเตือนตามพิกัดสำหรับคนเดินทาง</title>
+    <meta name="description" content="NapNav แอพแจ้งเตือนพิกัดจุดหมายสำหรับคนเดินทาง งีบหลับสบายบนรถเมล์ รถไฟฟ้า ไม่ต้องกลัวเลยป้าย">
+    <link rel="icon" type="image/png" href="app-icon.png">
     <style>
         :root {
             --primary: #007aff;
-            --bg: #f2f2f7;
+            --primary-dark: #0056b3;
+            --bg: #f5f5f7;
             --card-bg: #ffffff;
-            --text-main: #1c1c1e;
-            --text-sub: #636366;
+            --text-main: #1d1d1f;
+            --text-sub: #6e6e73;
             --border: #e5e5ea;
+            --card-inner: rgba(0, 122, 255, 0.05);
         }
         @media (prefers-color-scheme: dark) {
             :root {
                 --primary: #0a84ff;
+                --primary-dark: #409cff;
                 --bg: #000000;
                 --card-bg: #1c1c1e;
-                --text-main: #f2f2f7;
-                --text-sub: #aeaeb2;
+                --text-main: #f5f5f7;
+                --text-sub: #86868b;
                 --border: #38383a;
+                --card-inner: rgba(10, 132, 255, 0.1);
             }
+        }
+        * {
+            box-sizing: border-box;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -37,69 +46,80 @@
             max-width: 680px;
             width: 100%;
             background: var(--card-bg);
-            padding: 40px 32px;
-            border-radius: 20px;
-            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+            padding: 44px 32px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
             text-align: center;
         }
-        .app-icon {
-            width: 88px;
-            height: 88px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, #007aff, #5856d6);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-size: 38px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 16px rgba(0, 122, 255, 0.25);
+        .app-icon-img {
+            width: 96px;
+            height: 96px;
+            border-radius: 22px;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+            margin-bottom: 16px;
+            object-fit: cover;
         }
         h1 {
-            font-size: 28px;
-            margin: 0 0 10px 0;
+            font-size: 32px;
+            margin: 0 0 6px 0;
             color: var(--text-main);
+            letter-spacing: -0.5px;
         }
         .tagline {
-            font-size: 16px;
+            font-size: 17px;
             color: var(--text-sub);
-            margin-bottom: 30px;
+            margin-bottom: 28px;
+            font-weight: 400;
         }
         .features {
             text-align: left;
-            background: rgba(0, 122, 255, 0.05);
-            border-radius: 14px;
-            padding: 20px 24px;
-            margin: 24px 0 32px 0;
+            background: var(--card-inner);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 28px 0 32px 0;
+            display: grid;
+            gap: 16px;
         }
         .feature-item {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 12px;
+            gap: 14px;
         }
-        .feature-item:last-child {
-            margin-bottom: 0;
+        .feature-item .icon {
+            font-size: 22px;
+            line-height: 1.2;
+            flex-shrink: 0;
         }
-        .feature-item span {
-            margin-right: 12px;
-            font-size: 18px;
+        .feature-item .text strong {
+            display: block;
+            font-size: 15px;
+            color: var(--text-main);
+            margin-bottom: 2px;
+        }
+        .feature-item .text span {
+            font-size: 13.5px;
+            color: var(--text-sub);
+            line-height: 1.45;
         }
         .links-btn {
             display: flex;
             justify-content: center;
-            gap: 14px;
+            gap: 12px;
             flex-wrap: wrap;
+            margin-bottom: 24px;
         }
         .btn {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             background: var(--primary);
             color: #ffffff;
-            padding: 12px 24px;
+            padding: 13px 22px;
             border-radius: 24px;
             text-decoration: none;
             font-weight: 600;
             font-size: 14.5px;
-            transition: opacity 0.2s;
+            transition: all 0.2s ease;
         }
         .btn.secondary {
             background: transparent;
@@ -107,47 +127,90 @@
             border: 1px solid var(--primary);
         }
         .btn:hover {
-            opacity: 0.85;
+            opacity: 0.88;
+            transform: translateY(-1px);
+        }
+        .btn.secondary:hover {
+            background: var(--card-inner);
         }
         footer {
-            margin-top: 40px;
+            margin-top: 36px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
             font-size: 13px;
             color: var(--text-sub);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="app-icon">📍</div>
+    <img src="app-icon.png" alt="NapNav Icon" class="app-icon-img">
     <h1>NapNav</h1>
-    <div class="tagline">งีบหลับสบายบนรถเมล์ รถไฟฟ้า ไม่ต้องกลัวเลยป้าย</div>
+    <div class="tagline">งีบหลับสบายบนรถเมล์ รถไฟฟ้า ไม่ต้องกลัวเลยป้าย<br><small style="font-size: 14px; opacity: 0.85;">Transit Location-Based Alarm for iOS</small></div>
 
     <div class="features">
         <div class="feature-item">
-            <span>🔔</span>
-            <div><strong>ปลุกตรงจุด:</strong> ตั้งรัศมีเตือนล่วงหน้าได้ตามต้องการ</div>
+            <div class="icon">📍</div>
+            <div class="text">
+                <strong>ปลุกตรงจุดตามระยะจริง (Proximity Alert)</strong>
+                <span>ตั้งระยะเตือนล่วงหน้าได้ตามต้องการ เช่น 500 ม., 1 กม., 2 กม. พร้อมระบบกรอง GPS ป้องกันการปลุกผิดพลาด</span>
+            </div>
         </div>
         <div class="feature-item">
-            <span>⏰</span>
-            <div><strong>โหมดเตือนคู่ Use Both:</strong> ผสานเสียงเตือนและระบบปลุก ปลุกตื่นชัวร์</div>
+            <div class="icon">⏰</div>
+            <div class="text">
+                <strong>โหมดเตือนคู่ Use Both (AlarmKit + Notification)</strong>
+                <span>ผสานระบบนาฬิกาปลุกฉุกเฉินและแบนเนอร์แจ้งเตือน ปลุกตื่นแน่นอนแม้เปิดโหมดปิดเสียงหรือโฟกัสห้ามรบกวน</span>
+            </div>
         </div>
         <div class="feature-item">
-            <span>📱</span>
-            <div><strong>Live Activities:</strong> เช็กระยะทางที่เหลือบน Lock Screen ได้ตลอดเวลา</div>
+            <div class="icon">🏝️</div>
+            <div class="text">
+                <strong>Live Activities & Dynamic Island</strong>
+                <span>เช็กระยะทางและเวลาที่เหลือได้จากหน้าจอล็อค (Lock Screen) ได้ตลอดเวลาโดยไม่ต้องปลดล็อกเปิดจอ</span>
+            </div>
         </div>
         <div class="feature-item">
-            <span>🔒</span>
-            <div><strong>100% Privacy:</strong> ไม่มีการเก็บข้อมูลส่วนบุคคล ข้อมูลพิกัดอยู่บนเครื่องเท่านั้น</div>
+            <div class="icon">🔋</div>
+            <div class="text">
+                <strong>ประหยัดพลังงาน (Energy Efficient)</strong>
+                <span>อัลกอริทึมจัดการความถี่ GPS อัจฉริยะตามระยะห่างจริง ช่วยถนอมแบตเตอรี่ขณะเดินทางไกล</span>
+            </div>
+        </div>
+        <div class="feature-item">
+            <div class="icon">🔒</div>
+            <div class="text">
+                <strong>100% Privacy-First</strong>
+                <span>ประมวลผลพิกัดทั้งหมดบนเครื่องของคุณเท่านั้น ไม่มีการส่งข้อมูลตำแหน่งออกภายนอก และไม่มีการติดตามใดๆ</span>
+            </div>
         </div>
     </div>
 
     <div class="links-btn">
-        <a class="btn" href="privacy.html">นโยบายความเป็นส่วนตัว (Privacy Policy)</a>
-        <a class="btn secondary" href="support.html">ศูนย์ช่วยเหลือ (Support)</a>
+        <a class="btn" href="privacy.html">🛡️ นโยบายความเป็นส่วนตัว (Privacy)</a>
+        <a class="btn secondary" href="support.html">❓ ศูนย์ช่วยเหลือ (Support)</a>
+        <a class="btn secondary" href="https://github.com/Telnwza/NapNav">🐙 GitHub</a>
     </div>
 
     <footer>
-        &copy; 2026 NapNav. All rights reserved. • <a href="https://github.com/Telnwza/NapNav" style="color: inherit;">GitHub</a>
+        <div>&copy; 2026 NapNav. All rights reserved.</div>
+        <div>
+            <a href="privacy.html">Privacy</a> &bull;
+            <a href="support.html">Support</a> &bull;
+            <a href="https://github.com/Telnwza/NapNav">GitHub</a>
+        </div>
     </footer>
 </div>
 </body>
