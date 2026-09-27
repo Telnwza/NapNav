@@ -755,30 +755,12 @@ struct DestinationView: View {
                     .tint(.green)
                     .accessibilityIdentifier("completeTripButton")
                 } else {
-                    HStack(spacing: 10) {
-                        Button {
-                            store.showsSettings = true
-                            sheetItem = .settings
-                            HapticFeedback.selection()
-                        } label: {
-                            Image(systemName: "gearshape.fill")
-                                .font(.system(size: 17, weight: .semibold))
-                                .frame(width: 44, height: 44)
-                                .foregroundStyle(.primary)
-                                .napNavGlass(in: Circle(), interactive: true)
-                        }
-                        .buttonStyle(.plain)
-                        .contentShape(Circle())
-                        .accessibilityLabel(AppLocalization.string("การตั้งค่าการเตือน"))
-                        .accessibilityIdentifier("trackingSettingsButton")
-
-                        Button(AppLocalization.string("หยุด"), role: .destructive) {
-                            onRequestStopConfirmation()
-                        }
-                        .napNavPrimaryButtonStyle()
-                        .tint(.red)
-                        .accessibilityIdentifier("stopTripButton")
+                    Button(AppLocalization.string("หยุด"), role: .destructive) {
+                        onRequestStopConfirmation()
                     }
+                    .napNavPrimaryButtonStyle()
+                    .tint(.red)
+                    .accessibilityIdentifier("stopTripButton")
                 }
             }
 
