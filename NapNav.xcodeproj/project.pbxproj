@@ -75,6 +75,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		933252113068ED7E00DC21BC /* NapNav.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NapNav.entitlements; sourceTree = "<group>"; };
 		937EB93E3066C34000082E88 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		937EB9403066CDBD00082E88 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		937EB943306782FC00082E88 /* NapNavIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NapNavIntents.swift; sourceTree = "<group>"; };
@@ -157,6 +158,7 @@
 		F20000000000000000000002 /* NapNav */ = {
 			isa = PBXGroup;
 			children = (
+				933252113068ED7E00DC21BC /* NapNav.entitlements */,
 				B10000000000000000000001 /* NapNavApp.swift */,
 				B10000000000000000000021 /* Localization.swift */,
 				B10000000000000000000024 /* Localizable.strings */,
@@ -483,6 +485,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS = NO;
+				CODE_SIGN_ENTITLEMENTS = NapNav/NapNav.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SLTHKP422K;
@@ -510,6 +513,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS = NO;
+				CODE_SIGN_ENTITLEMENTS = NapNav/NapNav.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SLTHKP422K;
