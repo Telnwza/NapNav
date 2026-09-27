@@ -4,7 +4,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PROJECT="$ROOT_DIR/StopAlarm.xcodeproj"
-SCHEME="StopAlarm"
+SCHEME="NapNav"
 DESTINATION="${NAPNAV_DESTINATION:-platform=iOS Simulator,name=iPhone 18 Pro,OS=27.0}"
 RESULTS_ROOT="${NAPNAV_A0_RESULTS_DIR:-$ROOT_DIR/.a0-results}"
 DERIVED_DATA="${NAPNAV_DERIVED_DATA:-/tmp/NapNav-A0-DerivedData}"
@@ -39,9 +39,9 @@ new_run_directory() {
 record_source_manifest() {
     local output_dir="$1"
     find \
-        "$ROOT_DIR/StopAlarm" \
+        "$ROOT_DIR/NapNav" \
         "$ROOT_DIR/NapNavWidget" \
-        "$ROOT_DIR/StopAlarmTests" \
+        "$ROOT_DIR/NapNavTests" \
         "$ROOT_DIR/TestRoutes" \
         "$ROOT_DIR/Scripts" \
         "$ROOT_DIR/StopAlarm.xcodeproj/project.pbxproj" \
@@ -141,10 +141,10 @@ case "$command" in
         run_release_build
         ;;
     test-core)
-        run_test "core" '-skip-testing:StopAlarmTests/GPXReleaseRouteTests'
+        run_test "core" '-skip-testing:NapNavTests/GPXReleaseRouteTests'
         ;;
     test-gpx)
-        run_test "gpx" '-only-testing:StopAlarmTests/GPXReleaseRouteTests'
+        run_test "gpx" '-only-testing:NapNavTests/GPXReleaseRouteTests'
         ;;
     test-full)
         run_test "full"

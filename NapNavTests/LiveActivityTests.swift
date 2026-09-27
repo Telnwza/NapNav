@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-@testable import StopAlarm
+@testable import NapNav
 
 @Suite("Live Activity ContentState Tests")
 struct LiveActivityContentStateTests {

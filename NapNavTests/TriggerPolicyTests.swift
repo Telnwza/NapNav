@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import StopAlarm
+@testable import NapNav
 
 @Suite("Trigger policy")
 struct TriggerPolicyTests {

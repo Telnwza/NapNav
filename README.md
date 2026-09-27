@@ -1,7 +1,7 @@
-# NapNav (StopAlarm) 🧭💤
+# NapNav 🧭💤
 
 <div align="center">
-  <img src="StopAlarm/Assets.xcassets/AppIcon.appiconset/NapNav-iOS-Default-1024@1x.png" width="128" height="128" alt="NapNav Icon" style="border-radius: 28px;" />
+  <img src="NapNav/Assets.xcassets/AppIcon.appiconset/NapNav-iOS-Default-1024@1x.png" width="128" height="128" alt="NapNav Icon" style="border-radius: 28px;" />
 
   <h3>แอปแจ้งเตือนพิกัดจุดหมาย สำหรับคนเดินทาง — หลับได้สบายใจ ไม่ต้องกลัวเลยป้าย</h3>
 
@@ -65,8 +65,8 @@ NapNav พัฒนาขึ้นโดยยึดหลัก Clean Architect
 - **Automated Testing:** ชุดการทดสอบ Unit & Integration Tests มากกว่า 120 เคส ครอบคลุมการคำนวณตำแหน่ง, การกู้คืน State เมื่อแอปถูกปิด, ระบบแปลภาษา, และระบบการแจ้งเตือน
 
 ```text
-StopAlarm/
-├── StopAlarm/                  # ซอร์สโค้ดหลักของแอป
+NapNav/
+├── NapNav/                  # ซอร์สโค้ดหลักของแอป
 │   ├── DomainModels.swift      # Model ข้อมูลหลัก (Trip, Destination, Location)
 │   ├── TripStore.swift         # State Machine และ Logic การจัดการทริป
 │   ├── TriggerPolicy.swift     # ตรรกะการคำนวณระยะและการสั่งปลุก
@@ -75,7 +75,7 @@ StopAlarm/
 │   └── SystemClients.swift     # ตัวประสานงาน CoreLocation, Audio, Notifications
 ├── NapNavWidget/               # Extension สำหรับ Dynamic Island & Live Activity
 │   └── TripLiveActivityWidget.swift
-├── StopAlarmTests/             # ชุด Unit Tests และ Mock Objects
+├── NapNavTests/             # ชุด Unit Tests และ Mock Objects
 └── TestRoutes/                 # ไฟล์ GPX จำลองพิกัดการเดินทางสำหรับทดสอบ
 ```
 
@@ -97,14 +97,14 @@ StopAlarm/
 
 2. **เปิดโปรเจกต์ใน Xcode:**
    ```bash
-   open StopAlarm.xcodeproj
+   open NapNav.xcodeproj
    ```
 
 3. **ตั้งค่า Signing & Capabilities:**
-   - เลือก Root Project `StopAlarm` ในแถบ Project Navigator
+   - เลือก Root Project `NapNav` ในแถบ Project Navigator
    - ไปที่แท็บ **Signing & Capabilities**
    - เปลี่ยน **Team** เป็น Apple Developer Account ของคุณ (หรือ Personal Team)
-   - ปรับแก้ **Bundle Identifier** ทั้งใน Target `StopAlarm` และ `NapNavWidget` ให้ตรงกับ Team ของคุณ
+   - ปรับแก้ **Bundle Identifier** ทั้งใน Target `NapNav` และ `NapNavWidget` ให้ตรงกับ Team ของคุณ
 
 4. **เลือก Device หรือ Simulator แล้วกด Run (`Cmd + R`)**
 
@@ -153,7 +153,7 @@ StopAlarm/
 โปรเจกต์นี้เผยแพร่ภายใต้ใบอนุญาต **GNU General Public License v3.0 (GPL-3.0)** ดูรายละเอียดเพิ่มเติมได้ที่ไฟล์ [LICENSE](LICENSE)
 
 ```text
-NapNav (StopAlarm)
+NapNav
 Copyright (C) 2026 Telnwza / NapNav Contributors
 
 This program is free software: you can redistribute it and/or modify

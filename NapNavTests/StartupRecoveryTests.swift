@@ -1,7 +1,7 @@
 import Foundation
 import Testing
 import UIKit
-@testable import StopAlarm
+@testable import NapNav
 
 @MainActor
 @Suite("Startup and trip recovery")

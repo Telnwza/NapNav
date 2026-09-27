@@ -1,7 +1,7 @@
 import Foundation
 import Testing
 import UserNotifications
-@testable import StopAlarm
+@testable import NapNav
 
 @MainActor
 @Suite("Notification delegate")

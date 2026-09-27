@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D10000000000000000000001"
                BuildableName = "NapNav.app"
-               BlueprintName = "StopAlarm"
-               ReferencedContainer = "container:StopAlarm.xcodeproj">
+               BlueprintName = "NapNav"
+               ReferencedContainer = "container:NapNav.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D10000000000000000000002"
-               BuildableName = "StopAlarmTests.xctest"
-               BlueprintName = "StopAlarmTests"
-               ReferencedContainer = "container:StopAlarm.xcodeproj">
+               BuildableName = "NapNavTests.xctest"
+               BlueprintName = "NapNavTests"
+               ReferencedContainer = "container:NapNav.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D10000000000000000000002"
-               BuildableName = "StopAlarmTests.xctest"
-               BlueprintName = "StopAlarmTests"
-               ReferencedContainer = "container:StopAlarm.xcodeproj">
+               BuildableName = "NapNavTests.xctest"
+               BlueprintName = "NapNavTests"
+               ReferencedContainer = "container:NapNav.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -70,8 +70,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D10000000000000000000001"
             BuildableName = "NapNav.app"
-            BlueprintName = "StopAlarm"
-            ReferencedContainer = "container:StopAlarm.xcodeproj">
+            BlueprintName = "NapNav"
+            ReferencedContainer = "container:NapNav.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -87,8 +87,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D10000000000000000000001"
             BuildableName = "NapNav.app"
-            BlueprintName = "StopAlarm"
-            ReferencedContainer = "container:StopAlarm.xcodeproj">
+            BlueprintName = "NapNav"
+            ReferencedContainer = "container:NapNav.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
