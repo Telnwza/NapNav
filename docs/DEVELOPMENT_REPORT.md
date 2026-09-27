@@ -470,3 +470,21 @@
 - **หลักฐานทดสอบ:** source/static: Ruby JSON parse ผ่าน, `git diff --check` exit 0. Build: `BuildProject` สำเร็จใน 3.555 วินาที, 0 errors; log `/var/folders/bc/0t78kzzn5rnc3wbxrp3b8l5c0000gn/T/ActionArtifacts/B910C0A4-BE7C-4DAB-A9D6-55DC565A76EA/BuildProject/BuildProject-Log-20260926-212140.txt`. Simulator: รอ cold-launch check. GPX/iPhone จริง: ไม่ได้ทดสอบ build ใหม่นี้
 - **ความเสี่ยง/สิ่งค้าง:** iOS cache หน้า Launch Screen ได้ ต้องติดตั้ง build ใหม่/ลบแอปเดิมเพื่อยืนยัน asset ล่าสุด; ไม่เปลี่ยน startup flow
 - **งานถัดไป:** กำหนด asset scale ให้ intrinsic point size พอดีจอ แล้วตรวจ cold launch
+## 2026-09-27 09:12 — Docs: ปรับภาษาและตรวจข้ออ้างใน README
+
+- **สถานะ:** เสร็จในระดับเอกสาร/source/static; ตรวจ source ซ้ำตามคำท้วงของผู้ใช้
+- **เป้าหมาย:** ปรับ README ภาษาไทยให้อ่านลื่นและบอกขอบเขตการทดสอบตามหลักฐาน
+- **baseline:** `git status --short` ว่าง; README เดิมระบุ iOS 17/Swift 5.9/Xcode 15 และอ้างพฤติกรรมบนเครื่องจริงเกินหลักฐาน ขณะที่ project ตั้ง iOS 18 และ Swift 6; แผนยังเปิด A4/device gate
+- **การเปลี่ยนแปลง:** ปรับ `README.md` ให้กระชับและเป็นภาษาไทยธรรมชาติ; แก้ข้อกำหนดเป็น iOS 18/Swift 6 ตาม project; ตัดข้ออ้างเรื่องอัปเดตทุกวินาที เสียงวนต่อเนื่อง และผลบนเครื่องจริงที่ยังไม่มีหลักฐาน. หลังผู้ใช้ท้วง ได้ตรวจ source/UI/tests จริงก่อนแก้ซ้ำ: ระบุระยะ preset และ slider, เงื่อนไขสองตัวอย่างตำแหน่ง, การแสดง Live Activity เมื่อเปิดใช้, ช่องทาง Notification/AlarmKit และข้อจำกัด iOS 26+, รวมถึงการบล็อกเริ่มทริปเมื่อไม่มี alert path
+- **หลักฐานทดสอบ:** source/static: ตรวจ `project.pbxproj`, `Info.plist`, `TripStore.swift`, `TriggerPolicy.swift`, `DomainModels.swift`, `DestinationSelection.swift`, `PlaceSearchService.swift`, `Localization.swift`, `LiveActivityManager.swift`, `StopAlarmApp.swift`, `TestRoutes/README.md` และ GPX tests; `git remote -v` ตรงกับ clone URL; `git diff --check` exit 0; สคริปต์ตรวจลิงก์/asset ภายใน README 8 path, missing 0 (exit 0). Build: ไม่รัน เพราะแก้เฉพาะ Markdown. Simulator/GPX: ไม่รัน. iPhone จริง: ไม่รัน. ไม่มี log/`.xcresult` ใหม่
+- **ความเสี่ยง/สิ่งค้าง:** ยังไม่มีหลักฐานเสียง, Silent/Focus, หน้าจอล็อก และ background บน iPhone จริง
+- **งานถัดไป:** เดิน A3/A4 ตามแผน และอัปเดต README เมื่อมีหลักฐาน device gate
+## 2026-09-27 09:16 — Docs: คืนโครง README เดิมโดยคงข้อเท็จจริงที่ตรวจแล้ว
+
+- **สถานะ:** เสร็จระดับเอกสาร/source/static
+- **เป้าหมาย:** คืนส่วนหัว, badge, หมวดคุณสมบัติ, สถาปัตยกรรม, ขั้นตอนติดตั้ง, GPX, การมีส่วนร่วม, สนับสนุน และใบอนุญาตตามโครงเดิม
+- **baseline:** `README.md` ที่แก้รอบก่อนถูกต้องขึ้นแต่รูปแบบเรียบเกินความต้องการผู้ใช้; `git show HEAD:README.md` เป็นโครงอ้างอิง; source/static audit รอบก่อนยืนยัน iOS 18, Swift 6, Favorites/Recents, radius, alert paths และ Live Activity; working tree มี `README.md` กับรายงานนี้เปลี่ยนอยู่
+- **การเปลี่ยนแปลง:** คืนภาพไอคอน, badge, เส้นคั่น, หัวข้อมีสัญลักษณ์, คุณสมบัติแบบกลุ่ม, สถาปัตยกรรม, ขั้นตอนติดตั้ง, GPX, การมีส่วนร่วม, ปุ่มสนับสนุน และใบอนุญาตใน `README.md`; ใช้ข้อความที่ตรวจจาก source รอบก่อนและคงข้อจำกัด device gate
+- **หลักฐานทดสอบ:** source/static: `git diff --check` exit 0; ตรวจลิงก์/asset ภายใน README 8 path, missing 0 (exit 0); ตรวจหัวข้อและเส้นคั่นครบทุกหมวดเดิม. Build: ไม่รัน เพราะแก้เฉพาะ Markdown. Simulator/GPX: ไม่รัน. iPhone จริง: ไม่รัน. ไม่มี log/`.xcresult` ใหม่
+- **ความเสี่ยง/สิ่งค้าง:** device gate ยังเปิด ห้ามอ้างผลเสียง/locked/background บน iPhone จริง
+- **งานถัดไป:** อัปเดตข้ออ้างใน README เมื่อมีหลักฐานทดสอบบน iPhone จริง
