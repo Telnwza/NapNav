@@ -232,8 +232,24 @@ struct DestinationView: View {
     @State private var usesCustomRadius = false
     @State private var didCenterOnInitialLocation = false
     @State private var didFrameTrip = false
-    @State private var showingSaveFavoriteSheet = false
-    @State private var editingFavorite: SavedDestination?
+    private enum DestinationSheetItem: Identifiable {
+        case settings
+        case saveFavorite
+        case editFavorite(SavedDestination)
+
+        var id: String {
+            switch self {
+            case .settings:
+                return "settings"
+            case .saveFavorite:
+                return "saveFavorite"
+            case .editFavorite(let fav):
+                return "editFavorite-\(fav.id)"
+            }
+        }
+    }
+
+    @State private var sheetItem: DestinationSheetItem?
     @State private var favoritePendingDeletion: SavedDestination?
     @GestureState private var panelDragOffset: CGFloat = 0
     @FocusState private var searchIsFocused: Bool
@@ -267,8 +283,8 @@ struct DestinationView: View {
 
             ZStack {
                 mapView
-                MapHeaderOverlay()
-                trackingDistanceOverlay
+                MapHeaderOverlay(safeTop: proxy.safeAreaInsets.top)
+                trackingDistanceOverlay(safeTop: proxy.safeAreaInsets.top)
                 mapControlsOverlay(panelHeight: panelHeight, safeBottom: proxy.safeAreaInsets.bottom)
                 bottomContainer(panelHeight: panelHeight, bottomInset: proxy.safeAreaInsets.bottom)
                     .frame(maxHeight: .infinity, alignment: .bottom)
@@ -276,7 +292,7 @@ struct DestinationView: View {
             .animation(MotionTokens.morphSpring(reduceMotion: reduceMotion), value: store.screen)
             .animation(MotionTokens.morphSpring(reduceMotion: reduceMotion), value: panelHeight)
             .overlay(alignment: .topTrailing) {
-                settingsButtonOverlay
+                settingsButtonOverlay(safeTop: proxy.safeAreaInsets.top)
             }
             .mapScope(mapScope)
         }
@@ -392,59 +408,71 @@ struct DestinationView: View {
             selection.cancelResolution()
             currentLocation.cancel()
         }
-        .sheet(isPresented: Binding(get: { store.showsSettings }, set: { store.showsSettings = $0 })) {
-            AlertSettingsView(store: store)
+        .sheet(item: $sheetItem, onDismiss: {
+            if store.showsSettings {
+                store.showsSettings = false
+            }
+        }) { item in
+            switch item {
+            case .settings:
+                AlertSettingsView(store: store)
+            case .saveFavorite:
+                SaveFavoriteSheet(
+                    initialTitle: selection.candidate.name,
+                    subtitle: selection.candidate.detail,
+                    coordinate: selection.candidate.coordinate,
+                    initialRadius: store.selectedRadiusMeters,
+                    isEditing: false,
+                    onSave: { title, icon, radius in
+                        store.saveFavorite(
+                            title: title,
+                            subtitle: selection.candidate.detail,
+                            coordinate: selection.candidate.coordinate,
+                            radiusMeters: radius,
+                            icon: icon
+                        )
+                        sheetItem = nil
+                        HapticFeedback.success()
+                    },
+                    onCancel: {
+                        sheetItem = nil
+                    }
+                )
+            case .editFavorite(let fav):
+                SaveFavoriteSheet(
+                    initialTitle: fav.title,
+                    subtitle: fav.subtitle,
+                    coordinate: fav.coordinate,
+                    initialRadius: fav.radiusMeters,
+                    initialIcon: fav.icon,
+                    isEditing: true,
+                    onSave: { title, icon, radius in
+                        store.updateFavorite(
+                            id: fav.id,
+                            title: title,
+                            icon: icon,
+                            radiusMeters: radius
+                        )
+                        sheetItem = nil
+                        HapticFeedback.success()
+                    },
+                    onDelete: {
+                        store.removeFavorite(id: fav.id)
+                        sheetItem = nil
+                        HapticFeedback.warning()
+                    },
+                    onCancel: {
+                        sheetItem = nil
+                    }
+                )
+            }
         }
-        .sheet(isPresented: $showingSaveFavoriteSheet) {
-            SaveFavoriteSheet(
-                initialTitle: selection.candidate.name,
-                subtitle: selection.candidate.detail,
-                coordinate: selection.candidate.coordinate,
-                initialRadius: store.selectedRadiusMeters,
-                isEditing: false,
-                onSave: { title, icon, radius in
-                    store.saveFavorite(
-                        title: title,
-                        subtitle: selection.candidate.detail,
-                        coordinate: selection.candidate.coordinate,
-                        radiusMeters: radius,
-                        icon: icon
-                    )
-                    showingSaveFavoriteSheet = false
-                    HapticFeedback.success()
-                },
-                onCancel: {
-                    showingSaveFavoriteSheet = false
-                }
-            )
-        }
-        .sheet(item: $editingFavorite) { fav in
-            SaveFavoriteSheet(
-                initialTitle: fav.title,
-                subtitle: fav.subtitle,
-                coordinate: fav.coordinate,
-                initialRadius: fav.radiusMeters,
-                initialIcon: fav.icon,
-                isEditing: true,
-                onSave: { title, icon, radius in
-                    store.updateFavorite(
-                        id: fav.id,
-                        title: title,
-                        icon: icon,
-                        radiusMeters: radius
-                    )
-                    editingFavorite = nil
-                    HapticFeedback.success()
-                },
-                onDelete: {
-                    store.removeFavorite(id: fav.id)
-                    editingFavorite = nil
-                    HapticFeedback.warning()
-                },
-                onCancel: {
-                    editingFavorite = nil
-                }
-            )
+        .onChange(of: store.showsSettings) { _, shows in
+            if shows && sheetItem == nil {
+                sheetItem = .settings
+            } else if !shows && sheetItem?.id == "settings" {
+                sheetItem = nil
+            }
         }
         .alert(
             AppLocalization.string("ลบสถานที่โปรดนี้หรือไม่?"),
@@ -542,11 +570,11 @@ struct DestinationView: View {
     }
 
     @ViewBuilder
-    private var trackingDistanceOverlay: some View {
+    private func trackingDistanceOverlay(safeTop: CGFloat) -> some View {
         VStack {
             if store.screen == .tracking {
                 distanceCard
-                    .padding(.top, 48)
+                    .padding(.top, max(safeTop, 20) + 8)
                     .transition(
                         .asymmetric(
                             insertion: .move(edge: .top).combined(with: .opacity),
@@ -557,7 +585,6 @@ struct DestinationView: View {
             Spacer()
         }
         .padding(.horizontal)
-        .padding(.top, 10)
         .allowsHitTesting(store.screen == .tracking)
     }
 
@@ -584,22 +611,25 @@ struct DestinationView: View {
     }
 
     @ViewBuilder
-    private var settingsButtonOverlay: some View {
+    private func settingsButtonOverlay(safeTop: CGFloat) -> some View {
         if store.screen != .tracking {
             Button {
                 store.showsSettings = true
+                sheetItem = .settings
                 HapticFeedback.selection()
             } label: {
                 Image(systemName: "gearshape.fill")
-                    .font(.system(size: 17, weight: .semibold))
+                    .font(.system(size: 18, weight: .semibold))
                     .frame(width: 44, height: 44)
                     .foregroundStyle(.primary)
                     .napNavGlass(in: Circle(), interactive: true)
             }
             .buttonStyle(.plain)
+            .contentShape(Circle())
             .accessibilityLabel(AppLocalization.string("การตั้งค่าการเตือน"))
+            .accessibilityIdentifier("alertSettingsButton")
             .padding(.trailing, 16)
-            .padding(.top, 8)
+            .padding(.top, max(safeTop, 20) + 4)
             .transition(.opacity)
         }
     }
@@ -1079,7 +1109,7 @@ struct DestinationView: View {
             Spacer()
 
             Button {
-                editingFavorite = fav
+                sheetItem = .editFavorite(fav)
             } label: {
                 Image(systemName: "pencil")
                     .font(.footnote.weight(.semibold))
@@ -1099,7 +1129,7 @@ struct DestinationView: View {
         }
         .contextMenu {
             Button {
-                editingFavorite = fav
+                sheetItem = .editFavorite(fav)
             } label: {
                 Label(AppLocalization.string("แก้ไข"), systemImage: "pencil")
             }
@@ -1234,13 +1264,13 @@ struct DestinationView: View {
                     Button {
                         if store.isFavorite(selection.candidate) {
                             if let fav = store.favorite(for: selection.candidate) {
-                                editingFavorite = fav
+                                sheetItem = .editFavorite(fav)
                             } else {
                                 store.removeFavorite(for: selection.candidate)
                                 HapticFeedback.selection()
                             }
                         } else {
-                            showingSaveFavoriteSheet = true
+                            sheetItem = .saveFavorite
                         }
                     } label: {
                         Image(systemName: store.isFavorite(selection.candidate) ? "star.fill" : "star")
@@ -1379,6 +1409,20 @@ struct DestinationView: View {
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
+
+                Button {
+                    store.showsSettings = true
+                    sheetItem = .settings
+                    HapticFeedback.selection()
+                } label: {
+                    Image(systemName: "gearshape.fill")
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundStyle(.secondary)
+                        .frame(width: 36, height: 36)
+                        .background(Color.secondary.opacity(0.12), in: Circle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(AppLocalization.string("การตั้งค่าการเตือน"))
             }
 
             HStack {

@@ -37,7 +37,7 @@ struct AlertSettingsView: View {
 
                 aboutSection
             }
-            .navigationTitle(AppLocalization.string("การแจ้งเตือน"))
+            .navigationTitle(AppLocalization.string("การตั้งค่าการเตือน"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
