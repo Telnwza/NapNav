@@ -19,10 +19,10 @@ struct LocalizationTests {
             AppLocalization.string("การแจ้งเตือน", language: .thai) == "การแจ้งเตือน"
         )
         #expect(
-            AppLocalization.string("ซอร์สโค้ด (GitHub)", language: .english) == "Source Code (GitHub)"
+            AppLocalization.string("NapNav บน GitHub", language: .english) == "NapNav on GitHub"
         )
         #expect(
-            AppLocalization.string("ซอร์สโค้ด (GitHub)", language: .thai) == "ซอร์สโค้ด (GitHub)"
+            AppLocalization.string("NapNav บน GitHub", language: .thai) == "NapNav บน GitHub"
         )
     }
 

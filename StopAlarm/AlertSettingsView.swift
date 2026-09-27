@@ -145,7 +145,7 @@ struct AlertSettingsView: View {
             Link(destination: URL(string: "https://github.com/Telnwza/NapNav")!) {
                 HStack {
                     Label(
-                        AppLocalization.string("ซอร์สโค้ด (GitHub)"),
+                        AppLocalization.string("NapNav บน GitHub"),
                         systemImage: "chevron.left.forwardslash.chevron.right"
                     )
                     .foregroundStyle(.primary)
