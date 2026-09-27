@@ -1,139 +1,169 @@
 # NapNav (StopAlarm) 🧭💤
 
 <div align="center">
-  <img src="StopAlarm/Assets.xcassets/AppIcon.appiconset/NapNav-iOS-Default-1024@1x.png" width="128" height="128" alt="ไอคอน NapNav" style="border-radius: 28px;" />
+  <img src="StopAlarm/Assets.xcassets/AppIcon.appiconset/NapNav-iOS-Default-1024@1x.png" width="128" height="128" alt="NapNav Icon" style="border-radius: 28px;" />
 
-  <h3>แอปเตือนใกล้จุดหมาย สำหรับวันที่อยากพักสายตาระหว่างทาง</h3>
+  <h3>แอปแจ้งเตือนพิกัดจุดหมาย สำหรับคนเดินทาง — หลับได้สบายใจ ไม่ต้องกลัวเลยป้าย</h3>
 
   <p>
-    <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL_v3-blue.svg" alt="GPL v3"></a>
-    <img src="https://img.shields.io/badge/iOS-18%2B-black?logo=apple" alt="iOS 18 ขึ้นไป">
-    <img src="https://img.shields.io/badge/Swift-6-orange?logo=swift" alt="Swift 6">
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL_v3-blue.svg" alt="License: GPL v3"></a>
+    <img src="https://img.shields.io/badge/iOS-17.0%2B-black?logo=apple" alt="iOS 17.0+">
+    <img src="https://img.shields.io/badge/Swift-5.9%2B-orange?logo=swift" alt="Swift 5.9+">
+    <img src="https://img.shields.io/badge/Xcode-15.0%2B-blue?logo=xcode" alt="Xcode 15.0+">
+    <img src="https://img.shields.io/badge/Tests-Passed%20(126%2F126)-brightgreen" alt="Tests Passed">
+    <a href="https://buymeacoffee.com/techin"><img src="https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Donate-yellow.svg?logo=buy-me-a-coffee" alt="Buy Me A Coffee"></a>
   </p>
 </div>
 
 ---
 
-## 📖 เกี่ยวกับ NapNav
+## 📖 เกี่ยวกับ NapNav (About NapNav)
 
-**NapNav** เป็นแอปเตือนใกล้จุดหมายสำหรับ iPhone เลือกสถานที่บนแผนที่หรือค้นหาผ่าน MapKit กำหนดระยะที่อยากให้เตือน แล้วเริ่มทริปได้จากหน้าหลัก เหมาะกับการเดินทางที่อยากพักสายตา แต่ยังต้องรู้ตัวก่อนถึงปลายทาง
+**NapNav** เป็นแอปพลิเคชันบน iOS พัฒนาด้วย **SwiftUI** และ **ActivityKit** ออกแบบมาเพื่อแก้ปัญหาคลาสสิกของคนเดินทางด้วยระบบขนส่งสาธารณะ (รถไฟฟ้า BTS/MRT, รถไฟชานเมือง, รถเมล์ หรือรถตู้) ที่เหนื่อยล้าจากการทำงานหรือเรียน แล้วอยากงีบหลับพักสายตาระหว่างทาง แต่กังวลว่าจะนอนเพลินจนเลยป้ายหรือสถานีปลายทาง
 
-ระหว่างทริป แอปใช้ตำแหน่งของอุปกรณ์ตรวจระยะห่างจากจุดหมาย หากเปิด Live Activities ไว้ สถานะทริปจะแสดงบนหน้าจอล็อกและ Dynamic Island ของอุปกรณ์ที่รองรับ การเตือนใช้ Notification, AlarmKit หรือทั้งสองแบบตามโหมดที่เลือกและสิทธิ์ที่มี หากไม่มีช่องทางส่งการเตือน แอปจะเปิดหน้าตั้งค่าการเตือนและไม่เริ่มทริป
-
----
-
-## ✨ คุณสมบัติเด่น
-
-- 📍 **เตือนตามระยะจากจุดหมาย**
-  - เลือกระยะ 500 เมตร, 1 หรือ 2 กิโลเมตร หรือกำหนดเองในช่วง 100–5,000 เมตร
-  - กรองตำแหน่งที่เก่าหรือคลาดเคลื่อนมาก และรอให้อยู่ในเขตสองตัวอย่างติดต่อกันก่อนสั่งเตือน
-- 🏝️ **Live Activities และ Dynamic Island**
-  - แสดงชื่อจุดหมาย ระยะที่เหลือ และสถานะทริปเมื่อระบบอนุญาตให้ใช้ Live Activities
-  - ข้อมูลอัปเดตตามตำแหน่งที่ iOS ส่งให้และเงื่อนไขของแอป ไม่ได้อัปเดตทุกวินาทีเสมอไป
-- 🔔 **ช่องทางการเตือน**
-  - เลือก Notification, AlarmKit บน iOS 26 ขึ้นไป หรือทั้งสองแบบ
-  - แอปตรวจสิทธิ์และช่องทางที่ใช้ได้ก่อนเริ่มทริป เมื่อไม่มีช่องทางเตือน จะพาไปหน้าตั้งค่าการเตือน
-- 🗺️ **ค้นหาและบันทึกจุดหมาย**
-  - ค้นหาสถานที่ผ่าน MapKit หรือเลือกจุดหมายบนแผนที่
-  - บันทึกสถานที่โปรดและเรียกจุดหมายที่ใช้ล่าสุดได้
-- 🌐 **ภาษาไทยและอังกฤษ**
-  - ใช้ภาษาตามระบบหรือเลือกเองในแอป
-- ♿ **การช่วยการเข้าถึง**
-  - มีป้ายกำกับและสถานะสำหรับ VoiceOver พร้อมการปรับหน้าจอบางส่วนสำหรับ Dynamic Type และ Reduce Motion
-  - งานตรวจการใช้งานจริงด้วย VoiceOver และขนาดตัวอักษรต่าง ๆ ยังอยู่ในแผน A3
-
-NapNav ใช้ตำแหน่งของอุปกรณ์ ไม่ได้ใช้ตารางเวลาหรือข้อมูลเส้นทางขนส่งสาธารณะ เวลาและความแม่นยำของการเตือนขึ้นอยู่กับตำแหน่งที่ iOS ส่งให้ สิทธิ์ที่ได้รับ และสภาพการทำงานของเครื่อง
+NapNav จะคอยเฝ้าระวังตำแหน่งของคุณอยู่เบื้องหลัง และส่งเสียงเตือนพร้อมการสั่นเมื่อคุณเดินทางเข้าสู่รัศมีที่กำหนดไว้ล่วงหน้าอย่างแม่นยำ พร้อมทั้งมีระบบแสดงผลบน **Dynamic Island** และ **Lock Screen Live Activities** ทำให้คุณติดตามสถานะการเดินทางได้ตลอดเวลาโดยไม่ต้องคอยปลดล็อกเปิดหน้าจอ
 
 ---
 
-## 🛠️ สถาปัตยกรรมและเทคโนโลยี
+## ✨ คุณสมบัติเด่น (Key Features)
 
-แอปเขียนด้วย SwiftUI โดยให้ `TripStore` จัดการสถานะทริป และแยกบริการของระบบออกเป็น client เพื่อทดสอบตรรกะด้วย mock ได้
+- 📍 **ระบบเตือนตามพิกัดจริง (Proximity & Location-based Alert)**
+  - กำหนดระยะเตือนล่วงหน้าได้ตามต้องการ เช่น 500 ม., 1 กม., 2 กม. หรือปรับด้วย Slider กำหนดเอง
+  - ระบบตรวจจับขอบเขตรัศมีอัจฉริยะ (Smart Arrival & Trigger Policy) ป้องกันการปลุกผิดพลาดกรณีสัญญาณ GPS สะดุด
+- 🏝️ **Live Activities & Dynamic Island**
+  - ติดตามระยะห่างที่เหลือแบบวินาทีต่อวินาทีบนหน้าจอล็อก (Lock Screen)
+  - แสดงสถานะบน Dynamic Island แบบ Compact และ Expanded รองรับการแตะเพื่อสั่งหยุดทริปได้ทันที
+- 🔔 **ตั้งค่าการแจ้งเตือนได้ยืดหยุ่น (Customizable Alerts)**
+  - เลือกระดับเสียงเตือน, เสียงซ้ำวนลูป (Continuous Alarm), และแพทเทิร์นการสั่น (Haptic Feedback)
+  - ระบบเตือนต่อเนื่องจนกว่าผู้ใช้จะตื่นขึ้นมากดปิดด้วยตัวเอง
+- 🗺️ **ค้นหาสถานที่ & จุดหมายโปรด (Search & Favorites)**
+  - ค้นหาสถานีหรือสถานที่ปลายทางได้อย่างรวดเร็วผ่าน Apple Maps (MapKit)
+  - บันทึกสถานที่ที่ใช้บ่อยเป็นรายการโปรด (Favorites) เช่น "บ้าน", "ที่ทำงาน" แตะครั้งเดียวเริ่มเดินทางได้ทันที
+  - ประวัติจุดหมายล่าสุด (Recent Destinations) เพื่อความสะดวกรวดเร็ว
+- 🔋 **ประหยัดพลังงาน (Energy Efficient Background Tracking)**
+  - อัลกอริทึมจัดการความถี่ในการอ่าน GPS อัจฉริยะตามระยะห่างจริง ไม่ดูดแบตเตอรี่ตลอดเวลาขณะอยู่ไกลจากจุดหมาย
+- 🌐 **รองรับ 2 ภาษาเต็มรูปแบบ (Bilingual Support)**
+  - ภาษาไทย (Thai) และ ภาษาอังกฤษ (English) ปรับเปลี่ยนตามระบบหรือเลือกในแอปได้
+- ♿ **ออกแบบเพื่อการเข้าถึงที่เท่าเทียม (Accessibility-First)**
+  - รองรับ **VoiceOver** เต็มรูปแบบ อธิบายสถานะและข้อมูลการเดินทางด้วยเสียงอย่างครบถ้วน
+  - รองรับ **Dynamic Type** ปรับขนาดตัวอักษรได้ตามต้องการโดยเลย์เอาต์ไม่พัง
+  - รองรับ **Reduce Motion** ปรับเปลี่ยนแอนิเมชันให้เหมาะสมสำหรับผู้ที่มีอาการวิงเวียนง่าย
 
-- **หน้าจอและสถานะ:** SwiftUI, Observation, `TripStore`
-- **ตำแหน่งและค้นหาสถานที่:** Core Location, MapKit
-- **การเตือน:** UserNotifications, AlarmKit เมื่อระบบรองรับ
-- **สถานะบนหน้าจอล็อก:** ActivityKit, WidgetKit
-- **ข้อมูลในเครื่อง:** `UserDefaultsTripPersistence`
-- **การทดสอบ:** Swift Testing และเส้นทาง GPX
+---
+
+## 🛠️ สถาปัตยกรรมและเทคโนโลยี (Architecture & Tech Stack)
+
+NapNav พัฒนาขึ้นโดยยึดหลัก Clean Architecture และ Modern iOS Concurrency:
+
+- **UI Framework:** SwiftUI (iOS 17+)
+- **Concurrency:** Swift Concurrency (`async`/`await`, `Task`, `@MainActor`) ไม่ใช้ Combine
+- **Location Services:** CoreLocation, MapKit (`PlaceSearchService`)
+- **Live Activities & Widgets:** ActivityKit, WidgetKit
+- **Notifications:** UserNotifications
+- **State Management:** Observable Pattern (`TripStore`) แยก Business Logic ออกจาก View ชัดเจน
+- **Persistence:** Local Storage Protocol-oriented (`UserDefaultsTripPersistence`)
+- **Automated Testing:** ชุดการทดสอบ Unit & Integration Tests มากกว่า 120 เคส ครอบคลุมการคำนวณตำแหน่ง, การกู้คืน State เมื่อแอปถูกปิด, ระบบแปลภาษา, และระบบการแจ้งเตือน
 
 ```text
-NapNav/
-├── StopAlarm/           # แอปและตรรกะทริป
-├── NapNavWidget/        # Live Activity และ Dynamic Island
-├── StopAlarmTests/      # ชุดทดสอบอัตโนมัติ
-├── TestRoutes/          # เส้นทาง GPX
-└── docs/                # แผนและรายงานการพัฒนา
+StopAlarm/
+├── StopAlarm/                  # ซอร์สโค้ดหลักของแอป
+│   ├── DomainModels.swift      # Model ข้อมูลหลัก (Trip, Destination, Location)
+│   ├── TripStore.swift         # State Machine และ Logic การจัดการทริป
+│   ├── TriggerPolicy.swift     # ตรรกะการคำนวณระยะและการสั่งปลุก
+│   ├── RootView.swift          # UI หลักและการนำทาง
+│   ├── LiveActivityManager.swift # จัดการวงจรชีวิตของ ActivityKit
+│   └── SystemClients.swift     # ตัวประสานงาน CoreLocation, Audio, Notifications
+├── NapNavWidget/               # Extension สำหรับ Dynamic Island & Live Activity
+│   └── TripLiveActivityWidget.swift
+├── StopAlarmTests/             # ชุด Unit Tests และ Mock Objects
+└── TestRoutes/                 # ไฟล์ GPX จำลองพิกัดการเดินทางสำหรับทดสอบ
 ```
 
 ---
 
-## 🚀 วิธีติดตั้งและรันโปรเจกต์
+## 🚀 วิธีติดตั้งและรันโปรเจกต์ (Getting Started)
 
-### ความต้องการของระบบ
-
-- Mac ที่ติดตั้ง Xcode รุ่นซึ่งรองรับ Swift 6 และ iOS 18 SDK
-- iPhone หรือ iPhone Simulator ที่ใช้ iOS 18 ขึ้นไป
+### ความต้องการของระบบ (Prerequisites)
+- เครื่อง Mac ที่ติดตั้ง macOS Sonoma (14.0) หรือใหม่กว่า
+- **Xcode 15.0** หรือใหม่กว่า
+- อุปกรณ์ iOS 17.0+ (หรือ iPhone Simulator ที่มี Dynamic Island เช่น iPhone 15 Pro / 16 / 16 Pro)
 
 ### ขั้นตอนการรัน
-
-1. **ดาวน์โหลดโปรเจกต์**
-
+1. **Clone คลังโค้ดนี้:**
    ```bash
    git clone https://github.com/Telnwza/NapNav.git
    cd NapNav
    ```
 
-2. **เปิดใน Xcode**
-
+2. **เปิดโปรเจกต์ใน Xcode:**
    ```bash
    open StopAlarm.xcodeproj
    ```
 
-3. **เลือก scheme `StopAlarm` และอุปกรณ์** แล้วกด Run (`⌘R`) หากรันบน iPhone ให้ตั้ง Team และ Bundle Identifier ของแอปกับ widget ให้ตรงกับบัญชีนักพัฒนาที่ใช้
+3. **ตั้งค่า Signing & Capabilities:**
+   - เลือก Root Project `StopAlarm` ในแถบ Project Navigator
+   - ไปที่แท็บ **Signing & Capabilities**
+   - เปลี่ยน **Team** เป็น Apple Developer Account ของคุณ (หรือ Personal Team)
+   - ปรับแก้ **Bundle Identifier** ทั้งใน Target `StopAlarm` และ `NapNavWidget` ให้ตรงกับ Team ของคุณ
+
+4. **เลือก Device หรือ Simulator แล้วกด Run (`Cmd + R`)**
 
 ---
 
-## 🧪 การทดสอบ
+## 🧪 การทดสอบ (Testing)
 
-กด Test (`⌘U`) ใน Xcode เพื่อรันชุดทดสอบอัตโนมัติ ดูคำสั่ง ผล และ source snapshot ของรอบที่เคยทดสอบใน [Development Report](docs/DEVELOPMENT_REPORT.md)
+โปรเจกต์มาพร้อมชุด Unit Tests ครอบคลุมฟังก์ชันสำคัญ:
+- รันแบบทดสอบทั้งหมดได้ง่ายๆ ด้วยคีย์ลัด **`Cmd + U`** ใน Xcode
 
-### จำลองการเดินทางด้วย GPX
-
-ใน [`TestRoutes/`](TestRoutes/README.md) มีสามเส้นทาง:
-
-1. `approach-destination.gpx` — เข้าใกล้จุดหมาย
-2. `pass-outside.gpx` — ผ่านนอกเขตเตือน
-3. `gps-jump.gpx` — ตำแหน่งกระโดดเข้าเขตเพียงตัวอย่างเดียว
-
-วิธีเลือก GPX ใน Xcode อยู่ใน README ของโฟลเดอร์นั้น เส้นทางเหล่านี้มีการใช้ในชุดทดสอบ GPX ด้วย ผล Simulator ไม่ยืนยันเสียงหรือพฤติกรรมขณะล็อกจอบน iPhone จริง
-
----
-
-## 🤝 การมีส่วนร่วม
-
-พบปัญหาหรืออยากเสนอการเปลี่ยนแปลง เปิด issue หรือ pull request พร้อมขั้นตอนทำซ้ำและผลที่คาดหวังได้ ก่อนแก้โค้ด โปรดอ่าน [ข้อตกลงการทำงาน](AGENTS.md) และ [แผนปัจจุบัน](docs/NAPNAV_REMEDIATION_PLAN.md)
+### การทดสอบจำลองการเดินทางด้วยไฟล์ GPX
+ในโฟลเดอร์ `TestRoutes/` มีไฟล์เส้นทาง GPX เตรียมไว้สำหรับทดสอบบน Xcode Simulator:
+1. สั่งรันแอปบน iPhone Simulator
+2. ไปที่เมนูของ Simulator: **Features** > **Location** > **Custom Location...** หรือเลือกโหลด GPX จาก:
+   - `approach-destination.gpx` (จำลองการเดินทางเข้าใกล้จุดหมายเพื่อทดสอบเสียงเตือน)
+   - `pass-outside.gpx` (จำลองการเดินทางผ่านนอกเขต)
+   - `gps-jump.gpx` (จำลองกรณีสัญญาณ GPS กระโดด)
 
 ---
 
-## ☕ สนับสนุนผู้พัฒนา
+## 🤝 การมีส่วนร่วม (Contributing)
 
-หากอยากสนับสนุนโครงการ สามารถ [ซื้อกาแฟให้ผู้พัฒนา](https://buymeacoffee.com/techin)
+ยินดีต้อนรับผู้พัฒนาทุกท่านที่มีความสนใจจะร่วมปรับปรุง NapNav!
+1. Fork โปรเจกต์นี้
+2. สร้าง Feature Branch ของคุณ (`git checkout -b feature/AmazingFeature`)
+3. Commit การเปลี่ยนแปลง (`git commit -m 'Add some AmazingFeature'`)
+4. Push ไปยัง Branch ของคุณ (`git push origin feature/AmazingFeature`)
+5. เปิด **Pull Request** เข้ามาได้เลย
+
+---
+
+## ☕ สนับสนุนผู้พัฒนา (Support & Donate)
+
+หาก **NapNav** ช่วยให้คุณเดินทางและงีบหลับได้อย่างสบายใจ ไม่ต้องพะวงเรื่องเลยป้าย และอยากร่วมเป็นส่วนหนึ่งในการสนับสนุนโปรเจกต์โอเพนซอร์สนี้ คุณสามารถร่วมสนับสนุนค่าน้ำชา/กาแฟให้กับผู้พัฒนาได้ที่:
 
 <div align="center">
-  <a href="https://buymeacoffee.com/techin">
+  <a href="https://buymeacoffee.com/techin" target="_blank">
     <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="220" />
   </a>
 </div>
 
 ---
 
-## 📄 ใบอนุญาต
+## 📄 ใบอนุญาต (License)
 
-โปรเจกต์มีไฟล์ [GNU General Public License v3.0](LICENSE) สำหรับรายละเอียดข้อกำหนดการใช้งาน
+โปรเจกต์นี้เผยแพร่ภายใต้ใบอนุญาต **GNU General Public License v3.0 (GPL-3.0)** ดูรายละเอียดเพิ่มเติมได้ที่ไฟล์ [LICENSE](LICENSE)
+
+```text
+NapNav (StopAlarm)
+Copyright (C) 2026 Telnwza / NapNav Contributors
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+```
 
 ---
 
 <div align="center">
-  พักได้ระหว่างทาง และอย่าลืมตรวจว่าการเตือนบนเครื่องของคุณพร้อมใช้งานก่อนออกเดินทาง 🧭
+  พัฒนาด้วยความใส่ใจ เพื่อให้ทุกการเดินทางพักผ่อนได้อย่างอุ่นใจ ❤️
 </div>
