@@ -1,0 +1,651 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		937EB93F3066C34000082E88 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 937EB93E3066C34000082E88 /* PrivacyInfo.xcprivacy */; };
+		937EB9413066CDBD00082E88 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937EB9403066CDBD00082E88 /* OnboardingView.swift */; };
+		937EB944306782FC00082E88 /* NapNavIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937EB943306782FC00082E88 /* NapNavIntents.swift */; };
+		A10000000000000000000001 /* StopAlarmApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000001 /* StopAlarmApp.swift */; };
+		A10000000000000000000002 /* DomainModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000002 /* DomainModels.swift */; };
+		A10000000000000000000003 /* TriggerPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000003 /* TriggerPolicy.swift */; };
+		A10000000000000000000004 /* TripStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000004 /* TripStore.swift */; };
+		A10000000000000000000005 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000005 /* RootView.swift */; };
+		A10000000000000000000006 /* TriggerPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000006 /* TriggerPolicyTests.swift */; };
+		A10000000000000000000007 /* SystemClients.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000009 /* SystemClients.swift */; };
+		A10000000000000000000008 /* TripStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000B /* TripStoreTests.swift */; };
+		A10000000000000000000009 /* PlaceSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000010 /* PlaceSearchService.swift */; };
+		A1000000000000000000000A /* TripPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000011 /* TripPersistence.swift */; };
+		A1000000000000000000000B /* Motion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000012 /* Motion.swift */; };
+		A1000000000000000000000C /* DestinationSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000013 /* DestinationSelection.swift */; };
+		A1000000000000000000000D /* StartupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000014 /* StartupView.swift */; };
+		A1000000000000000000000E /* DestinationSelectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000015 /* DestinationSelectionTests.swift */; };
+		A1000000000000000000000F /* StartupRecoveryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000016 /* StartupRecoveryTests.swift */; };
+		A10000000000000000000010 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000017 /* Assets.xcassets */; };
+		A10000000000000000000011 /* AlertSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000018 /* AlertSettingsView.swift */; };
+		A10000000000000000000012 /* AlertSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000019 /* AlertSettingsTests.swift */; };
+		A10000000000000000000013 /* TripActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000001A /* TripActivityAttributes.swift */; };
+		A10000000000000000000014 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000001B /* LiveActivityManager.swift */; };
+		A10000000000000000000015 /* LiveActivityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000001C /* LiveActivityTests.swift */; };
+		A10000000000000000000016 /* TripActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000001A /* TripActivityAttributes.swift */; };
+		A10000000000000000000017 /* NapNavWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000001D /* NapNavWidgetBundle.swift */; };
+		A10000000000000000000018 /* TripLiveActivityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000001E /* TripLiveActivityWidget.swift */; };
+		A10000000000000000000019 /* NapNavWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B10000000000000000000020 /* NapNavWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A1000000000000000000001A /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000021 /* Localization.swift */; };
+		A1000000000000000000001B /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000021 /* Localization.swift */; };
+		A1000000000000000000001C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000024 /* Localizable.strings */; };
+		A1000000000000000000001D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000024 /* Localizable.strings */; };
+		A1000000000000000000001E /* LocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000025 /* LocalizationTests.swift */; };
+		A1000000000000000000001F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000028 /* InfoPlist.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C10000000000000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F10000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D10000000000000000000001;
+			remoteInfo = StopAlarm;
+		};
+		C10000000000000000000002 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F10000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D10000000000000000000003;
+			remoteInfo = NapNavWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E40000000000000000000001 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A10000000000000000000019 /* NapNavWidget.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		937EB93E3066C34000082E88 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		937EB9403066CDBD00082E88 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		937EB943306782FC00082E88 /* NapNavIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NapNavIntents.swift; sourceTree = "<group>"; };
+		B10000000000000000000001 /* StopAlarmApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopAlarmApp.swift; sourceTree = "<group>"; };
+		B10000000000000000000002 /* DomainModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainModels.swift; sourceTree = "<group>"; };
+		B10000000000000000000003 /* TriggerPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerPolicy.swift; sourceTree = "<group>"; };
+		B10000000000000000000004 /* TripStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripStore.swift; sourceTree = "<group>"; };
+		B10000000000000000000005 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		B10000000000000000000006 /* TriggerPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerPolicyTests.swift; sourceTree = "<group>"; };
+		B10000000000000000000007 /* NapNav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NapNav.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B10000000000000000000008 /* StopAlarmTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StopAlarmTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B10000000000000000000009 /* SystemClients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemClients.swift; sourceTree = "<group>"; };
+		B1000000000000000000000A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B1000000000000000000000B /* TripStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripStoreTests.swift; sourceTree = "<group>"; };
+		B1000000000000000000000C /* approach-destination.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "approach-destination.gpx"; sourceTree = "<group>"; };
+		B1000000000000000000000D /* pass-outside.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "pass-outside.gpx"; sourceTree = "<group>"; };
+		B1000000000000000000000E /* gps-jump.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "gps-jump.gpx"; sourceTree = "<group>"; };
+		B1000000000000000000000F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B10000000000000000000010 /* PlaceSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchService.swift; sourceTree = "<group>"; };
+		B10000000000000000000011 /* TripPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPersistence.swift; sourceTree = "<group>"; };
+		B10000000000000000000012 /* Motion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Motion.swift; sourceTree = "<group>"; };
+		B10000000000000000000013 /* DestinationSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSelection.swift; sourceTree = "<group>"; };
+		B10000000000000000000014 /* StartupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupView.swift; sourceTree = "<group>"; };
+		B10000000000000000000015 /* DestinationSelectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSelectionTests.swift; sourceTree = "<group>"; };
+		B10000000000000000000016 /* StartupRecoveryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupRecoveryTests.swift; sourceTree = "<group>"; };
+		B10000000000000000000017 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B10000000000000000000018 /* AlertSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSettingsView.swift; sourceTree = "<group>"; };
+		B10000000000000000000019 /* AlertSettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSettingsTests.swift; sourceTree = "<group>"; };
+		B1000000000000000000001A /* TripActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripActivityAttributes.swift; sourceTree = "<group>"; };
+		B1000000000000000000001B /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
+		B1000000000000000000001C /* LiveActivityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityTests.swift; sourceTree = "<group>"; };
+		B1000000000000000000001D /* NapNavWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NapNavWidgetBundle.swift; sourceTree = "<group>"; };
+		B1000000000000000000001E /* TripLiveActivityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripLiveActivityWidget.swift; sourceTree = "<group>"; };
+		B1000000000000000000001F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B10000000000000000000020 /* NapNavWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NapNavWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B10000000000000000000021 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		B10000000000000000000022 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B10000000000000000000023 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B10000000000000000000025 /* LocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationTests.swift; sourceTree = "<group>"; };
+		B10000000000000000000026 /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B10000000000000000000027 /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = th.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E10000000000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E10000000000000000000002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E10000000000000000000003 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F20000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				F20000000000000000000002 /* StopAlarm */,
+				F20000000000000000000003 /* StopAlarmTests */,
+				F20000000000000000000006 /* NapNavWidget */,
+				F20000000000000000000005 /* TestRoutes */,
+				F20000000000000000000004 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F20000000000000000000002 /* StopAlarm */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000001 /* StopAlarmApp.swift */,
+				B10000000000000000000021 /* Localization.swift */,
+				B10000000000000000000024 /* Localizable.strings */,
+				B10000000000000000000028 /* InfoPlist.strings */,
+				B10000000000000000000002 /* DomainModels.swift */,
+				B10000000000000000000003 /* TriggerPolicy.swift */,
+				B10000000000000000000004 /* TripStore.swift */,
+				B10000000000000000000005 /* RootView.swift */,
+				B10000000000000000000009 /* SystemClients.swift */,
+				B10000000000000000000010 /* PlaceSearchService.swift */,
+				B10000000000000000000011 /* TripPersistence.swift */,
+				B10000000000000000000012 /* Motion.swift */,
+				B10000000000000000000013 /* DestinationSelection.swift */,
+				B10000000000000000000014 /* StartupView.swift */,
+				B10000000000000000000018 /* AlertSettingsView.swift */,
+				B1000000000000000000001A /* TripActivityAttributes.swift */,
+				B1000000000000000000001B /* LiveActivityManager.swift */,
+				B10000000000000000000017 /* Assets.xcassets */,
+				B1000000000000000000000A /* Info.plist */,
+				937EB93E3066C34000082E88 /* PrivacyInfo.xcprivacy */,
+				937EB9403066CDBD00082E88 /* OnboardingView.swift */,
+				937EB943306782FC00082E88 /* NapNavIntents.swift */,
+			);
+			path = StopAlarm;
+			sourceTree = "<group>";
+		};
+		F20000000000000000000003 /* StopAlarmTests */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000025 /* LocalizationTests.swift */,
+				B10000000000000000000006 /* TriggerPolicyTests.swift */,
+				B1000000000000000000000B /* TripStoreTests.swift */,
+				B10000000000000000000015 /* DestinationSelectionTests.swift */,
+				B10000000000000000000016 /* StartupRecoveryTests.swift */,
+				B10000000000000000000019 /* AlertSettingsTests.swift */,
+				B1000000000000000000001C /* LiveActivityTests.swift */,
+			);
+			path = StopAlarmTests;
+			sourceTree = "<group>";
+		};
+		F20000000000000000000004 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000007 /* NapNav.app */,
+				B10000000000000000000008 /* StopAlarmTests.xctest */,
+				B10000000000000000000020 /* NapNavWidget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F20000000000000000000005 /* TestRoutes */ = {
+			isa = PBXGroup;
+			children = (
+				B1000000000000000000000C /* approach-destination.gpx */,
+				B1000000000000000000000D /* pass-outside.gpx */,
+				B1000000000000000000000E /* gps-jump.gpx */,
+				B1000000000000000000000F /* README.md */,
+			);
+			path = TestRoutes;
+			sourceTree = "<group>";
+		};
+		F20000000000000000000006 /* NapNavWidget */ = {
+			isa = PBXGroup;
+			children = (
+				B1000000000000000000001D /* NapNavWidgetBundle.swift */,
+				B1000000000000000000001E /* TripLiveActivityWidget.swift */,
+				B1000000000000000000001F /* Info.plist */,
+			);
+			path = NapNavWidget;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D10000000000000000000001 /* StopAlarm */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F40000000000000000000002 /* Build configuration list for PBXNativeTarget "StopAlarm" */;
+			buildPhases = (
+				E30000000000000000000001 /* Sources */,
+				E10000000000000000000001 /* Frameworks */,
+				E20000000000000000000001 /* Resources */,
+				E40000000000000000000001 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C20000000000000000000002 /* PBXTargetDependency */,
+			);
+			name = StopAlarm;
+			productName = NapNav;
+			productReference = B10000000000000000000007 /* NapNav.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D10000000000000000000002 /* StopAlarmTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F40000000000000000000003 /* Build configuration list for PBXNativeTarget "StopAlarmTests" */;
+			buildPhases = (
+				E30000000000000000000002 /* Sources */,
+				E10000000000000000000002 /* Frameworks */,
+				E20000000000000000000002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C20000000000000000000001 /* PBXTargetDependency */,
+			);
+			name = StopAlarmTests;
+			productName = StopAlarmTests;
+			productReference = B10000000000000000000008 /* StopAlarmTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D10000000000000000000003 /* NapNavWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F40000000000000000000004 /* Build configuration list for PBXNativeTarget "NapNavWidget" */;
+			buildPhases = (
+				E30000000000000000000003 /* Sources */,
+				E10000000000000000000003 /* Frameworks */,
+				E20000000000000000000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NapNavWidget;
+			productName = NapNavWidget;
+			productReference = B10000000000000000000020 /* NapNavWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F10000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2700;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					D10000000000000000000001 = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					D10000000000000000000002 = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = D10000000000000000000001;
+					};
+					D10000000000000000000003 = {
+						CreatedOnToolsVersion = 27.0;
+					};
+				};
+			};
+			buildConfigurationList = F40000000000000000000001 /* Build configuration list for PBXProject "StopAlarm" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = th;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				th,
+				Base,
+			);
+			mainGroup = F20000000000000000000001;
+			productRefGroup = F20000000000000000000004 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D10000000000000000000001 /* StopAlarm */,
+				D10000000000000000000002 /* StopAlarmTests */,
+				D10000000000000000000003 /* NapNavWidget */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E20000000000000000000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000010 /* Assets.xcassets in Resources */,
+				A1000000000000000000001C /* Localizable.strings in Resources */,
+				937EB93F3066C34000082E88 /* PrivacyInfo.xcprivacy in Resources */,
+				A1000000000000000000001F /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E20000000000000000000002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E20000000000000000000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000000000000000000001D /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E30000000000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000001 /* StopAlarmApp.swift in Sources */,
+				A1000000000000000000001A /* Localization.swift in Sources */,
+				A10000000000000000000002 /* DomainModels.swift in Sources */,
+				A10000000000000000000003 /* TriggerPolicy.swift in Sources */,
+				A10000000000000000000004 /* TripStore.swift in Sources */,
+				A10000000000000000000005 /* RootView.swift in Sources */,
+				A10000000000000000000007 /* SystemClients.swift in Sources */,
+				A10000000000000000000009 /* PlaceSearchService.swift in Sources */,
+				A1000000000000000000000A /* TripPersistence.swift in Sources */,
+				A1000000000000000000000B /* Motion.swift in Sources */,
+				A1000000000000000000000C /* DestinationSelection.swift in Sources */,
+				A1000000000000000000000D /* StartupView.swift in Sources */,
+				A10000000000000000000011 /* AlertSettingsView.swift in Sources */,
+				937EB9413066CDBD00082E88 /* OnboardingView.swift in Sources */,
+				A10000000000000000000013 /* TripActivityAttributes.swift in Sources */,
+				937EB944306782FC00082E88 /* NapNavIntents.swift in Sources */,
+				A10000000000000000000014 /* LiveActivityManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E30000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000000000000000000001E /* LocalizationTests.swift in Sources */,
+				A10000000000000000000006 /* TriggerPolicyTests.swift in Sources */,
+				A10000000000000000000008 /* TripStoreTests.swift in Sources */,
+				A1000000000000000000000E /* DestinationSelectionTests.swift in Sources */,
+				A1000000000000000000000F /* StartupRecoveryTests.swift in Sources */,
+				A10000000000000000000012 /* AlertSettingsTests.swift in Sources */,
+				A10000000000000000000015 /* LiveActivityTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E30000000000000000000003 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000000000000000000001B /* Localization.swift in Sources */,
+				A10000000000000000000016 /* TripActivityAttributes.swift in Sources */,
+				A10000000000000000000017 /* NapNavWidgetBundle.swift in Sources */,
+				A10000000000000000000018 /* TripLiveActivityWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C20000000000000000000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D10000000000000000000001 /* StopAlarm */;
+			targetProxy = C10000000000000000000001 /* PBXContainerItemProxy */;
+		};
+		C20000000000000000000002 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D10000000000000000000003 /* NapNavWidget */;
+			targetProxy = C10000000000000000000002 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B10000000000000000000024 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B10000000000000000000022 /* Localizable.strings */,
+				B10000000000000000000023 /* Localizable.strings */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		B10000000000000000000028 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B10000000000000000000026 /* InfoPlist.strings */,
+				B10000000000000000000027 /* InfoPlist.strings */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F30000000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F30000000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		F30000000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SLTHKP422K;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = StopAlarm/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NapNav;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "NapNav ใช้ตำแหน่งระหว่างทริปที่คุณเริ่ม เพื่อแจ้งเตือนเมื่อเข้าใกล้จุดหมาย";
+				INFOPLIST_KEY_UIBackgroundModes = location;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.techin.StopAlarm;
+				PRODUCT_MODULE_NAME = StopAlarm;
+				PRODUCT_NAME = NapNav;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		F30000000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SLTHKP422K;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = StopAlarm/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NapNav;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "NapNav ใช้ตำแหน่งระหว่างทริปที่คุณเริ่ม เพื่อแจ้งเตือนเมื่อเข้าใกล้จุดหมาย";
+				INFOPLIST_KEY_UIBackgroundModes = location;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.techin.StopAlarm;
+				PRODUCT_MODULE_NAME = StopAlarm;
+				PRODUCT_NAME = NapNav;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		F30000000000000000000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.StopAlarmTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NapNav.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NapNav";
+			};
+			name = Debug;
+		};
+		F30000000000000000000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.StopAlarmTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NapNav.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NapNav";
+			};
+			name = Release;
+		};
+		F30000000000000000000007 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SLTHKP422K;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = NapNavWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.techin.StopAlarm.NapNavWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		F30000000000000000000008 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SLTHKP422K;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = NapNavWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.techin.StopAlarm.NapNavWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F40000000000000000000001 /* Build configuration list for PBXProject "StopAlarm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F30000000000000000000001 /* Debug */,
+				F30000000000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F40000000000000000000002 /* Build configuration list for PBXNativeTarget "StopAlarm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F30000000000000000000003 /* Debug */,
+				F30000000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F40000000000000000000003 /* Build configuration list for PBXNativeTarget "StopAlarmTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F30000000000000000000005 /* Debug */,
+				F30000000000000000000006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F40000000000000000000004 /* Build configuration list for PBXNativeTarget "NapNavWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F30000000000000000000007 /* Debug */,
+				F30000000000000000000008 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F10000000000000000000001 /* Project object */;
+}

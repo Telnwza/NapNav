@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1040">
+<path fill="#ECEBE8" d="M0 0h1200v1040H0z"/>
+<rect x="24" y="24" width="274" height="314" rx="16" fill="white"/>
+<svg x="33" y="32" width="256" height="256" viewBox="0 0 512 512">
+  <title id="title">NapNav — Arrival halo</title>
+  <desc id="desc">วงโค้งสามชั้นโอบจุดหมาย</desc>
+  <path fill="#fff" d="M0 0h512v512H0z"/>
+  <g fill="none" stroke="#111" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="256" cy="266" r="45" fill="#111"/><path d="M148 266a108 108 0 0 1 216 0"/><path d="M100 266a156 156 0 0 1 312 0"/><path d="M148 327a124 124 0 0 0 216 0"/>
+  </g>
+</svg>
+<text x="42" y="318" font-family="Arial,sans-serif" font-size="18" fill="#111">01-arrival-halo</text>
+<rect x="318" y="24" width="274" height="314" rx="16" fill="white"/>
+<svg x="327" y="32" width="256" height="256" viewBox="0 0 512 512">
+  <title id="title">NapNav — Sleep / wake</title>
+  <desc id="desc">พระจันทร์เสี้ยวและประกายที่ปลุก</desc>
+  <path fill="#fff" d="M0 0h512v512H0z"/>
+  <g fill="none" stroke="#111" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M318 110a155 155 0 1 0 83 274c-132 20-233-112-176-234 17-36 48-65 93-82Z" fill="#111" stroke="none"/><path d="M354 136v50M329 161h50" stroke-width="18"/>
+  </g>
+</svg>
+<text x="336" y="318" font-family="Arial,sans-serif" font-size="18" fill="#111">02-sleep-wake</text>
+<rect x="612" y="24" width="274" height="314" rx="16" fill="white"/>
+<svg x="621" y="32" width="256" height="256" viewBox="0 0 512 512">
+  <title id="title">NapNav — Threshold</title>
+  <desc id="desc">วงกลมเดินผ่านกรอบจุดหมาย</desc>
+  <path fill="#fff" d="M0 0h512v512H0z"/>
+  <g fill="none" stroke="#111" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M181 128h-69v256h69M331 128h69v256h-69"/><circle cx="256" cy="256" r="78"/><path d="M216 256h80"/>
+  </g>
+</svg>
+<text x="630" y="318" font-family="Arial,sans-serif" font-size="18" fill="#111">03-threshold</text>
+<rect x="906" y="24" width="274" height="314" rx="16" fill="white"/>
+<svg x="915" y="32" width="256" height="256" viewBox="0 0 512 512">
+  <title id="title">NapNav — Horizon</title>
+  <desc id="desc">เส้นขอบฟ้าและดวงอาทิตย์ที่กำลังขึ้น</desc>
+  <path fill="#fff" d="M0 0h512v512H0z"/>
+  <g fill="none" stroke="#111" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M90 324h332"/><path d="M160 324a96 96 0 0 1 192 0"/><path d="M256 113v38M146 156l28 28M366 156l-28 28"/>
+  </g>
+</svg>
+<text x="924" y="318" font-family="Arial,sans-serif" font-size="18" fill="#111">04-horizon</text>
+<rect x="24" y="360" width="274" height="314" rx="16" fill="white"/>
+<svg x="33" y="368" width="256" height="256" viewBox="0 0 512 512">
+  <title id="title">NapNav — Chime</title>
+  <desc id="desc">คลื่นเสียงสั้นที่เกิดเมื่อถึงจุดหมาย</desc>
+  <path fill="#fff" d="M0 0h512v512H0z"/>
+  <g fill="none" stroke="#111" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M158 324c46-14 73-46 75-88 2-31 20-56 51-56s49 25 51 56c2 42 29 74 75 88H158Z"/><path d="M222 375c13 25 55 34 77 0"/><path d="M89 216c-15 26-15 55 0 81M423 216c15 26 15 55 0"/>
+  </g>
+</svg>
+<text x="42" y="654" font-family="Arial,sans-serif" font-size="18" fill="#111">05-chime</text>
+<rect x="318" y="360" width="274" height="314" rx="16" fill="white"/>
+<svg x="327" y="368" width="256" height="256" viewBox="0 0 512 512">
+  <title id="title">NapNav — Landing</title>
+  <desc id="desc">เป้าหมายอยู่บนพื้นเรียบและมีช่วงเข้าใกล้</desc>
+  <path fill="#fff" d="M0 0h512v512H0z"/>
+  <g fill="none" stroke="#111" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M107 361h298"/><path d="M169 295c24-27 54-41 87-41s63 14 87 41"/><circle cx="256" cy="186" r="42" fill="#111" stroke="none"/><path d="M256 114v-30"/>
+  </g>
+</svg>
+<text x="336" y="654" font-family="Arial,sans-serif" font-size="18" fill="#111">06-landing</text>
+<rect x="612" y="360" width="274" height="314" rx="16" fill="white"/>
+<svg x="621" y="368" width="256" height="256" viewBox="0 0 512 512">
+  <title id="title">NapNav — Orbit</title>
+  <desc id="desc">วงโคจรกับจุดที่กำลังเข้าเขต</desc>
+  <path fill="#fff" d="M0 0h512v512H0z"/>
+  <g fill="none" stroke="#111" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="256" cy="256" r="47" fill="#111" stroke="none"/><ellipse cx="256" cy="256" rx="162" ry="95" transform="rotate(-32 256 256)"/><circle cx="370" cy="145" r="31" fill="#111" stroke="none"/>
+  </g>
+</svg>
+<text x="630" y="654" font-family="Arial,sans-serif" font-size="18" fill="#111">07-orbit</text>
+<rect x="906" y="360" width="274" height="314" rx="16" fill="white"/>
+<svg x="915" y="368" width="256" height="256" viewBox="0 0 512 512">
+  <title id="title">NapNav — Open eye</title>
+  <desc id="desc">เปลือกตาที่เปิดเมื่อถึงเวลา</desc>
+  <path fill="#fff" d="M0 0h512v512H0z"/>
+  <g fill="none" stroke="#111" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M85 274c43-67 101-101 171-101s128 34 171 101c-43 67-101 101-171 101S128 341 85 274Z"/><circle cx="256" cy="274" r="58"/><path d="M256 162v-35"/>
+  </g>
+</svg>
+<text x="924" y="654" font-family="Arial,sans-serif" font-size="18" fill="#111">08-open-eye</text>
+<rect x="24" y="696" width="274" height="314" rx="16" fill="white"/>
+<svg x="33" y="704" width="256" height="256" viewBox="0 0 512 512">
+  <title id="title">NapNav — Safe pocket</title>
+  <desc id="desc">ช่องโอบรับจุดหมาย</desc>
+  <path fill="#fff" d="M0 0h512v512H0z"/>
+  <g fill="none" stroke="#111" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M126 177v126c0 81 56 137 130 137s130-56 130-137V177"/><path d="M126 177c45 47 88 70 130 70s85-23 130-70"/><circle cx="256" cy="154" r="36" fill="#111" stroke="none"/>
+  </g>
+</svg>
+<text x="42" y="990" font-family="Arial,sans-serif" font-size="18" fill="#111">09-safe-pocket</text>
+<rect x="318" y="696" width="274" height="314" rx="16" fill="white"/>
+<svg x="327" y="704" width="256" height="256" viewBox="0 0 512 512">
+  <title id="title">NapNav — Countdown</title>
+  <desc id="desc">วงเวลาเปิดให้เกิดช่วงเวลาที่เหมาะ</desc>
+  <path fill="#fff" d="M0 0h512v512H0z"/>
+  <g fill="none" stroke="#111" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M377 168a151 151 0 1 0 28 158"/><path d="M256 160v101l74 45"/><circle cx="377" cy="168" r="29" fill="#111" stroke="none"/>
+  </g>
+</svg>
+<text x="336" y="990" font-family="Arial,sans-serif" font-size="18" fill="#111">10-countdown</text>
+<rect x="612" y="696" width="274" height="314" rx="16" fill="white"/>
+<svg x="621" y="704" width="256" height="256" viewBox="0 0 512 512">
+  <title id="title">NapNav — Distance</title>
+  <desc id="desc">ระยะที่หดเข้าหาจุดหมาย</desc>
+  <path fill="#fff" d="M0 0h512v512H0z"/>
+  <g fill="none" stroke="#111" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="256" cy="256" r="40" fill="#111" stroke="none"/><path d="M113 174a175 175 0 0 0 0 164M159 201a117 117 0 0 0 0 110M399 174a175 175 0 0 1 0 164M353 201a117 117 0 0 1 0 110"/>
+  </g>
+</svg>
+<text x="630" y="990" font-family="Arial,sans-serif" font-size="18" fill="#111">11-distance</text>
+<rect x="906" y="696" width="274" height="314" rx="16" fill="white"/>
+<svg x="915" y="704" width="256" height="256" viewBox="0 0 512 512">
+  <title id="title">NapNav — Dawn gate</title>
+  <desc id="desc">ช่องเปิดและแสงแรกหลังเดินทาง</desc>
+  <path fill="#fff" d="M0 0h512v512H0z"/>
+  <g fill="none" stroke="#111" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M116 388V213c0-78 62-140 140-140s140 62 140 140v175"/><path d="M180 388V260a76 76 0 0 1 152 0v128"/><path d="M256 229v62M225 260h62"/>
+  </g>
+</svg>
+<text x="924" y="990" font-family="Arial,sans-serif" font-size="18" fill="#111">12-dawn-gate</text>
+</svg>

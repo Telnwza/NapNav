@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">NapNav C1 — Compact pin</title>
+  <desc id="desc">หมุดสีน้ำเงินอ่อนทรงกะทัดรัดบนพื้นน้ำเงินเข้ม มีตัว N เป็นช่องว่างและจุดหมายสีส้ม</desc>
+  <path fill="#17344D" d="M0 0h1024v1024H0z"/>
+  <path d="M512 183c-174 0-315 141-315 315 0 171 134 284 315 408 181-124 315-237 315-408 0-174-141-315-315-315z" fill="#BFE8F0"/>
+  <path d="M350 586V365l324 221V365" fill="none" stroke="#17344D" stroke-width="87" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="674" cy="365" r="45" fill="#F6AE72"/>
+</svg>

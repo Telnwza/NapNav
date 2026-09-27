@@ -1,0 +1,2 @@
+"NSLocationWhenInUseUsageDescription" = "NapNav uses your location during a trip you start to alert you when you're near your destination, even while the screen is locked.";
+"NSAlarmKitUsageDescription" = "NapNav uses AlarmKit to show a prominent destination alert when you choose this alert method.";

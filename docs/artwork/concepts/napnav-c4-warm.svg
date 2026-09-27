@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">NapNav C4 — Warm marker</title>
+  <desc id="desc">หมุดสีครีมทรงสั้นบนพื้นแดงอิฐเข้ม มีตัว N เป็นช่องว่างและจุดหมายสีฟ้า</desc>
+  <path fill="#653B3C" d="M0 0h1024v1024H0z"/>
+  <path d="M512 189c-183 0-331 148-331 331 0 160 133 262 331 380 198-118 331-220 331-380 0-183-148-331-331-331z" fill="#F3E6CF"/>
+  <path d="M350 606V386l324 220V386" fill="none" stroke="#653B3C" stroke-width="88" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="674" cy="386" r="45" fill="#80D5D3"/>
+</svg>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="NapNav" xmlns="http://www.topografix.com/GPX/1/1">
+  <!-- ผ่านขนานกับจุดหมาย แต่รักษาระยะห่างมากกว่า 1 กิโลเมตร -->
+  <wpt lat="13.74750" lon="100.54800"><name>เริ่มต้นนอกเขต</name></wpt>
+  <wpt lat="13.74750" lon="100.55200"><name>ผ่านด้านเหนือ</name></wpt>
+  <wpt lat="13.74750" lon="100.55600"><name>ผ่านด้านเหนือ</name></wpt>
+  <wpt lat="13.74750" lon="100.56040"><name>จุดใกล้สุดแต่นอกเขต</name></wpt>
+  <wpt lat="13.74750" lon="100.56400"><name>ออกห่างจากจุดหมาย</name></wpt>
+</gpx>

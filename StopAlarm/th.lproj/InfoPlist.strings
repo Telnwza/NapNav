@@ -1,0 +1,2 @@
+"NSLocationWhenInUseUsageDescription" = "NapNav ใช้ตำแหน่งของคุณระหว่างทริปที่เริ่มไว้ เพื่อเตือนเมื่อเข้าใกล้จุดหมาย แม้ล็อกหน้าจอ";
+"NSAlarmKitUsageDescription" = "NapNav ใช้ AlarmKit เพื่อเตือนจุดหมายแบบเด่นชัดเมื่อคุณเลือกใช้วิธีเตือนนี้";

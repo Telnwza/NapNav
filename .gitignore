@@ -1,0 +1,68 @@
+# Xcode & Apple Development
+## User-specific and state files
+xcuserdata/
+*.xcuserdata
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+
+## Build and Derived Data
+build/
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.xcarchive
+timeline.xctimeline
+playground.xcworkspace
+
+# Swift Package Manager
+.build/
+.build-*/
+.swiftpm/
+# Uncomment if you want to avoid locking dependency versions in git:
+# Package.resolved
+
+# macOS System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon\r\r
+ehthumbs.db
+Thumbs.db
+
+# CocoaPods & Carthage (Optional / Future-proof)
+Pods/
+Carthage/Build/
+
+# Fastlane (Optional / Future-proof)
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Temporary, Editor & Environment files
+*.swp
+*.swo
+*~
+*~.nib
+.vscode/
+.idea/
+.env
+.env.*
+!.env.example
+
+# Local AI / Agent artifacts
+.a0-results/

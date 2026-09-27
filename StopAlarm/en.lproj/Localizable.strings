@@ -1,0 +1,356 @@
+/* Language */
+"ภาษา" = "Language";
+"ภาษาของแอป" = "App Language";
+"ตามระบบ" = "System Default";
+"ไทย" = "Thai";
+"English" = "English";
+
+/* Common */
+"เสร็จสิ้น" = "Done";
+"หยุด" = "Stop";
+"หยุดทริป" = "Stop Trip";
+"เดินทางต่อ" = "Continue Trip";
+"ลองใหม่" = "Try Again";
+"ล้าง" = "Clear";
+"เปิด Settings" = "Open Settings";
+"เปิดการตั้งค่า iPhone" = "Open iPhone Settings";
+"เปิด" = "On";
+"ปิด" = "Off";
+"อนุญาต" = "Allowed";
+"ไม่อนุญาต" = "Not Allowed";
+"ยังไม่ได้อนุญาต" = "Not Allowed Yet";
+"ยังไม่ได้เลือก" = "Not Chosen Yet";
+"ไม่ทราบ" = "Unknown";
+"สิทธิ์" = "Permission";
+"เสียง" = "Sound";
+"หน้าจอล็อค" = "Lock Screen";
+"หน้าจอล็อก" = "Lock Screen";
+"Time Sensitive" = "Time Sensitive";
+"ไม่รองรับ" = "Not Supported";
+"เปลี่ยนการตั้งค่านี้ได้จาก Settings ของ iPhone เท่านั้น" = "You can only change this setting in iPhone Settings.";
+"Time Sensitive ไม่พร้อมใช้งานสำหรับ NapNav" = "Time Sensitive isn’t available for NapNav.";
+
+/* Settings */
+"การแจ้งเตือน" = "Alerts";
+"การตั้งค่า" = "Alert Settings";
+"วิธีเตือน" = "Alert Method";
+"มีเสียง" = "Sound On";
+"ไม่มีเสียง" = "Silent";
+"iOS อาจไม่สั่น ขึ้นกับการตั้งค่าของเครื่อง" = "iOS may not vibrate, depending on device settings.";
+"เสียง Notification ถูกปิดอยู่" = "Notification sounds are turned off.";
+"Notification จะไม่แสดงบนหน้าจอล็อค" = "Notifications will not appear on the Lock Screen.";
+"Notification จะไม่แสดงบนหน้าจอล็อก" = "Notifications will not appear on the Lock Screen.";
+"หลังถึงจุดหมาย" = "After Arrival";
+"หยุดทริปอัตโนมัติ" = "Stop Trip Automatically";
+"สิทธิ์การแจ้งเตือน" = "Alert Permissions";
+"มีสิทธิ์ที่ต้องตรวจสอบ" = "Some permissions need attention";
+"เครื่องมือนักพัฒนา" = "Developer Tools";
+"เกี่ยวกับ" = "About";
+"เวอร์ชัน" = "Version";
+
+/* Alert methods */
+"อัตโนมัติ" = "Automatic";
+"การแจ้งเตือนทั่วไป" = "Notification";
+"ระบบนาฬิกาปลุก" = "Alarm";
+"เตือนทั้งสองแบบ" = "Use Both";
+"เลือกวิธีที่เหมาะกับเครื่องให้อัตโนมัติ" = "Automatically choose the best method for this device.";
+"ส่งเสียงเตือนและแบนเนอร์แบบด่วน" = "Play a sound and show a time-sensitive banner.";
+"ใช้ AlarmKit เมื่อรองรับและได้รับอนุญาต (iOS 26+)" = "Use AlarmKit when supported and allowed (iOS 26+).";
+"ใช้ AlarmKit เป็นเสียงหลัก พร้อม Notification แบบไม่มีเสียง" = "Use AlarmKit as the main alarm with a silent notification.";
+"ใช้เสียงของ Notification หรือ AlarmKit ตามโหมดที่เลือก" = "Use Notification or AlarmKit sound for the selected method.";
+"ใช้ Notification แบบไม่มีเสียง โดย iOS อาจไม่สั่นในบางการตั้งค่า" = "Use a silent notification. iOS may not vibrate with some settings.";
+
+/* Permission details */
+"สถานะทริป" = "Trip Status";
+"พิกัด" = "Coordinates";
+"ความแม่นยำ GPS" = "GPS Accuracy";
+"ข้อมูลล่าสุด" = "Latest Information";
+"ทดสอบการเตือน" = "Test Alerts";
+"ทดสอบแจ้งเตือนทันที" = "Test Notification Now";
+"ทดสอบแจ้งเตือนหน่วงเวลา 5 วิ" = "Test Notification in 5 Seconds";
+"ทดสอบเตือนใกล้ถึง (500 ม.)" = "Test Approaching Alert (500 m)";
+"ทดสอบเตือนถึงจุดหมาย (20 ม.)" = "Test Arrival Alert (20 m)";
+"ทดสอบ AlarmKit (หน่วง 5 วิ)" = "Test AlarmKit in 5 Seconds";
+"กำลังเดินทาง" = "On the Way";
+"ใกล้ถึง" = "Approaching";
+"ถึงแล้ว + นับถอยหลัง" = "Arrived + Countdown";
+"ปิด Live Activity" = "End Live Activity";
+"จำลองสถานะ" = "Simulate Status";
+"ปิดโหมดนักพัฒนา" = "Turn Off Developer Mode";
+
+/* Startup and recovery */
+"เตรียมแอปไม่สำเร็จ" = "Couldn’t Prepare the App";
+"ล้างข้อมูลทริปเดิม" = "Clear Previous Trip Data";
+"พบทริปที่ยังไม่จบ" = "Unfinished Trip Found";
+"ทิ้งทริป" = "Discard Trip";
+"กำลังเตรียมแผนที่" = "Preparing the map";
+"กำลังกู้คืนทริป" = "Restoring your trip";
+"อ่านข้อมูลทริปเดิมไม่ได้ ลองใหม่อีกครั้ง" = "Couldn’t read the previous trip. Try again.";
+"ล้างข้อมูลทริปเดิมไม่ได้ ลองใหม่อีกครั้ง" = "Couldn’t clear the previous trip. Try again.";
+
+/* Destination and trip setup */
+"การตั้งค่าการเตือน" = "Alert Settings";
+"ค้นหาสถานที่" = "Search for a place";
+"เลือกจุดหมายนี้" = "Use This Destination";
+"กลับไปเลือกจุดหมาย" = "Back to Destination";
+"ให้ปลุกตอนเหลือระยะเท่าไร?" = "How far away should NapNav alert you?";
+"กำหนดระยะเอง" = "Set a Custom Distance";
+"ระยะที่เลือก" = "Selected Distance";
+"เริ่มเดินทาง" = "Start Trip";
+"กำลังค้นหาสถานที่…" = "Searching for places…";
+"ค้นหาสถานที่ หรือเลื่อนแผนที่เพื่อขยับหมุด" = "Search for a place or move the map to reposition the pin.";
+"กำลังเลือกตำแหน่ง…" = "Selecting location…";
+"กำลังค้นหาชื่อสถานที่…" = "Finding the place name…";
+"เลื่อนแผนที่ได้ หากต้องการขยับหมุด" = "Move the map to reposition the pin.";
+"ไม่พบชื่อสถานที่ แต่ยังใช้พิกัดนี้ได้" = "No place name found. You can still use these coordinates.";
+"จุดที่เลือก" = "Selected Location";
+"จุดที่ปักหมุด" = "Pinned Location";
+"จุดที่เลือกบนแผนที่" = "Location Selected on Map";
+"ค้นหาสถานที่ไม่สำเร็จ ลองใหม่อีกครั้ง" = "Couldn’t search for places. Try again.";
+"โหลดคำแนะนำไม่สำเร็จ" = "Couldn’t load suggestions.";
+"ไม่พบสถานที่" = "No Places Found";
+"ลองค้นหาด้วยชื่อหรือที่อยู่อื่น" = "Try a different place name or address.";
+"ค้นหาสถานที่ไม่สำเร็จ" = "Search Unavailable";
+
+/* Tracking */
+"ถึงจุดหมายแล้ว" = "You’ve Arrived";
+"กำลังหาตำแหน่ง" = "Finding Your Location";
+"กำลังรอตำแหน่ง" = "Waiting for your location";
+"สิ้นสุดทริป" = "Trip Ending";
+"หยุดใน" = "Stops in";
+"เตือนเมื่อเหลือ" = "Alert Distance";
+"ถึงแล้ว" = "Arrived";
+"ใกล้ถึงแล้ว" = "Almost There";
+"ยังไม่เริ่มทริป" = "Trip Not Started";
+"กำลังเตรียมพร้อม" = "Preparing";
+"กำลังเตือน" = "Alerting";
+"ทริปเสร็จสิ้น" = "Trip Completed";
+"ยกเลิกแล้ว" = "Cancelled";
+"ทริปนี้อาจกู้คืนไม่ได้หากปิดแอป" = "This trip may not be recoverable if the app closes.";
+"ตั้ง AlarmKit สำเร็จ แต่ companion Notification ตั้งไม่สำเร็จ" = "AlarmKit was scheduled, but the companion notification was not.";
+"ตำแหน่งยังไม่แม่นพอ ลองเปิด Precise Location" = "Location accuracy is limited. Try turning on Precise Location.";
+"ไม่ได้รับสิทธิ์ตำแหน่ง" = "Location permission was denied.";
+"Location Services ปิดอยู่" = "Location Services are turned off.";
+"ยังหาตำแหน่งไม่ได้ ลองออกไปในที่โล่ง" = "Can’t find your location yet. Try moving to an open area.";
+"การแจ้งเตือนอาจไม่มีเสียง" = "The alert may not play a sound.";
+"การแจ้งเตือนไม่แสดงบนหน้าจอล็อค" = "Alerts won’t appear on the Lock Screen.";
+"การแจ้งเตือนไม่แสดงบนหน้าจอล็อก" = "Alerts won’t appear on the Lock Screen.";
+"หยุดทริปนี้หรือไม่?" = "Stop This Trip?";
+"เสร็จสิ้นทริปนี้หรือไม่?" = "Finish This Trip?";
+"ยังไม่เสร็จ" = "Not Yet";
+"รีเซ็ตทิศเหนือของแผนที่" = "Reset map to north";
+"แสดงตำแหน่งของฉัน" = "Show my location";
+"รูปแบบแผนที่" = "Map Style";
+"สำรวจ" = "Explore";
+"ขับรถ" = "Driving";
+"ขนส่ง" = "Transit";
+"ดาวเทียม" = "Satellite";
+"ดาวเทียมอาจใช้เวลาโหลดภาพสักครู่" = "Satellite imagery may take a moment to load.";
+
+/* Auto stop */
+"ทันที" = "Immediately";
+"5 วินาที" = "5 Seconds";
+"10 วินาที" = "10 Seconds";
+"15 วินาที" = "15 Seconds";
+"30 วินาที (แนะนำ)" = "30 Seconds (Recommended)";
+"45 วินาที" = "45 Seconds";
+"60 วินาที (1 นาที)" = "60 Seconds (1 Minute)";
+"5 วิ" = "5 sec";
+"10 วิ" = "10 sec";
+"15 วิ" = "15 sec";
+"30 วิ" = "30 sec";
+"45 วิ" = "45 sec";
+"60 วิ" = "60 sec";
+
+/* Alert delivery details */
+"Notification พร้อมเสียง" = "Notification with sound";
+"Notification แบบไม่มีเสียง (iOS อาจไม่สั่น)" = "Silent notification (iOS may not vibrate)";
+"Notification จะแสดง แต่เสียงถูกปิดในการตั้งค่า iPhone" = "The notification will appear, but sounds are off in iPhone Settings.";
+"Notification แบบไม่มีเสียง เพื่อไม่ให้เสียงซ้อน" = "Silent notification to avoid duplicate sounds";
+"เครื่องนี้ยังไม่รองรับ AlarmKit จึงใช้ Notification แทน" = "AlarmKit isn’t supported on this device, so NapNav will use a notification.";
+"AlarmKit ยังไม่ได้รับอนุญาต จึงใช้ Notification แทน" = "AlarmKit isn’t allowed, so NapNav will use a notification.";
+"AlarmKit ไม่มีโหมดไม่มีเสียง จึงใช้ Notification แบบไม่มีเสียงแทน" = "AlarmKit has no silent mode, so NapNav will use a silent notification.";
+"Notification ไม่พร้อม จึงใช้ AlarmKit เพียงช่องทางเดียว" = "Notifications are unavailable, so NapNav will use AlarmKit only.";
+"ตั้ง AlarmKit ไม่สำเร็จ จึงใช้ Notification แทน" = "Couldn’t schedule AlarmKit, so NapNav will use a notification.";
+"Notification ยังไม่พร้อม กรุณาเปิดการแจ้งเตือนในการตั้งค่า iPhone" = "Notifications are unavailable. Turn them on in iPhone Settings.";
+"โหมดไม่มีเสียงต้องใช้ Notification แต่ Notification ยังไม่พร้อม" = "Silent mode needs notifications, but notifications are unavailable.";
+"ยังไม่มีช่องทางเตือนที่พร้อมใช้งาน กรุณาตรวจสิทธิ์การแจ้งเตือน" = "No alert method is available. Check alert permissions.";
+"ส่ง Notification ไม่สำเร็จ กรุณาตรวจการตั้งค่าแล้วลองใหม่" = "Couldn’t send the notification. Check Settings and try again.";
+"ตั้ง AlarmKit ไม่สำเร็จและไม่มี Notification สำหรับ fallback" = "Couldn’t schedule AlarmKit, and no fallback notification is available.";
+"จะใช้ AlarmKit พร้อม Notification แบบไม่มีเสียง เพื่อไม่ให้เสียงซ้อน" = "NapNav will use AlarmKit with a silent notification to avoid duplicate sounds.";
+"จะใช้ AlarmKit เป็นเสียงเตือนหลัก" = "NapNav will use AlarmKit as the main alert.";
+"ยังไม่มีช่องทางเตือนที่พร้อมใช้งาน" = "No alert method is available.";
+"ตั้ง AlarmKit แล้ว พร้อม Notification แบบไม่มีเสียง" = "AlarmKit scheduled with a silent notification.";
+"ตั้ง AlarmKit แล้ว โดยไม่มี companion Notification" = "AlarmKit scheduled without a companion notification.";
+
+/* Notifications, AlarmKit, and Live Activity */
+"เตือนอีกครั้งใน 5 นาที" = "Remind Me Again in 5 Minutes";
+"NapNav เตือนอีกครั้ง" = "NapNav Reminder";
+"NapNav ใกล้ถึงจุดหมาย" = "Almost there";
+"หยุดทริป NapNav" = "Stop NapNav Trip";
+"ถึงที่หมายเรียบร้อย" = "You’ve reached your destination";
+
+/* Formatted and dynamic copy */
+"จะใช้ %@" = "NapNav will use %@";
+"%@ — %@" = "%@ — %@";
+"ส่งผ่าน %@ แล้ว" = "Sent through %@";
+"ใช้เส้นทางสำรอง — %@" = "Using a fallback — %@";
+"%d ม." = "%d m";
+"%d กม." = "%d km";
+"%.1f กม." = "%.1f km";
+"%d เมตร" = "%d meters";
+"%.1f กิโลเมตร" = "%.1f kilometers";
+"±%.1f ม." = "±%.1f m";
+"ใกล้ถึง%@แล้ว" = "Approaching %@";
+"เหลือระยะประมาณ %@ เตรียมตัวลงได้เลย" = "About %@ remaining. Get ready to arrive.";
+"ตรวจระยะที่เหลือถึง %@" = "Check the remaining distance to %@.";
+"ทดสอบการแจ้งเตือนแบบหน่วงเวลา (%d วินาที)" = "Delayed notification test (%d seconds)";
+"ตั้งเวลาแจ้งเตือนในอีก %d วินาที (ล็อกหน้าจอรอได้เลย)" = "Alert scheduled in %d seconds. You can lock the screen while you wait.";
+"ส่งการเตือนใกล้ถึง (500 ม.) แล้ว — %@" = "Sent the approaching alert (500 m) — %@";
+"ส่งการเตือนถึงจุดหมาย (20 ม.) แล้ว — %@" = "Sent the arrival alert (20 m) — %@";
+"จำลอง Live Activity: ถึงแล้ว (นับถอยหลัง %@)" = "Live Activity simulation: Arrived (countdown %@)";
+"ถึง %@" = "To %@";
+"จะปิดอัตโนมัติใน %@" = "Stops automatically in %@";
+"NapNav จะหยุดติดตามตำแหน่งและยกเลิกการแจ้งเตือนของทริปไป %@" = "NapNav will stop location tracking and cancel alerts for the trip to %@.";
+"NapNav จะยกเลิกการแจ้งเตือนของทริปไป %@ และจบทริปนี้" = "NapNav will cancel alerts for the trip to %@ and finish it.";
+"รูปแบบแผนที่ ปัจจุบันแบบ%@" = "Map style, currently %@";
+"แตะเพื่อเปลี่ยนรูปแบบแผนที่" = "Double tap to change map style";
+"จะเดินทางต่อไปที่ %@ หรือทิ้งทริปนี้" = "Continue the trip to %@ or discard it.";
+"แจ้งเตือนที่ %@" = "Alert at %@";
+
+/* Additional status and test copy */
+"ยังไม่ได้อนุญาตการแจ้งเตือน" = "Notifications have not been allowed.";
+"ส่งการแจ้งเตือนทดสอบแล้ว" = "Test notification sent.";
+"ส่งการแจ้งเตือนไม่สำเร็จ" = "Couldn’t send the notification.";
+"จำลอง Live Activity: กำลังเดินทาง" = "Live Activity simulation: on the way";
+"จำลอง Live Activity: ใกล้ถึง" = "Live Activity simulation: Approaching";
+"ปิด Live Activity จำลองแล้ว" = "Live Activity simulation ended.";
+"ตั้ง Alarm ทดลองแล้ว จะดังในประมาณ 5 วินาที" = "Test alarm scheduled for about 5 seconds from now.";
+"ยังไม่ได้อนุญาต Alarm ให้ NapNav" = "Alarm access has not been allowed for NapNav.";
+"เครื่องนี้ยังใช้ Alarm แบบเด่นชัดไม่ได้" = "Prominent alarms are unavailable on this device.";
+"ทดสอบ NapNav" = "Test NapNav";
+"ได้รับการแจ้งเตือนทดสอบแล้ว" = "Test notification received.";
+
+/* Accessibility */
+"แผนที่ติดตามตำแหน่งปัจจุบันเทียบกับ %@" = "Map tracking your current location relative to %@";
+"แผนที่เลือกจุดหมาย ค้นหาสถานที่หรือเลื่อนแผนที่ให้จุดหมายอยู่ใต้หมุดกลางจอ" = "Destination map. Search for a place or move the map until the destination is under the center pin.";
+
+/* Sample destination */
+"อโศก" = "Asok";
+"สถานี BTS อโศก ถนนสุขุมวิท" = "BTS Asok Station, Sukhumvit Road";
+
+/* Startup options & loading preview */
+"ข้ามเมื่อโหลดเสร็จไว (<275ms)" = "Skip if loaded fast (<275ms)";
+"หน้าจอเริ่มต้น (Startup & Loading)" = "Startup & Loading Screen";
+"ทดสอบเปิดแอปใหม่ตามโหมดนี้" = "Test App Launch with Selected Mode";
+"ยกเลิกเสียงเตือนไม่สำเร็จ เสียงอาจยังดังอยู่ NapNav จะลองอีกครั้งเมื่อเปิดแอป" = "Couldn't cancel the alarm. It may still sound; NapNav will retry when you reopen the app.";
+
+/* Onboarding */
+"ยินดีต้อนรับสู่ NapNav" = "Welcome to NapNav";
+"นาฬิกาปลุกตามตำแหน่ง หลับสบายไม่เลยป้าย" = "Location-based alarm that wakes you up on time";
+"ปักหมุดจุดหมายง่ายๆ" = "Set Destination Easily";
+"ค้นหาสถานี ป้ายรถเมล์ หรือแตะเลือกตำแหน่งบนแผนที่ได้ตามต้องการ" = "Search for stations, transit stops, or tap directly on the map.";
+"ปลุกดังทะลุโหมดเงียบ" = "Wake Up on Time";
+"ปลุกด้วยระบบเสียงพิเศษที่แจ้งเตือนได้อย่างต่อเนื่อง แม้เปิดโหมดปิดเสียงหรือห้ามรบกวน" = "AlarmKit sounds loud alarms even if Silent or Focus mode is active.";
+"ติดตามผ่าน Dynamic Island" = "Dynamic Island & Lock Screen";
+"รู้ระยะทางคงเหลือตลอดเวลาผ่าน Dynamic Island และหน้าจอล็อค ล็อคจอแล้วพักสายตาได้ทันที" = "Glance at remaining distance right from Dynamic Island and Lock Screen. Rest easy with your phone locked.";
+"รู้ระยะทางคงเหลือตลอดเวลาผ่าน Dynamic Island และหน้าจอล็อก ล็อกจอแล้วพักสายตาได้ทันที" = "Glance at remaining distance right from Dynamic Island and Lock Screen. Rest easy with your phone locked.";
+"การขอสิทธิ์เพื่อความแม่นยำ" = "Required Permissions";
+"ตำแหน่งที่ตั้ง" = "Location Access";
+"จำเป็นเพื่อคำนวณระยะทางถึงจุดหมาย" = "Needed to track remaining distance to destination.";
+"การแจ้งเตือน & เสียงปลุก" = "Notifications & Alarms";
+"จำเป็นเพื่อส่งเสียงปลุกเมื่อเข้าใกล้รัศมี" = "Needed to sound the alarm when entering the radius.";
+"อนุญาตแล้ว" = "Allowed";
+"ข้อมูลตำแหน่งจะถูกประมวลผลบนอุปกรณ์ของคุณเท่านั้น และไม่มีการส่งออกภายนอก" = "Your location data is processed strictly on-device and is never shared externally.";
+"เริ่มต้นใช้งาน" = "Get Started";
+"ตั้งค่าภายหลัง" = "Set Up Later";
+"แนะนำการใช้งาน" = "Show Tutorial";
+"รีเซ็ตหน้าแรก (Onboarding)" = "Reset Onboarding Screen";
+
+/* Concise Onboarding */
+"ปลุกตามพิกัด หลับสบายไม่เลยป้าย" = "GPS alarm that wakes you up on time";
+"ปักหมุดจุดหมาย" = "Set Destination";
+"ค้นหาสถานีหรือแตะเลือกบนแผนที่" = "Search transit stops or tap on the map";
+"ปลุกดังแม้ปิดเสียง" = "Loud & Reliable Alarm";
+"เตือนชัดเจนไม่พลาดสถานี แม้เปิดโหมดเงียบ" = "Alarms sound clearly even in silent mode";
+"สิทธิ์ที่จำเป็น" = "Required Permissions";
+"ใช้วัดระยะห่างถึงจุดหมาย" = "Track distance to destination";
+"เสียงและการแจ้งเตือน" = "Sound & Alerts";
+"ส่งเสียงปลุกเมื่อใกล้ถึง" = "Sound alarm when near destination";
+"ประมวลผลตำแหน่งบนเครื่องเท่านั้น ไม่ส่งข้อมูลออกภายนอก" = "Location is processed on-device and never shared externally.";
+"เปิดการตั้งค่าเพื่อรีเซ็ตสิทธิ์ (iOS Settings)" = "Open Settings to Reset Permissions";
+"iOS ไม่อนุญาตให้แอปรีเซ็ตสิทธิ์เองได้โดยตรง แตะเพื่อไปที่การตั้งค่าแล้วปิดสิทธิ์เพื่อทดสอบใหม่" = "iOS doesn't allow apps to revoke permissions directly. Tap to open Settings and toggle permissions off to test again.";
+
+/* Multi-page Onboarding */
+"ถัดไป" = "Next";
+"ย้อนกลับ" = "Back";
+"การแจ้งเตือน & สิทธิ์" = "Alerts & Permissions";
+"เลือกวิธีเตือนที่ต้องการ และให้สิทธิ์เพื่อเริ่มใช้งาน" = "Choose your alert method and grant required permissions.";
+"สิทธิ์การใช้งานที่จำเป็น" = "Required Permissions";
+"อนุญาตสิทธิ์ที่จำเป็น" = "Grant Required Permissions";
+"อนุญาตสิทธิ์ครบถ้วนแล้ว" = "All Permissions Granted";
+"หลับสบายบนรถเมล์ รถไฟฟ้า หรือรถไฟ ไม่ต้องคอยพะวงมองทาง" = "Rest easy on buses and trains. NapNav wakes you up before your stop.";
+"ค้นหาหรือแตะบนแผนที่" = "Search or Tap on Map";
+"พิมพ์ค้นหาสถานี ป้ายรถเมล์ หรือเลื่อนหมุดบนแผนที่ได้อย่างแม่นยำ" = "Search for transit stations or move the pin directly on the map.";
+"เลือกระยะปลุกตามต้องการ" = "Custom Alert Distance";
+"กำหนดระยะเตือนล่วงหน้า เช่น 500 ม., 1 กม. หรือกำหนดระยะเอง" = "Set alert distance such as 500 m, 1 km, or your own custom radius.";
+"แผนที่หลายรูปแบบ" = "Multiple Map Styles";
+"สลับมุมมองได้ทั้งแบบมาตรฐาน ขนส่งสาธารณะ และดาวเทียม" = "Switch between standard, transit, driving, and satellite views.";
+"พักสายตาได้อย่างสบายใจ" = "Rest Easy on the Go";
+"ติดตามระยะทางและปลุกให้คุณตื่นตรงเวลา แม้ขณะล็อคหน้าจอ" = "Track remaining distance and wake up on time even while locked.";
+"ติดตามระยะทางและปลุกให้คุณตื่นตรงเวลา แม้ขณะล็อกหน้าจอ" = "Track remaining distance and wake up on time even while locked.";
+"Dynamic Island & หน้าจอล็อค" = "Dynamic Island & Lock Screen";
+"Dynamic Island & หน้าจอล็อก" = "Dynamic Island & Lock Screen";
+"ดูกราฟิกระยะทางคงเหลือและเวลานับถอยหลังได้แบบเรียลไทม์" = "Glance at real-time remaining distance and arrival countdowns.";
+"หยุดเสียงเตือนอัตโนมัติ" = "Auto-Stop Alarm";
+"เมื่อถึงที่หมายแล้ว ระบบจะนับถอยหลังและปิดเสียงเตือนให้อัตโนมัติ" = "When you arrive, NapNav automatically silences after a short countdown.";
+"ประหยัดพลังงาน" = "Battery Efficient";
+"ระบบติดตาม GPS อัจฉริยะ ปรับความถี่ตามระยะห่าง ไม่เปลืองแบตเตอรี่" = "Smart GPS tracking adjusts frequency by distance to save battery.";
+"หน้า %d จาก %d" = "Step %d of %d";
+
+/* Favorites & Recents */
+"ลบสถานที่โปรดนี้หรือไม่?" = "Remove from Favorites?";
+"คุณแน่ใจหรือไม่ว่าต้องการลบ \"%@\" ออกจากรายการโปรด?" = "Are you sure you want to remove \"%@\" from favorites?";
+"ลบสถานที่โปรด" = "Remove Favorite";
+"เพิ่มเป็นสถานที่โปรด" = "Add to Favorites";
+"ลบ" = "Delete";
+"โปรด" = "Favorite";
+"ลบออกจากประวัติ" = "Remove from Recents";
+"สถานที่โปรด" = "Favorites";
+"บันทึกสถานที่โปรด" = "Save Favorite";
+"บันทึกเป็นสถานที่โปรด" = "Add to Favorites";
+"ลบออกจากสถานที่โปรด" = "Remove from Favorites";
+"ประวัติล่าสุด" = "Recent Places";
+"ล้างประวัติ" = "Clear History";
+"ชื่อสถานที่" = "Place Name";
+"ไอคอน" = "Icon";
+"ระยะเตือนเริ่มต้น" = "Default Alert Distance";
+"บ้าน" = "Home";
+"ที่ทำงาน" = "Work";
+"สถานศึกษา" = "School / College";
+"หมุด" = "Pin";
+"บันทึก" = "Save";
+"ยกเลิก" = "Cancel";
+"ไม่มีประวัติล่าสุด" = "No Recent Places";
+
+"แก้ไขสถานที่โปรด" = "Edit Favorite";
+"แก้ไข" = "Edit";
+"แตะไอคอนดาวเพื่อบันทึกสถานที่โปรด" = "Tap the star icon to save favorites";
+
+/* Onboarding Separated Permissions & Alert Method */
+"สิทธิ์การใช้งาน" = "Permissions";
+"อนุญาตสิทธิ์เพื่อให้แอปแจ้งเตือนและระบุตำแหน่งได้อย่างแม่นยำ" = "Grant permissions so the app can track your location and wake you on time.";
+"ตรวจวัดระยะทางถึงจุดหมายอย่างแม่นยำ" = "Accurately tracks distance to your destination.";
+"การแจ้งเตือน & เสียงเตือน" = "Notifications & Sound";
+"ส่งเสียงเตือนและแบนเนอร์เมื่อถึงจุดหมาย" = "Plays sound and shows banners as you approach.";
+"ระบบนาฬิกาปลุก (AlarmKit)" = "Alarm System (AlarmKit)";
+"ส่งเสียงปลุกดังชัดเจน แม้เปิดโหมดห้ามรบกวน (iOS 26+)" = "Rings prominently even in Silent or Focus modes (iOS 26+).";
+"ขอสิทธิ์" = "Request";
+"อนุญาตสิทธิ์ทั้งหมด" = "Allow All Permissions";
+"ตั้งค่าวิธีเตือน" = "Alert Method";
+"เลือกรูปแบบและระดับเสียงการเตือนที่เหมาะกับการเดินทางของคุณ" = "Choose your preferred alarm style and transit wake-up experience.";
+
+"ยังไม่ได้รับอนุญาต AlarmKit" = "AlarmKit Not Authorized";
+"แตะขอสิทธิ์เพื่อให้ระบบนาฬิกาปลุกทำงานได้เต็มรูปแบบ" = "Grant permission for the alarm system to ring at full volume.";
+
+"ลากขึ้นเพื่อดูสถานที่โปรดและประวัติ" = "Swipe up for favorites & recents";

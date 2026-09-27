@@ -1,0 +1,11 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="nFrontGrad" x1="223" y1="452" x2="800" y2="774" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2ED96F"/>
+      <stop offset="0.52" stop-color="#16A34A"/>
+      <stop offset="1" stop-color="#05804F"/>
+    </linearGradient>
+  </defs>
+  <path d="M247 710V551C247 483 321 454 376 504L638 693C691 732 756 703 770 647"
+    stroke="url(#nFrontGrad)" stroke-width="134" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

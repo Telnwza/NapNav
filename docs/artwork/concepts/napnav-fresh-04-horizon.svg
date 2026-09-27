@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">NapNav — Horizon</title>
+  <desc id="desc">เส้นขอบฟ้าและดวงอาทิตย์ที่กำลังขึ้น</desc>
+  <path fill="#fff" d="M0 0h512v512H0z"/>
+  <g fill="none" stroke="#111" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M90 324h332"/><path d="M160 324a96 96 0 0 1 192 0"/><path d="M256 113v38M146 156l28 28M366 156l-28 28"/>
+  </g>
+</svg>

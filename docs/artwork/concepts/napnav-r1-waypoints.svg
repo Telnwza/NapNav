@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">NapNav R1 — Waypoint route</title>
+  <desc id="desc">เส้นทางรูปตัว N ภายในหมุด เริ่มจากจุดฟ้า เลี้ยวผ่านทาง และสิ้นสุดที่จุดหมายสีส้ม</desc>
+  <path fill="#123746" d="M0 0h1024v1024H0z"/>
+  <path d="M512 151c-184 0-333 149-333 333 0 185 142 309 333 454 191-145 333-269 333-454 0-184-149-333-333-333z" fill="#F2EEDF"/>
+  <path d="M350 615V382l324 233V382" fill="none" stroke="#123746" stroke-width="78" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="350" cy="615" r="39" fill="#77D5CA"/>
+  <circle cx="674" cy="382" r="49" fill="#EBA064"/>
+</svg>

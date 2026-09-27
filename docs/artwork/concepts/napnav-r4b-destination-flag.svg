@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">NapNav R4B — Destination flag</title>
+  <desc id="desc">เส้นทางรูปตัว N ภายในหมุด ไปสิ้นสุดที่ธงจุดหมายสีส้ม</desc>
+  <path fill="#F2EFE6" d="M0 0h1024v1024H0z"/>
+  <path d="M512 164c-181 0-328 147-328 328 0 181 136 299 328 442 192-143 328-261 328-442 0-181-147-328-328-328z" fill="#17444A"/>
+  <path d="M348 612c-5-80-5-169 3-212 9-49 45-58 85-28l166 165c35 34 76 24 76-24V340" fill="none" stroke="#C9E9DB" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M680 332h96l-30 49 30 49h-96z" fill="#EBA064"/>
+</svg>

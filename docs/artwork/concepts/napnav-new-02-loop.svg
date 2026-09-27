@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">NapNav concept 02 — loop</title>
+  <desc id="desc">เส้นทางวนเข้าหาจุดหมายในรูปหมุดเปิด</desc>
+  <path fill="#fff" d="M0 0h1024v1024H0z"/>
+  <path d="M512 884C366 770 206 631 206 455c0-169 137-306 306-306s306 137 306 306c0 124-82 220-185 308" fill="none" stroke="#111" stroke-width="90" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M340 583V391c0-38 31-59 62-33l206 238c32 37 78 11 78-37V378" fill="none" stroke="#111" stroke-width="69" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="512" cy="884" r="45" fill="#111"/>
+</svg>

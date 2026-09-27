@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">NapNav — หมุดปลุก</title>
+  <desc id="desc">หมุดจุดหมายสีฟ้าบนพื้นน้ำเงินเข้ม มีหน้าปัดนาฬิกาสีขาวและเข็มสีกรมท่า</desc>
+  <defs>
+    <radialGradient id="background" cx="50%" cy="43%" r="76%">
+      <stop offset="0" stop-color="#214D70"/>
+      <stop offset="1" stop-color="#10263F"/>
+    </radialGradient>
+    <linearGradient id="pin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#57D9EB"/>
+      <stop offset="1" stop-color="#288FE0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Full-bleed background; the operating system applies the icon mask. -->
+  <path fill="url(#background)" d="M0 0h1024v1024H0z"/>
+
+  <!-- Destination pin: one large silhouette remains legible at home-screen size. -->
+  <path fill="url(#pin)" d="M512 166c-157 0-284 127-284 284 0 174 133 291 284 420 151-129 284-246 284-420 0-157-127-284-284-284z"/>
+
+  <!-- Alarm clock face. The short hand and long hand point to a clear center. -->
+  <circle cx="512" cy="448" r="158" fill="#F9FCFF"/>
+  <path d="M512 352v97l69 48" fill="none" stroke="#173A58" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="512" cy="448" r="19" fill="#FFB45C"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">NapNav — Chime</title>
+  <desc id="desc">คลื่นเสียงสั้นที่เกิดเมื่อถึงจุดหมาย</desc>
+  <path fill="#fff" d="M0 0h512v512H0z"/>
+  <g fill="none" stroke="#111" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M158 324c46-14 73-46 75-88 2-31 20-56 51-56s49 25 51 56c2 42 29 74 75 88H158Z"/><path d="M222 375c13 25 55 34 77 0"/><path d="M89 216c-15 26-15 55 0 81M423 216c15 26 15 55 0"/>
+  </g>
+</svg>

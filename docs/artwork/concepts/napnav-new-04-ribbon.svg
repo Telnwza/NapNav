@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">NapNav concept 04 — ribbon</title>
+  <desc id="desc">เส้นทางรูป N กลายเป็นธงปลายทาง</desc>
+  <path fill="#fff" d="M0 0h1024v1024H0z"/>
+  <path d="M263 730V335c0-67 58-101 111-55l259 302c50 58 130 22 130-48V263" fill="none" stroke="#111" stroke-width="91" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill="#111" d="M763 236c53-13 104 3 156-10l-44 73 44 75c-52-13-103 4-156-10Z"/>
+</svg>

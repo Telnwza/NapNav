@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">NapNav R2 — Curved journey</title>
+  <desc id="desc">เส้นทางโค้งต่อเนื่องเป็นตัว N อยู่ในหมุดสีฟ้าอ่อน มีจุดหมายสีส้ม</desc>
+  <path fill="#153650" d="M0 0h1024v1024H0z"/>
+  <path d="M512 166c-179 0-324 145-324 324 0 176 132 294 324 440 192-146 324-264 324-440 0-179-145-324-324-324z" fill="#CBE9EA"/>
+  <path d="M347 605V437c0-62 19-72 63-39l212 168c38 30 55 17 55-33V382" fill="none" stroke="#17475D" stroke-width="76" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="347" cy="605" r="36" fill="#F0F5E9"/>
+  <circle cx="677" cy="382" r="47" fill="#ED9A68"/>
+</svg>
