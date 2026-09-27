@@ -343,8 +343,6 @@ struct MapControlCluster: View {
 }
 
 struct MapHeaderOverlay: View {
-    var safeTop: CGFloat = 0
-
     var body: some View {
         ZStack(alignment: .top) {
             Rectangle()
@@ -361,17 +359,17 @@ struct MapHeaderOverlay: View {
                         endPoint: .bottom
                     )
                 }
-                .frame(height: max(safeTop, 20) + 65)
+                .frame(height: 115)
                 .ignoresSafeArea(edges: .top)
 
-            VStack(spacing: 1) {
+            VStack(spacing: 0) {
                 Text("NapNav")
                     .font(.headline)
                 Text("Trip Alarm")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }
-            .padding(.top, max(safeTop, 20) + 6)
+            .padding(.top, 10)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .allowsHitTesting(false)

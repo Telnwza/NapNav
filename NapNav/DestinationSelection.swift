@@ -283,8 +283,8 @@ struct DestinationView: View {
 
             ZStack {
                 mapView
-                MapHeaderOverlay(safeTop: proxy.safeAreaInsets.top)
-                trackingDistanceOverlay(safeTop: proxy.safeAreaInsets.top)
+                MapHeaderOverlay()
+                trackingDistanceOverlay
                 mapControlsOverlay(panelHeight: panelHeight, safeBottom: proxy.safeAreaInsets.bottom)
                 bottomContainer(panelHeight: panelHeight, bottomInset: proxy.safeAreaInsets.bottom)
                     .frame(maxHeight: .infinity, alignment: .bottom)
@@ -292,7 +292,7 @@ struct DestinationView: View {
             .animation(MotionTokens.morphSpring(reduceMotion: reduceMotion), value: store.screen)
             .animation(MotionTokens.morphSpring(reduceMotion: reduceMotion), value: panelHeight)
             .overlay(alignment: .topTrailing) {
-                settingsButtonOverlay(safeTop: proxy.safeAreaInsets.top)
+                settingsButtonOverlay
             }
             .mapScope(mapScope)
         }
@@ -570,11 +570,11 @@ struct DestinationView: View {
     }
 
     @ViewBuilder
-    private func trackingDistanceOverlay(safeTop: CGFloat) -> some View {
+    private var trackingDistanceOverlay: some View {
         VStack {
             if store.screen == .tracking {
                 distanceCard
-                    .padding(.top, max(safeTop, 20) + 8)
+                    .padding(.top, 48)
                     .transition(
                         .asymmetric(
                             insertion: .move(edge: .top).combined(with: .opacity),
@@ -585,6 +585,7 @@ struct DestinationView: View {
             Spacer()
         }
         .padding(.horizontal)
+        .padding(.top, 10)
         .allowsHitTesting(store.screen == .tracking)
     }
 
@@ -611,27 +612,25 @@ struct DestinationView: View {
     }
 
     @ViewBuilder
-    private func settingsButtonOverlay(safeTop: CGFloat) -> some View {
-        if store.screen != .tracking {
-            Button {
-                store.showsSettings = true
-                sheetItem = .settings
-                HapticFeedback.selection()
-            } label: {
-                Image(systemName: "gearshape.fill")
-                    .font(.system(size: 18, weight: .semibold))
-                    .frame(width: 44, height: 44)
-                    .foregroundStyle(.primary)
-                    .napNavGlass(in: Circle(), interactive: true)
-            }
-            .buttonStyle(.plain)
-            .contentShape(Circle())
-            .accessibilityLabel(AppLocalization.string("การตั้งค่าการเตือน"))
-            .accessibilityIdentifier("alertSettingsButton")
-            .padding(.trailing, 16)
-            .padding(.top, max(safeTop, 20) + 4)
-            .transition(.opacity)
+    private var settingsButtonOverlay: some View {
+        Button {
+            store.showsSettings = true
+            sheetItem = .settings
+            HapticFeedback.selection()
+        } label: {
+            Image(systemName: "gearshape.fill")
+                .font(.system(size: 17, weight: .semibold))
+                .frame(width: 44, height: 44)
+                .foregroundStyle(.primary)
+                .napNavGlass(in: Circle(), interactive: true)
         }
+        .buttonStyle(.plain)
+        .contentShape(Circle())
+        .accessibilityLabel(AppLocalization.string("การตั้งค่าการเตือน"))
+        .accessibilityIdentifier("alertSettingsButton")
+        .padding(.trailing, 16)
+        .padding(.top, 8)
+        .transition(.opacity)
     }
 
     private var mapAccessibilityLabel: String {
@@ -756,12 +755,30 @@ struct DestinationView: View {
                     .tint(.green)
                     .accessibilityIdentifier("completeTripButton")
                 } else {
-                    Button(AppLocalization.string("หยุด"), role: .destructive) {
-                        onRequestStopConfirmation()
+                    HStack(spacing: 10) {
+                        Button {
+                            store.showsSettings = true
+                            sheetItem = .settings
+                            HapticFeedback.selection()
+                        } label: {
+                            Image(systemName: "gearshape.fill")
+                                .font(.system(size: 17, weight: .semibold))
+                                .frame(width: 44, height: 44)
+                                .foregroundStyle(.primary)
+                                .napNavGlass(in: Circle(), interactive: true)
+                        }
+                        .buttonStyle(.plain)
+                        .contentShape(Circle())
+                        .accessibilityLabel(AppLocalization.string("การตั้งค่าการเตือน"))
+                        .accessibilityIdentifier("trackingSettingsButton")
+
+                        Button(AppLocalization.string("หยุด"), role: .destructive) {
+                            onRequestStopConfirmation()
+                        }
+                        .napNavPrimaryButtonStyle()
+                        .tint(.red)
+                        .accessibilityIdentifier("stopTripButton")
                     }
-                    .napNavPrimaryButtonStyle()
-                    .tint(.red)
-                    .accessibilityIdentifier("stopTripButton")
                 }
             }
 
