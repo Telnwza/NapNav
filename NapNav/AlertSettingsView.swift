@@ -6,17 +6,20 @@ struct AlertSettingsView: View {
     @Environment(\.openURL) private var openURL
     @Environment(\.scenePhase) private var scenePhase
     @Bindable var store: TripStore
-    @AppStorage("isDeveloperModeEnabled") private var isDeveloperModeEnabled = false
     @AppStorage(AppLocalization.preferenceKey) private var appLanguageRawValue = AppLanguage.system.rawValue
+
+    #if DEBUG
+    @AppStorage("isDeveloperModeEnabled") private var isDeveloperModeEnabled = false
     @State private var devTapCount = 0
     @State private var lastTapTime: Date?
+    #endif
 
     private var appLanguage: AppLanguage {
         AppLanguage(rawValue: appLanguageRawValue) ?? .system
     }
 
     private var appVersion: String {
-        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0.1.0"
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0.0"
     }
 
     var body: some View {
@@ -26,9 +29,11 @@ struct AlertSettingsView: View {
                 permissionsSection
                 languageSection
 
+                #if DEBUG
                 if isDeveloperModeEnabled {
                     developerEntrySection
                 }
+                #endif
 
                 aboutSection
             }
@@ -58,8 +63,6 @@ struct AlertSettingsView: View {
             } label: {
                 LabeledContent(AppLocalization.string("วิธีเตือน"), value: store.alertPreferences.deliveryMode.title)
             }
-
-
 
             alertIssueContent
         }
@@ -104,6 +107,7 @@ struct AlertSettingsView: View {
         }
     }
 
+    #if DEBUG
     private var developerEntrySection: some View {
         Section {
             NavigationLink {
@@ -116,6 +120,7 @@ struct AlertSettingsView: View {
             }
         }
     }
+    #endif
 
     private var languageSection: some View {
         Section(AppLocalization.string("ภาษา")) {
@@ -196,8 +201,10 @@ struct AlertSettingsView: View {
                 Text(appVersion)
                     .foregroundStyle(.secondary)
             }
+            #if DEBUG
             .contentShape(.rect)
             .onTapGesture(perform: handleVersionTap)
+            #endif
         }
     }
 
@@ -233,6 +240,7 @@ struct AlertSettingsView: View {
         openURL(url)
     }
 
+    #if DEBUG
     private func handleVersionTap() {
         let now = Date()
         if let lastTap = lastTapTime, now.timeIntervalSince(lastTap) > 2.0 {
@@ -251,6 +259,7 @@ struct AlertSettingsView: View {
             HapticFeedback.selection()
         }
     }
+    #endif
 }
 
 private struct AlertDeliveryModeSelectionView: View {
@@ -350,7 +359,7 @@ private struct AlertPermissionDetailsView: View {
                         AppLocalization.string("สิทธิ์"),
                         value: store.prominentAlarmReady
                             ? AppLocalization.string("อนุญาต")
-                            : AppLocalization.string("ยังไม่ได้อนุญาต"),
+                            : AppLocalization.string("ยังไม่อนุญาต"),
                         isEnabled: store.prominentAlarmReady
                     )
                 }
@@ -413,6 +422,7 @@ private struct AlertPermissionDetailsView: View {
     }
 }
 
+#if DEBUG
 private struct DeveloperToolsView: View {
     @Environment(\.dismiss) private var dismiss
     @Bindable var store: TripStore
@@ -548,3 +558,4 @@ private struct DeveloperToolsView: View {
         .environment(\.locale, appLanguage.locale)
     }
 }
+#endif
