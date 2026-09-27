@@ -113,3 +113,71 @@ Make your daily commute restful and worry-free. Download NapNav today and nap wi
 4. **รูปที่ 4 - หน้าจัดการสถานที่โปรดและประวัติ (Favorites & History)**
    - *ข้อความพาดหัว:* "บันทึกสถานที่โปรด เริ่มเดินทางได้ในสัมผัสเดียว"
    - *หน้าจอ:* รายการสถานีโปรด เช่น "บ้าน", "ที่ทำงาน", "BTS อโศก"
+
+---
+
+## 7. App Review Information (ข้อมูลสำหรับเจ้าหน้าที่ Apple Reviewer)
+
+> **นำข้อความด้านล่างนี้ไปวางในช่อง "Notes" ใต้หัวข้อ "App Review Information" ใน App Store Connect**
+
+```text
+Hello Apple App Review Team,
+
+Thank you for reviewing NapNav!
+
+NapNav is an on-device, location-based proximity alarm designed to help public transit commuters rest without missing their stop.
+
+Key Testing Notes:
+1. No Login Required: The app functions immediately without any user authentication, sign-up, or third-party accounts.
+2. Background Location Usage: NapNav uses 'When In Use' location authorization coupled with the background location capability (UIBackgroundModes: location). This is required strictly to calculate the distance between the commuter and their destination while the screen is locked, firing the alarm when crossing the preset geofence perimeter. No background location is collected when a trip is not active.
+3. How to Test Arrival Alarm:
+   - Method A (Simulated GPX Route): In Xcode, simulate location using any of the GPX test files provided in the repository (e.g. TestRoutes/approach-destination.gpx).
+   - Method B (Physical On-Device Test): 
+     a. Grant Location and Notification permissions.
+     b. Search or drop a pin at a landmark ~300-500 meters from your current location.
+     c. Select alert radius (e.g. 500m).
+     d. Tap "Start Trip".
+     e. Because you are already within or approaching the perimeter, the alarm trigger will activate promptly, demonstrating the alarm sound, haptic feedback, and Live Activity / Dynamic Island presentation.
+4. Contact: If you need any clarification or assistance during review, please reach out via email: techin.cr@gmail.com.
+
+Best regards,
+Techin
+```
+
+---
+
+## 8. App Privacy Questionnaire (แบบสอบถามความเป็นส่วนตัวใน App Store Connect)
+
+เมื่อ Apple ถามในแท็บ **App Privacy**:
+
+1. **Do you or your third-party partners collect data from this app?**
+   - ตอบ: **Yes** (เพราะมีการใช้พิกัดตำแหน่งในเครื่อง)
+2. **Data Types ที่เลือก:**
+   - ติ๊กเลือกเฉพาะ: **Location** -> **Precise Location** และ **Coarse Location**
+3. **การใช้งานพิกัด (Usage Purpose):**
+   - ติ๊กเลือก: **App Functionality** (การทำงานของแอป)
+4. **Is this data linked to the user's identity?**
+   - ตอบ: **No** (ไม่มีการผูกโยงกับตัวตนผู้ใช้)
+5. **Do you use this data for tracking purposes?**
+   - ตอบ: **No** (ไม่มีการสะกดรอยข้ามแอป/เว็บไซต์)
+
+---
+
+## 9. Age Rating (การจัดเรตติ้งอายุ)
+
+ตอบคำถามในแบบสอบถามเรตติ้งอายุของ Apple ทุกข้อเป็น **"None" / "No"**:
+- ไม่มีเนื้อหารุนแรง, ไม่มีคำหยาบ, ไม่มีการพนัน, ไม่มีการจำหน่ายแอลกอฮอล์/บุหรี่, ไม่มีการเข้าถึงเว็บเบราว์เซอร์อิสระ
+- **ผลลัพธ์เรตติ้งที่ได้:** **4+ (เหมาะสำหรับทุกวัย)**
+
+---
+
+## 10. General App Information (ข้อมูลทั่วไปของแอป)
+
+* **Primary Category (หมวดหมู่หลัก):** Navigation (การนำทาง) หรือ Travel (การเดินทาง)
+* **Secondary Category (หมวดหมู่รอง):** Utilities (เครื่องมืออำนวยความสะดวก)
+* **Price (ราคา):** Free (ฟรี)
+* **Availability (พื้นที่จำหน่าย):** All Countries and Regions (ทั่วโลก) หรือเฉพาะ Thailand ตามต้องการ
+* **Copyright:** `2026 Techin`
+* **Trade Representative Contact:** กรอกชื่อ-นามสกุล ที่อยู่ และเบอร์โทรศัพท์ของตนเอง
+* **Export Compliance (การปฏิบัติตามกฎหมายการส่งออก):**
+  - ตัวแอปมีคีย์ `ITSAppUsesNonExemptEncryption = NO` ใน `Info.plist` แล้ว ระบบจะไม่ถามคำถามเรื่องการเข้ารหัสซ้ำซ้อน
