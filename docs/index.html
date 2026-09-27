@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NapNav - ปลุกเตือนตามพิกัดสำหรับคนเดินทาง</title>
-    <meta name="description" content="NapNav แอพแจ้งเตือนพิกัดจุดหมายสำหรับคนเดินทาง งีบหลับสบายบนรถเมล์ รถไฟฟ้า ไม่ต้องกลัวเลยป้าย">
+    <meta name="description" content="NapNav แอพแจ้งเตือนพิกัดจุดหมายสำหรับคนเดินทาง งีบหลับสบายบนรถเมล์ รถไฟฟ้า ไม่ต้องกังวลเรื่องเลยป้าย">
     <link rel="icon" type="image/png" href="app-icon.png">
     <style>
         :root {
@@ -42,18 +42,40 @@
             color: var(--text-main);
             background-color: var(--bg);
             margin: 0;
-            padding: 40px 16px;
+            padding: 32px 16px;
             display: flex;
             justify-content: center;
         }
         .container {
-            max-width: 680px;
+            max-width: 700px;
             width: 100%;
             background: var(--card-bg);
-            padding: 44px 32px;
+            padding: 36px 32px 40px;
             border-radius: 24px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
             text-align: center;
+        }
+        .lang-switch {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+        .lang-btn {
+            background: none;
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--text-sub);
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .lang-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
         }
         .app-icon-img {
             width: 96px;
@@ -74,6 +96,7 @@
             color: var(--text-sub);
             margin-bottom: 28px;
             font-weight: 400;
+            line-height: 1.5;
         }
         .features {
             text-align: left;
@@ -83,7 +106,7 @@
             padding: 24px;
             margin: 28px 0 32px 0;
             display: grid;
-            gap: 16px;
+            gap: 18px;
         }
         .feature-item {
             display: flex;
@@ -99,12 +122,12 @@
             display: block;
             font-size: 15px;
             color: var(--text-main);
-            margin-bottom: 2px;
+            margin-bottom: 3px;
         }
         .feature-item .text span {
             font-size: 13.5px;
             color: var(--text-sub);
-            line-height: 1.45;
+            line-height: 1.5;
         }
         .links-btn {
             display: flex;
@@ -161,52 +184,110 @@
 </head>
 <body>
 <div class="container">
+    <div class="lang-switch">
+        <button id="btn-th" class="lang-btn active" onclick="setLanguage('th')">🇹🇭 ภาษาไทย</button>
+        <button id="btn-en" class="lang-btn" onclick="setLanguage('en')">🇬🇧 English</button>
+    </div>
+
     <img src="app-icon.png" alt="NapNav Icon" class="app-icon-img">
     <h1>NapNav</h1>
-    <div class="tagline">งีบหลับสบายบนรถเมล์ รถไฟฟ้า ไม่ต้องกลัวเลยป้าย<br><small style="font-size: 14px; opacity: 0.85;">Transit Location-Based Alarm for iOS</small></div>
 
-    <div class="features">
-        <div class="feature-item">
-            <div class="icon">📍</div>
-            <div class="text">
-                <strong>ปลุกตรงจุดตามระยะจริง (Proximity Alert)</strong>
-                <span>ตั้งระยะเตือนล่วงหน้าได้ตามต้องการ เช่น 500 ม., 1 กม., 2 กม. พร้อมระบบกรอง GPS ป้องกันการปลุกผิดพลาด</span>
+    <!-- THAI CONTENT -->
+    <div id="content-th">
+        <div class="tagline">งีบหลับสบายบนรถเมล์ รถไฟฟ้า ไม่ต้องกังวลเรื่องเลยป้าย<br><small style="font-size: 14px; opacity: 0.85;">แอปปลุกเตือนตามพิกัดจุดหมายสำหรับ iOS</small></div>
+
+        <div class="features">
+            <div class="feature-item">
+                <div class="icon">📍</div>
+                <div class="text">
+                    <strong>ปลุกตรงจุดตามระยะจริง (Proximity Alert)</strong>
+                    <span>อยากให้เตือนก่อนถึง 500 ม., 1 กม. หรือ 2 กม. ก็ปรับได้ตามใจ พร้อมระบบกรองพิกัดอัจฉริยะ ป้องกันการเตือนพลาดแม้สัญญาณ GPS สวิง</span>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="icon">⏰</div>
+                <div class="text">
+                    <strong>ตื่นชัวร์ด้วยโหมดเตือนคู่ Use Both (AlarmKit + Notification)</strong>
+                    <span>ผสานเสียงปลุกฉุกเฉินเข้ากับแบนเนอร์แจ้งเตือน แม้คุณจะเปิดโหมดปิดเสียงหรือโฟกัสห้ามรบกวนไว้ ก็ยังปลุกให้ตื่นได้แน่นอน</span>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="icon">🏝️</div>
+                <div class="text">
+                    <strong>เหลือบมองง่ายผ่าน Live Activities & Dynamic Island</strong>
+                    <span>ก้มมองหน้าจอ Lock Screen หรือเกาะ Dynamic Island ก็รู้ระยะห่างและเวลาที่เหลือได้ทันที โดยไม่ต้องปลดล็อกเปิดจอ</span>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="icon">🔋</div>
+                <div class="text">
+                    <strong>ถนอมแบตเตอรี่ด้วยระบบจัดสรรพลังงาน</strong>
+                    <span>ตอนยังอยู่ไกล ระบบจะตรวจจับตำแหน่งแบบประหยัดพลังงาน และจะเริ่มใช้ความแม่นยำสูงเมื่อเริ่มเข้าใกล้รัศมีที่คุณตั้งไว้เท่านั้น</span>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="icon">🔒</div>
+                <div class="text">
+                    <strong>มั่นใจเรื่องความเป็นส่วนตัว 100% (Privacy-First)</strong>
+                    <span>พิกัดทั้งหมดคำนวณบนเครื่องของคุณเท่านั้น ไม่บันทึกประวัติการเดินทาง และไม่เคยส่งข้อมูลตำแหน่งออกไปยังเซิร์ฟเวอร์ภายนอก</span>
+                </div>
             </div>
         </div>
-        <div class="feature-item">
-            <div class="icon">⏰</div>
-            <div class="text">
-                <strong>โหมดเตือนคู่ Use Both (AlarmKit + Notification)</strong>
-                <span>ผสานระบบนาฬิกาปลุกฉุกเฉินและแบนเนอร์แจ้งเตือน ปลุกตื่นแน่นอนแม้เปิดโหมดปิดเสียงหรือโฟกัสห้ามรบกวน</span>
-            </div>
-        </div>
-        <div class="feature-item">
-            <div class="icon">🏝️</div>
-            <div class="text">
-                <strong>Live Activities & Dynamic Island</strong>
-                <span>เช็กระยะทางและเวลาที่เหลือได้จากหน้าจอล็อค (Lock Screen) ได้ตลอดเวลาโดยไม่ต้องปลดล็อกเปิดจอ</span>
-            </div>
-        </div>
-        <div class="feature-item">
-            <div class="icon">🔋</div>
-            <div class="text">
-                <strong>ประหยัดพลังงาน (Energy Efficient)</strong>
-                <span>อัลกอริทึมจัดการความถี่ GPS อัจฉริยะตามระยะห่างจริง ช่วยถนอมแบตเตอรี่ขณะเดินทางไกล</span>
-            </div>
-        </div>
-        <div class="feature-item">
-            <div class="icon">🔒</div>
-            <div class="text">
-                <strong>100% Privacy-First</strong>
-                <span>ประมวลผลพิกัดทั้งหมดบนเครื่องของคุณเท่านั้น ไม่มีการส่งข้อมูลตำแหน่งออกภายนอก และไม่มีการติดตามใดๆ</span>
-            </div>
+
+        <div class="links-btn">
+            <a class="btn" href="privacy.html">🛡️ นโยบายความเป็นส่วนตัว</a>
+            <a class="btn secondary" href="support.html">❓ ศูนย์ช่วยเหลือและคำถามที่พบบ่อย</a>
+            <a class="btn secondary" href="https://github.com/Telnwza/NapNav">🐙 GitHub</a>
         </div>
     </div>
 
-    <div class="links-btn">
-        <a class="btn" href="privacy.html">🛡️ นโยบายความเป็นส่วนตัว (Privacy)</a>
-        <a class="btn secondary" href="support.html">❓ ศูนย์ช่วยเหลือ (Support)</a>
-        <a class="btn secondary" href="https://github.com/Telnwza/NapNav">🐙 GitHub</a>
+    <!-- ENGLISH CONTENT -->
+    <div id="content-en" style="display: none;">
+        <div class="tagline">Nap comfortably on trains and buses without missing your stop.<br><small style="font-size: 14px; opacity: 0.85;">Transit Location-Based Alarm for iOS</small></div>
+
+        <div class="features">
+            <div class="feature-item">
+                <div class="icon">📍</div>
+                <div class="text">
+                    <strong>Precise Proximity Alerts</strong>
+                    <span>Set your preferred alert radius (500m, 1km, 2km, or custom slider). Smart geofencing filters out GPS jitter for dependable arrival wake-ups.</span>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="icon">⏰</div>
+                <div class="text">
+                    <strong>Double Wake-Up with 'Use Both'</strong>
+                    <span>Combines prominent emergency alarms (AlarmKit on supported iOS) with banners. Rings through Silent Mode and Focus filters so you never oversleep.</span>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="icon">🏝️</div>
+                <div class="text">
+                    <strong>Live Activities & Dynamic Island</strong>
+                    <span>Glance at remaining distance and travel progress right on your Lock Screen without unlocking your iPhone.</span>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="icon">🔋</div>
+                <div class="text">
+                    <strong>Battery-Efficient Tracking</strong>
+                    <span>Adaptive GPS tracking conserves battery while you are far away, automatically switching to high precision as you approach your stop.</span>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="icon">🔒</div>
+                <div class="text">
+                    <strong>100% Privacy by Design</strong>
+                    <span>All location data is processed locally on your device in real time. Zero tracking, no remote servers, and no personal data collection.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="links-btn">
+            <a class="btn" href="privacy.html">🛡️ Privacy Policy</a>
+            <a class="btn secondary" href="support.html">❓ Help & Support (FAQ)</a>
+            <a class="btn secondary" href="https://github.com/Telnwza/NapNav">🐙 GitHub</a>
+        </div>
     </div>
 
     <footer>
@@ -218,5 +299,23 @@
         </div>
     </footer>
 </div>
+
+<script>
+    function setLanguage(lang) {
+        document.getElementById('content-th').style.display = lang === 'th' ? 'block' : 'none';
+        document.getElementById('content-en').style.display = lang === 'en' ? 'block' : 'none';
+        document.getElementById('btn-th').classList.toggle('active', lang === 'th');
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        localStorage.setItem('napnav_lang', lang);
+    }
+
+    // Auto-restore language preference if set
+    (function() {
+        var saved = localStorage.getItem('napnav_lang');
+        if (saved && (saved === 'th' || saved === 'en')) {
+            setLanguage(saved);
+        }
+    })();
+</script>
 </body>
 </html>

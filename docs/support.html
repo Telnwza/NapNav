@@ -4,25 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="app-icon.png">
-    <title>NapNav Support & Help</title>
+    <title>NapNav Support & FAQ</title>
     <style>
         :root {
             --primary: #10B981;
-            --bg: #f2f2f7;
+            --primary-dark: #059669;
+            --secondary: #A7F3D0;
+            --bg: #f5f5f7;
             --card-bg: #ffffff;
-            --text-main: #1c1c1e;
-            --text-sub: #636366;
+            --text-main: #1d1d1f;
+            --text-sub: #6e6e73;
             --border: #e5e5ea;
+            --card-inner: rgba(16, 185, 129, 0.08);
+            --btn-text: #ffffff;
         }
         @media (prefers-color-scheme: dark) {
             :root {
                 --primary: #34D399;
+                --primary-dark: #10B981;
+                --secondary: #065F46;
                 --bg: #000000;
                 --card-bg: #1c1c1e;
-                --text-main: #f2f2f7;
-                --text-sub: #aeaeb2;
+                --text-main: #f5f5f7;
+                --text-sub: #86868b;
                 --border: #38383a;
+                --card-inner: rgba(52, 211, 153, 0.12);
+                --btn-text: #062b1e;
             }
+        }
+        * {
+            box-sizing: border-box;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -30,109 +41,233 @@
             color: var(--text-main);
             background-color: var(--bg);
             margin: 0;
-            padding: 24px 16px;
+            padding: 32px 16px;
         }
         .container {
             max-width: 760px;
             margin: 0 auto;
             background: var(--card-bg);
-            padding: 36px 32px;
-            border-radius: 18px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            padding: 36px 32px 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+        }
+        .lang-switch {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .lang-btn {
+            background: none;
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--text-sub);
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .lang-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
         }
         h1 {
             color: var(--primary);
             font-size: 26px;
             margin-top: 0;
             margin-bottom: 8px;
+            letter-spacing: -0.3px;
         }
         .subtitle {
             color: var(--text-sub);
             font-size: 15px;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
         .faq-item {
-            margin-bottom: 20px;
-            padding-bottom: 16px;
+            margin-bottom: 22px;
+            padding-bottom: 18px;
             border-bottom: 1px solid var(--border);
+        }
+        .faq-item:last-of-type {
+            border-bottom: none;
+            padding-bottom: 8px;
         }
         .faq-question {
             font-weight: 600;
-            font-size: 16px;
+            font-size: 16.5px;
             color: var(--text-main);
-            margin-bottom: 6px;
+            margin-bottom: 8px;
+            line-height: 1.4;
         }
         .faq-answer {
             font-size: 14.5px;
             color: var(--text-sub);
             margin: 0;
+            line-height: 1.6;
         }
         .contact-box {
-            background-color: rgba(16, 185, 129, 0.08);
+            background-color: var(--card-inner);
             border: 1px solid rgba(16, 185, 129, 0.25);
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 14px;
+            padding: 24px 20px;
             margin-top: 32px;
             text-align: center;
         }
         .contact-box h3 {
             margin: 0 0 8px 0;
             color: var(--primary);
+            font-size: 18px;
         }
         .btn {
             display: inline-block;
             background: var(--primary);
-            color: #ffffff;
-            padding: 10px 20px;
-            border-radius: 20px;
+            color: var(--btn-text);
+            padding: 11px 22px;
+            border-radius: 24px;
             text-decoration: none;
             font-weight: 600;
             font-size: 14px;
-            margin-top: 12px;
+            margin-top: 14px;
+            transition: all 0.2s ease;
+        }
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
         }
         .footer-links {
-            margin-top: 32px;
+            margin-top: 36px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
             text-align: center;
             font-size: 13px;
+            color: var(--text-sub);
         }
         .footer-links a {
             color: var(--primary);
             text-decoration: none;
-            margin: 0 10px;
+            margin: 0 8px;
+        }
+        .footer-links a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>NapNav Support & FAQ</h1>
-    <div class="subtitle">ศูนย์ช่วยเหลือและคำถามที่พบบ่อยสำหรับผู้ใช้งาน NapNav</div>
-
-    <div class="faq-item">
-        <div class="faq-question">1. ทำไมแอปต้องขอสิทธิ์ตำแหน่ง (Location) แบบ Always?</div>
-        <p class="faq-answer">เพื่อให้แอปสามารถคำนวณระยะทางและส่งสัญญาณเตือนได้แม้ในขณะที่คุณล็อกหน้าจอ หรือเปิดใช้งานแอปอื่นระหว่างเดินทาง</p>
+    <div class="lang-switch">
+        <button id="btn-th" class="lang-btn active" onclick="setLanguage('th')">🇹🇭 ภาษาไทย</button>
+        <button id="btn-en" class="lang-btn" onclick="setLanguage('en')">🇬🇧 English</button>
     </div>
 
-    <div class="faq-item">
-        <div class="faq-question">2. สัญญาณเตือนแบบ "Use Both" ทำงานอย่างไร?</div>
-        <p class="faq-answer">เป็นการทำงานร่วมกันระหว่างนาฬิกาปลุกเสียงเด่นชัด (AlarmKit บนอุปกรณ์ที่รองรับ) และการแจ้งเตือนแบบแบนเนอร์ ช่วยให้คุณตื่นได้แน่นอนแม้ปิดเสียงโทรศัพท์ไว้</p>
+    <!-- THAI CONTENT -->
+    <div id="content-th">
+        <h1>ศูนย์ช่วยเหลือ &amp; คำถามที่พบบ่อย</h1>
+        <div class="subtitle">รวมคำตอบสำหรับทุกข้อสงสัยเกี่ยวกับการใช้งาน NapNav เพื่อให้คุณเดินทางได้อุ่นใจที่สุด</div>
+
+        <div class="faq-item">
+            <div class="faq-question">1. ทำไม NapNav ต้องขอสิทธิ์ตำแหน่ง (Location) แบบ "ตลอดเวลา" (Always)?</div>
+            <p class="faq-answer">เพื่อให้แอปยังคอยเฝ้าพิกัดและส่งเสียงปลุกคุณได้ตรงเวลา แม้ในขณะที่คุณล็อคหน้าจอนอนหลับ หรือสลับไปเปิดแอปอื่นระหว่างเดินทาง โดยพิกัดจะถูกนำมาคำนวณระยะทางบนเครื่องของคุณเท่านั้น ไม่เคยมีการส่งข้อมูลออกนอกเครื่องครับ</p>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">2. โหมดเตือนคู่ "Use Both" ทำงานอย่างไร และดีกว่าโหมดยังไง?</div>
+            <p class="faq-answer">Use Both รวมจุดเด่นของ <strong>ระบบเสียงปลุกฉุกเฉิน (AlarmKit)</strong> เข้ากับ <strong>การแจ้งเตือนสั่นสะเทือน (Notification)</strong> ทำให้ต่อให้คุณเผลอเปิดสวิตช์ปิดเสียงเครื่อง (Silent Switch) หรือเปิดโฟกัสห้ามรบกวน (Do Not Disturb) เอาไว้ เสียงปลุกก็ยังดังทะลุออกมาปลุกให้คุณตื่นได้ทันแน่นอน</p>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">3. เปิดระบบตรวจจับตำแหน่งแบบนี้ จะกินแบตเตอรี่ไหม?</div>
+            <p class="faq-answer">ไม่กินแบตเตอรี่อย่างที่คิดครับ เพราะ NapNav ออกแบบให้จัดสรรพลังงานแบบอัจฉริยะ ตอนที่คุณยังอยู่ไกลจากจุดหมาย ระบบจะรับสัญญาณ GPS แบบประหยัดพลังงานเป็นระยะ และจะเริ่มใช้ความแม่นยำสูงเมื่อระยะทางเริ่มงวดเข้าใกล้รัศมีที่คุณตั้งไว้เท่านั้น</p>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">4. ถ้าเครื่องดับ หรือเผลอปิดแอปไปกลางทาง จะทำอย่างไร?</div>
+            <p class="faq-answer">NapNav มีระบบจดจำสถานะฉุกเฉิน (Startup Recovery) เมื่อคุณเปิดเครื่องหรือเปิดแอปขึ้นมาใหม่ ระบบจะตรวจพบว่ามีทริปที่ยังเดินทางค้างอยู่ และขึ้นหน้าจอให้คุณแตะเดินทางต่อได้ทันทีโดยไม่ต้องค้นหาปลายทางใหม่</p>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">5. บันทึกสถานที่ที่ไปบ่อย หรือปรับรัศมีเตือนตรงไหน?</div>
+            <p class="faq-answer">ก่อนเริ่มเดินทาง คุณสามารถเลื่อนแถบเพื่อเลือกระยะเตือนล่วงหน้าได้ตามต้องการ (เช่น 500 ม., 1 กม. หรือปรับแบบละเอียด) และสามารถกดไอคอนรูปหัวใจเพื่อเซฟเก็บไว้เป็น "สถานที่โปรด" (Favorites) เช่น บ้าน หรือที่ทำงาน ให้แตะเริ่มทางได้ทันทีในครั้งถัดไป</p>
+        </div>
+
+        <div class="contact-box">
+            <h3>พบปัญหาการใช้งาน หรือมีข้อเสนอแนะ?</h3>
+            <p style="margin: 0; font-size: 14px; color: var(--text-sub);">คุณสามารถส่งรายงานข้อผิดพลาด (Bug Report) หรือแนะนำไอเดียฟีเจอร์ใหม่ให้กับผู้พัฒนาได้โดยตรงผ่าน GitHub Issues</p>
+            <a class="btn" href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">เปิดแจ้งปัญหาบน GitHub Issues</a>
+        </div>
+
+        <div class="footer-links">
+            <a href="index.html">หน้าแรก (Home)</a>
+            <span>•</span>
+            <a href="privacy.html">นโยบายความเป็นส่วนตัว (Privacy Policy)</a>
+            <span>•</span>
+            <a href="https://github.com/Telnwza/NapNav">GitHub Repository</a>
+        </div>
     </div>
 
-    <div class="faq-item">
-        <div class="faq-question">3. แอปกินแบตเตอรี่มากไหม?</div>
-        <p class="faq-answer">NapNav ใช้ระบบ Smart Geofencing และตรวจจับการเคลื่อนไหว เมื่อคุณยังอยู่ห่างจากจุดหมาย ระบบจะปรับการตรวจจับตำแหน่งเป็นแบบประหยัดพลังงาน และจะเริ่มตรวจสอบความแม่นยำสูงเมื่อเข้าใกล้รัศมีที่กำหนดเท่านั้น</p>
-    </div>
+    <!-- ENGLISH CONTENT -->
+    <div id="content-en" style="display: none;">
+        <h1>Support &amp; FAQ</h1>
+        <div class="subtitle">Frequently asked questions and guides to help you travel worry-free with NapNav.</div>
 
-    <div class="contact-box">
-        <h3>ต้องการความช่วยเหลือเพิ่มเติมหรือพบปัญหา?</h3>
-        <p style="margin: 0; font-size: 14px; color: var(--text-sub);">คุณสามารถส่งรายงานข้อผิดพลาดหรือข้อเสนอแนะฟีเจอร์ใหม่ได้ผ่าน GitHub Issues</p>
-        <a class="btn" href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">เปิดข้อความแจ้งปัญหา (GitHub Issues)</a>
-    </div>
+        <div class="faq-item">
+            <div class="faq-question">1. Why does NapNav require "Always" location permission?</div>
+            <p class="faq-answer">This permission allows the app to monitor your location and fire the alarm when you enter your target zone, even while your screen is locked or you have switched to another app. All GPS coordinates remain strictly on your iPhone and are never uploaded to any server.</p>
+        </div>
 
-    <div class="footer-links">
-        <a href="privacy.html">นโยบายความเป็นส่วนตัว (Privacy Policy)</a>
-        <span>•</span>
-        <a href="https://github.com/Telnwza/NapNav">GitHub Repository</a>
+        <div class="faq-item">
+            <div class="faq-question">2. How does the "Use Both" alert mode work?</div>
+            <p class="faq-answer">Use Both combines prominent emergency alarms (AlarmKit on supported iOS) with standard notifications and haptics. It is designed to sound through the Silent switch and Focus filters, ensuring you wake up even from deep sleep.</p>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">3. Does continuous background tracking drain battery life?</div>
+            <p class="faq-answer">NapNav uses adaptive location management. While you are far from your destination, it runs in a low-power mode with reduced GPS frequency. It only ramps up to high accuracy as you approach your alert perimeter, keeping battery impact minimal.</p>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">4. What happens if my iPhone restarts or the app terminates mid-journey?</div>
+            <p class="faq-answer">NapNav includes an automatic Startup Recovery system. When reopened, the app recognizes your active trip and prompts you to resume tracking with a single tap, without re-entering your destination.</p>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">5. How do I change the alert radius or save favorite destinations?</div>
+            <p class="faq-answer">When choosing your destination, select a preset radius (500m, 1km, 2km) or drag the custom distance slider. Tap the heart icon on any destination card to save it to your Favorites (like Home or Office) for quick one-tap starts.</p>
+        </div>
+
+        <div class="contact-box">
+            <h3>Need further help or found a bug?</h3>
+            <p style="margin: 0; font-size: 14px; color: var(--text-sub);">Feel free to report issues or suggest new features directly on our public GitHub repository.</p>
+            <a class="btn" href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">Open an Issue on GitHub</a>
+        </div>
+
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <span>•</span>
+            <a href="privacy.html">Privacy Policy</a>
+            <span>•</span>
+            <a href="https://github.com/Telnwza/NapNav">GitHub Repository</a>
+        </div>
     </div>
 </div>
+
+<script>
+    function setLanguage(lang) {
+        document.getElementById('content-th').style.display = lang === 'th' ? 'block' : 'none';
+        document.getElementById('content-en').style.display = lang === 'en' ? 'block' : 'none';
+        document.getElementById('btn-th').classList.toggle('active', lang === 'th');
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        localStorage.setItem('napnav_lang', lang);
+    }
+
+    // Auto-restore language preference if set
+    (function() {
+        var saved = localStorage.getItem('napnav_lang');
+        if (saved && (saved === 'th' || saved === 'en')) {
+            setLanguage(saved);
+        }
+    })();
+</script>
 </body>
 </html>

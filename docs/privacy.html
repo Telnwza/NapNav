@@ -8,21 +8,32 @@
     <style>
         :root {
             --primary: #10B981;
-            --bg: #f2f2f7;
+            --primary-dark: #059669;
+            --secondary: #A7F3D0;
+            --bg: #f5f5f7;
             --card-bg: #ffffff;
-            --text-main: #1c1c1e;
-            --text-sub: #636366;
+            --text-main: #1d1d1f;
+            --text-sub: #6e6e73;
             --border: #e5e5ea;
+            --card-inner: rgba(16, 185, 129, 0.08);
+            --btn-text: #ffffff;
         }
         @media (prefers-color-scheme: dark) {
             :root {
                 --primary: #34D399;
+                --primary-dark: #10B981;
+                --secondary: #065F46;
                 --bg: #000000;
                 --card-bg: #1c1c1e;
-                --text-main: #f2f2f7;
-                --text-sub: #aeaeb2;
+                --text-main: #f5f5f7;
+                --text-sub: #86868b;
                 --border: #38383a;
+                --card-inner: rgba(52, 211, 153, 0.12);
+                --btn-text: #062b1e;
             }
+        }
+        * {
+            box-sizing: border-box;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -30,20 +41,20 @@
             color: var(--text-main);
             background-color: var(--bg);
             margin: 0;
-            padding: 24px 16px;
+            padding: 32px 16px;
         }
         .container {
             max-width: 760px;
             margin: 0 auto;
             background: var(--card-bg);
-            padding: 36px 32px;
-            border-radius: 18px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            padding: 36px 32px 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
         }
         .lang-switch {
             display: flex;
             justify-content: flex-end;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 20px;
         }
         .lang-btn {
@@ -55,6 +66,7 @@
             font-size: 13px;
             color: var(--text-sub);
             font-weight: 500;
+            transition: all 0.2s ease;
         }
         .lang-btn.active {
             background: var(--primary);
@@ -66,6 +78,7 @@
             font-size: 26px;
             margin-top: 0;
             margin-bottom: 8px;
+            letter-spacing: -0.3px;
         }
         .updated-date {
             color: var(--text-sub);
@@ -73,29 +86,37 @@
             margin-bottom: 24px;
         }
         .highlight-box {
-            background-color: rgba(16, 185, 129, 0.08);
+            background-color: var(--card-inner);
             border-left: 4px solid var(--primary);
-            padding: 14px 18px;
-            border-radius: 0 10px 10px 0;
+            padding: 16px 20px;
+            border-radius: 0 12px 12px 0;
             margin: 20px 0;
-            font-size: 14.5px;
+            font-size: 15px;
+            line-height: 1.6;
         }
         h2 {
             font-size: 18px;
             margin-top: 28px;
             margin-bottom: 12px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 8px;
-        }
-        p, li {
-            font-size: 15px;
             color: var(--text-main);
         }
         ul {
             padding-left: 20px;
+            margin: 0 0 16px 0;
         }
         li {
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            font-size: 14.5px;
+            color: var(--text-sub);
+            line-height: 1.6;
+        }
+        li strong {
+            color: var(--text-main);
+        }
+        p {
+            font-size: 14.5px;
+            color: var(--text-sub);
+            line-height: 1.6;
         }
         a {
             color: var(--primary);
@@ -106,89 +127,95 @@
         }
         footer {
             margin-top: 36px;
-            padding-top: 16px;
+            padding-top: 20px;
             border-top: 1px solid var(--border);
+            text-align: center;
             font-size: 13px;
             color: var(--text-sub);
-            text-align: center;
+        }
+        footer a {
+            margin: 0 8px;
         }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="lang-switch">
-        <button class="lang-btn active" id="btn-th" onclick="setLanguage('th')">ภาษาไทย</button>
-        <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">English</button>
+        <button id="btn-th" class="lang-btn active" onclick="setLanguage('th')">🇹🇭 ภาษาไทย</button>
+        <button id="btn-en" class="lang-btn" onclick="setLanguage('en')">🇬🇧 English</button>
     </div>
 
-    <!-- Thai Content -->
+    <!-- THAI CONTENT -->
     <div id="content-th">
         <h1>นโยบายความเป็นส่วนตัว (Privacy Policy)</h1>
-        <div class="updated-date">แอปพลิเคชัน NapNav • อัปเดตล่าสุด: กันยายน 2026</div>
+        <div class="updated-date">แอปพลิเคชัน NapNav &bull; อัปเดตล่าสุด: กันยายน 2026</div>
 
         <div class="highlight-box">
-            <strong>หัวใจสำคัญด้านความเป็นส่วนตัว:</strong> NapNav พัฒนาขึ้นโดยยึดหลัก <strong>Privacy by Design</strong> ไม่มีการเก็บข้อมูลส่วนบุคคล ไม่มีการติดตามพฤติกรรม (No Tracking 100%) และประมวลผลข้อมูลตำแหน่งบนอุปกรณ์ของผู้ใช้โดยตรง
+            <strong>หัวใจสำคัญด้านความเป็นส่วนตัว:</strong> NapNav พัฒนาขึ้นโดยยึดหลัก <strong>Privacy by Design</strong> ไม่มีการเก็บข้อมูลส่วนบุคคล ไม่มีการสะกดรอยพฤติกรรม (Zero Tracking) และคำนวณตำแหน่งทั้งหมดบนเครื่องของคุณโดยตรง
         </div>
 
         <h2>1. ข้อมูลที่เราใช้งานและวัตถุประสงค์</h2>
         <ul>
-            <li><strong>ข้อมูลตำแหน่งที่แม่นยำและโดยประมาณ (Precise & Coarse Location):</strong> แอปขอสิทธิ์เข้าถึงตำแหน่งเพื่อคำนวณระยะทางแบบเรียลไทม์ระหว่างจุดที่คุณอยู่กับจุดหมายปลายทาง เพื่อทำการปลุกหรือแจ้งเตือนเมื่อคุณเข้าสู่รัศมีที่ตั้งไว้ ข้อมูลพิกัด GPS ทั้งหมดจะถูกประมวลผลในหน่วยความจำชั่วคราวของอุปกรณ์เท่านั้น <strong>ไม่มีการบันทึกประวัติเส้นทาง และไม่มีการส่งข้อมูลพิกัดออกไปยังเซิร์ฟเวอร์ภายนอก</strong></li>
-            <li><strong>การแจ้งเตือนและระบบนาฬิกาปลุก (Notifications & AlarmKit):</strong> ใช้สำหรับส่งเสียงเตือนและการแสดงสถานะการเดินทางบนหน้าจอล็อก (Live Activities) เมื่อใกล้ถึงหรือถึงจุดหมายปลายทาง</li>
-            <li><strong>การจัดเก็บข้อมูลภายในเครื่อง (Local Storage):</strong> การตั้งค่าเสียง ตัวเลือกรัศมีการเตือน และรายชื่อสถานที่โปรด (Favorites) จะถูกบันทึกไว้ในพื้นที่หน่วยความจำของอุปกรณ์ (UserDefaults) เท่านั้น เพื่อความสะดวกในการใช้งานซ้ำ</li>
+            <li><strong>ข้อมูลตำแหน่งที่แม่นยำและโดยประมาณ (Precise &amp; Coarse Location):</strong> ขอสิทธิ์เข้าถึงพิกัดเฉพาะเพื่อคำนวณระยะทางแบบเรียลไทม์ระหว่างจุดที่คุณอยู่กับจุดหมาย และส่งสัญญาณปลุกเมื่อคุณเดินทางเข้าสู่รัศมีที่กำหนด โดยพิกัด GPS ทั้งหมดจะถูกประมวลผลในหน่วยความจำชั่วคราวบนเครื่องของคุณเท่านั้น <strong>ไม่มีการบันทึกประวัติเส้นทาง และไม่เคยส่งข้อมูลพิกัดออกไปยังเซิร์ฟเวอร์ภายนอก</strong></li>
+            <li><strong>การแจ้งเตือนและระบบนาฬิกาปลุก (Notifications &amp; AlarmKit):</strong> ใช้สำหรับส่งเสียงปลุก การสั่นเตือน และแสดงสถานะการเดินทางแบบสดบนหน้าจอล็อคและ Dynamic Island (Live Activities) เมื่อคุณใกล้ถึงหรือถึงปลายทาง</li>
+            <li><strong>การจัดเก็บข้อมูลภายในเครื่อง (Local Storage):</strong> ค่าการตั้งค่าเสียง รัศมีเตือนที่คุณเลือก และรายชื่อสถานที่โปรด (Favorites) จะถูกบันทึกไว้ในพื้นที่จัดเก็บของเครื่องคุณเอง (UserDefaults) เท่านั้น เพื่อความสะดวกรวดเร็วในการเดินทางครั้งต่อไป</li>
         </ul>
 
-        <h2>2. ไม่มีการติดตามและไม่มีบุคคลที่สาม (No Tracking & No Third-Parties)</h2>
+        <h2>2. ปลอดการสะกดรอย และไม่มีบุคคลที่สาม (No Tracking &amp; No Third-Parties)</h2>
         <ul>
-            <li>แอปไม่มีการติดตั้งระบบโฆษณา (Ad Networks) หรือชุดพัฒนาเครื่องมือเก็บข้อมูลสถิติของบุคคลภายนอก (Third-Party SDKs / Analytics)</li>
-            <li>แอปไม่มีการสร้างตัวระบุตัวตนของผู้ใช้ (User ID / Device Fingerprinting)</li>
-            <li>ไม่มีการขาย แลกเปลี่ยน หรือส่งต่อข้อมูลใดๆ ทั้งสิ้น</li>
+            <li>ไม่มีการฝังโค้ดโฆษณา (Ad Networks) หรือระบบวิเคราะห์สถิติจากภายนอก (Third-Party Analytics SDKs) ใดๆ ทั้งสิ้น</li>
+            <li>ไม่มีการสร้างรหัสประจำตัว หรือระบบตรวจจำเครื่อง (Device Fingerprinting)</li>
+            <li>ไม่มีการขาย แลกเปลี่ยน หรือเปิดเผยข้อมูลใดๆ ให้กับบุคคลภายนอกโดยเด็ดขาด</li>
         </ul>
 
-        <h2>3. สิทธิ์และการควบคุมของผู้ใช้</h2>
-        <p>คุณสามารถจัดการ เปิด หรือปิดสิทธิ์การเข้าถึงตำแหน่งและการแจ้งเตือนได้ตลอดเวลา โดยไปที่ <strong>การตั้งค่า (Settings) &gt; NapNav</strong> บนอุปกรณ์ iOS ของคุณ</p>
+        <h2>3. สิทธิ์และการจัดการข้อมูลของคุณ</h2>
+        <p>คุณสามารถตรวจสอบ ปรับเปลี่ยน หรือเพิกถอนสิทธิ์การเข้าถึงตำแหน่งและการแจ้งเตือนได้ทุกเมื่อ ผ่านเมนู <strong>การตั้งค่า (Settings) &gt; NapNav</strong> บน iPhone ของคุณ</p>
 
         <h2>4. ช่องทางติดต่อและบริการช่วยเหลือ (Support)</h2>
         <p>หากคุณมีคำถาม ข้อเสนอแนะ หรือต้องการความช่วยเหลือเกี่ยวกับการใช้งาน NapNav สามารถติดต่อทีมพัฒนาได้ที่:</p>
         <ul>
-            <li><strong>GitHub Repository & Issues:</strong> <a href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">https://github.com/Telnwza/NapNav/issues</a></li>
+            <li><strong>GitHub Repository &amp; Issues:</strong> <a href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">https://github.com/Telnwza/NapNav/issues</a></li>
         </ul>
     </div>
 
-    <!-- English Content -->
+    <!-- ENGLISH CONTENT -->
     <div id="content-en" style="display: none;">
         <h1>Privacy Policy</h1>
-        <div class="updated-date">NapNav Application • Last Updated: September 2026</div>
+        <div class="updated-date">NapNav Application &bull; Last Updated: September 2026</div>
 
         <div class="highlight-box">
             <strong>Core Privacy Principle:</strong> NapNav is built with <strong>Privacy by Design</strong>. We collect no personal data, implement zero user tracking, and perform all location processing locally on your device.
         </div>
 
-        <h2>1. Data Usage & Purpose</h2>
+        <h2>1. Data Usage &amp; Purpose</h2>
         <ul>
-            <li><strong>Precise & Coarse Location:</strong> Requested solely to compute real-time distance between your current location and your chosen destination, triggering alerts upon entering your selected radius. All GPS coordinates are processed entirely on-device in temporary memory. <strong>No route history is recorded, and no location data is ever transmitted to remote servers.</strong></li>
-            <li><strong>Notifications & AlarmKit:</strong> Used to deliver alerts, alarms, and Lock Screen / Dynamic Island updates (Live Activities) when approaching or arriving at your destination.</li>
-            <li><strong>On-Device Local Storage:</strong> Preferences, radius options, and saved places (Favorites) are stored strictly within on-device local storage (`UserDefaults`) for your convenience.</li>
+            <li><strong>Precise &amp; Coarse Location:</strong> Requested solely to compute real-time distance between your current location and your chosen destination, triggering alerts upon entering your selected radius. All GPS coordinates are processed entirely on-device in temporary memory. <strong>No route history is recorded, and no location data is ever transmitted to remote servers.</strong></li>
+            <li><strong>Notifications &amp; AlarmKit:</strong> Used to deliver alerts, alarms, and Lock Screen / Dynamic Island updates (Live Activities) when approaching or arriving at your destination.</li>
+            <li><strong>On-Device Local Storage:</strong> Preferences, radius options, and saved places (Favorites) are stored strictly within on-device local storage (UserDefaults) for your convenience.</li>
         </ul>
 
-        <h2>2. Zero Tracking & No Third-Party Analytics</h2>
+        <h2>2. Zero Tracking &amp; No Third-Party Analytics</h2>
         <ul>
             <li>No advertising networks, analytics frameworks, or tracking SDKs are embedded.</li>
             <li>No user identifiers or device fingerprinting are created or tracked.</li>
             <li>We do not sell, rent, or share any data with third parties.</li>
         </ul>
 
-        <h2>3. Your Rights & Control</h2>
+        <h2>3. Your Rights &amp; Control</h2>
         <p>You can revoke or adjust location and notification permissions at any time via <strong>Settings &gt; NapNav</strong> on your iOS device.</p>
 
-        <h2>4. Contact & Support</h2>
+        <h2>4. Contact &amp; Support</h2>
         <p>For questions, support, or feedback regarding NapNav, please reach out via:</p>
         <ul>
-            <li><strong>GitHub Repository & Issues:</strong> <a href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">https://github.com/Telnwza/NapNav/issues</a></li>
+            <li><strong>GitHub Repository &amp; Issues:</strong> <a href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">https://github.com/Telnwza/NapNav/issues</a></li>
         </ul>
     </div>
 
     <footer>
-        &copy; 2026 NapNav. All rights reserved.
+        <a href="index.html">Home</a> &bull;
+        <a href="support.html">Support</a> &bull;
+        <a href="https://github.com/Telnwza/NapNav">GitHub</a>
+        <div style="margin-top: 10px;">&copy; 2026 NapNav. All rights reserved.</div>
     </footer>
 </div>
 
@@ -198,7 +225,16 @@
         document.getElementById('content-en').style.display = lang === 'en' ? 'block' : 'none';
         document.getElementById('btn-th').classList.toggle('active', lang === 'th');
         document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        localStorage.setItem('napnav_lang', lang);
     }
+
+    // Auto-restore language preference if set
+    (function() {
+        var saved = localStorage.getItem('napnav_lang');
+        if (saved && (saved === 'th' || saved === 'en')) {
+            setLanguage(saved);
+        }
+    })();
 </script>
 </body>
 </html>
