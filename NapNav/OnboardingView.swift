@@ -513,15 +513,24 @@ struct OnboardingView: View {
 
     // MARK: - Privacy Notice
     private var privacySection: some View {
-        HStack(alignment: .center, spacing: 6) {
-            Image(systemName: "hand.raised.fill")
-                .font(.caption2)
-                .foregroundStyle(.secondary)
+        VStack(spacing: 6) {
+            HStack(alignment: .center, spacing: 6) {
+                Image(systemName: "hand.raised.fill")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
 
-            Text(AppLocalization.string("ประมวลผลตำแหน่งบนเครื่องเท่านั้น ไม่ส่งข้อมูลออกภายนอก"))
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
+                Text(AppLocalization.string("ประมวลผลตำแหน่งบนเครื่องเท่านั้น ไม่ส่งข้อมูลออกภายนอก"))
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+
+            Link(
+                AppLocalization.string("อ่านนโยบายความเป็นส่วนตัว"),
+                destination: URL(string: "https://telnwza.github.io/NapNav/privacy.html")!
+            )
+            .font(.caption2.weight(.semibold))
+            .foregroundStyle(AppTheme.primary)
         }
         .padding(.horizontal, 4)
     }

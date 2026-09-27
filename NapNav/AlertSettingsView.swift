@@ -142,6 +142,38 @@ struct AlertSettingsView: View {
                 Label(AppLocalization.string("แนะนำการใช้งาน"), systemImage: "sparkles")
             }
 
+            Link(destination: URL(string: "https://telnwza.github.io/NapNav/privacy.html")!) {
+                HStack {
+                    Label(
+                        AppLocalization.string("นโยบายความเป็นส่วนตัว"),
+                        systemImage: "hand.raised.fill"
+                    )
+                    .foregroundStyle(.primary)
+
+                    Spacer()
+
+                    Image(systemName: "arrow.up.forward")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                }
+            }
+
+            Link(destination: URL(string: "https://telnwza.github.io/NapNav/support.html")!) {
+                HStack {
+                    Label(
+                        AppLocalization.string("ศูนย์ช่วยเหลือและแจ้งปัญหา"),
+                        systemImage: "questionmark.circle.fill"
+                    )
+                    .foregroundStyle(.primary)
+
+                    Spacer()
+
+                    Image(systemName: "arrow.up.forward")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                }
+            }
+
             Link(destination: URL(string: "https://github.com/Telnwza/NapNav")!) {
                 HStack {
                     Label(

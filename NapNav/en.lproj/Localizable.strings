@@ -355,3 +355,8 @@
 "แตะขอสิทธิ์เพื่อให้ระบบนาฬิกาปลุกทำงานได้เต็มรูปแบบ" = "Grant permission for the alarm system to ring at full volume.";
 
 "ลากขึ้นเพื่อดูสถานที่โปรดและประวัติ" = "Swipe up for favorites & recents";
+
+/* App Store & Support Links */
+"นโยบายความเป็นส่วนตัว" = "Privacy Policy";
+"ศูนย์ช่วยเหลือและแจ้งปัญหา" = "Help & Support";
+"อ่านนโยบายความเป็นส่วนตัว" = "Read Privacy Policy";
