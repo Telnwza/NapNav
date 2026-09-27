@@ -10,7 +10,8 @@
     <img src="https://img.shields.io/badge/iOS-17.0%2B-black?logo=apple" alt="iOS 17.0+">
     <img src="https://img.shields.io/badge/Swift-5.9%2B-orange?logo=swift" alt="Swift 5.9+">
     <img src="https://img.shields.io/badge/Xcode-15.0%2B-blue?logo=xcode" alt="Xcode 15.0+">
-    <img src="https://img.shields.io/badge/Tests-Passed%20(120%2B)-brightgreen" alt="Tests Passed">
+    <img src="https://img.shields.io/badge/Tests-Passed%20(126%2F126)-brightgreen" alt="Tests Passed">
+    <a href="https://buymeacoffee.com/techin"><img src="https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Donate-yellow.svg?logo=buy-me-a-coffee" alt="Buy Me A Coffee"></a>
   </p>
 </div>
 
@@ -132,6 +133,18 @@ StopAlarm/
 3. Commit การเปลี่ยนแปลง (`git commit -m 'Add some AmazingFeature'`)
 4. Push ไปยัง Branch ของคุณ (`git push origin feature/AmazingFeature`)
 5. เปิด **Pull Request** เข้ามาได้เลย
+
+---
+
+## ☕ สนับสนุนผู้พัฒนา (Support & Donate)
+
+หาก **NapNav** ช่วยให้คุณเดินทางและงีบหลับได้อย่างสบายใจ ไม่ต้องพะวงเรื่องเลยป้าย และอยากร่วมเป็นส่วนหนึ่งในการสนับสนุนโปรเจกต์โอเพนซอร์สนี้ คุณสามารถร่วมสนับสนุนค่าน้ำชา/กาแฟให้กับผู้พัฒนาได้ที่:
+
+<div align="center">
+  <a href="https://buymeacoffee.com/techin" target="_blank">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="220" />
+  </a>
+</div>
 
 ---
 

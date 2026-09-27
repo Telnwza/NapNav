@@ -142,6 +142,22 @@ struct AlertSettingsView: View {
                 Label(AppLocalization.string("แนะนำการใช้งาน"), systemImage: "sparkles")
             }
 
+            Link(destination: URL(string: "https://github.com/Telnwza/NapNav")!) {
+                HStack {
+                    Label(
+                        AppLocalization.string("ซอร์สโค้ด (GitHub)"),
+                        systemImage: "chevron.left.forwardslash.chevron.right"
+                    )
+                    .foregroundStyle(.primary)
+
+                    Spacer()
+
+                    Image(systemName: "arrow.up.forward")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                }
+            }
+
             HStack {
                 Text(AppLocalization.string("เวอร์ชัน"))
                 Spacer()

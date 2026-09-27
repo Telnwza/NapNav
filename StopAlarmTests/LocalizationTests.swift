@@ -18,6 +18,12 @@ struct LocalizationTests {
         #expect(
             AppLocalization.string("การแจ้งเตือน", language: .thai) == "การแจ้งเตือน"
         )
+        #expect(
+            AppLocalization.string("ซอร์สโค้ด (GitHub)", language: .english) == "Source Code (GitHub)"
+        )
+        #expect(
+            AppLocalization.string("ซอร์สโค้ด (GitHub)", language: .thai) == "ซอร์สโค้ด (GitHub)"
+        )
     }
 
     @Test("Permission copy and unsupported Time Sensitive state resolve in Thai and English")
