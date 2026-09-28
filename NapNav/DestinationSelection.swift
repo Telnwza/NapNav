@@ -644,7 +644,7 @@ struct DestinationView: View {
         if store.screen == .tracking {
             return max(safeBottom + 96, 108)
         } else {
-            return panelHeight + 12
+            return max(panelHeight - safeBottom + 12, 12)
         }
     }
 
