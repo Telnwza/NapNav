@@ -251,10 +251,15 @@ struct DestinationView: View {
 
     @State private var sheetItem: DestinationSheetItem?
     @State private var favoritePendingDeletion: SavedDestination?
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @GestureState private var panelDragOffset: CGFloat = 0
     @FocusState private var searchIsFocused: Bool
     @Namespace private var mapScope
     @Namespace private var cardNamespace
+
+    private var isRegularWidth: Bool {
+        horizontalSizeClass == .regular
+    }
 
     private let presets = [500.0, 1_000.0, 2_000.0]
 
@@ -658,6 +663,7 @@ struct DestinationView: View {
                 .napNavGlass(in: .rect(cornerRadius: 22))
                 .clipShape(.rect(cornerRadius: 22))
                 .shadow(color: .black.opacity(0.12), radius: 14, y: 4)
+                .frame(maxWidth: isRegularWidth ? 500 : .infinity)
                 .padding(.horizontal, 16)
                 .padding(.bottom, max(bottomInset, 12))
                 .matchedGeometryEffect(id: "bottomGlassContainer", in: cardNamespace)
@@ -876,6 +882,15 @@ struct DestinationView: View {
         openURL(url)
     }
 
+    private var planningPanelShape: UnevenRoundedRectangle {
+        UnevenRoundedRectangle(
+            topLeadingRadius: isRegularWidth ? 26 : 28,
+            bottomLeadingRadius: isRegularWidth ? 26 : 0,
+            bottomTrailingRadius: isRegularWidth ? 26 : 0,
+            topTrailingRadius: isRegularWidth ? 26 : 28
+        )
+    }
+
     private func planningPanel(height: CGFloat, bottomInset: CGFloat) -> some View {
         VStack(spacing: 0) {
             // Drag Handle Area with generous touch target and tap-to-toggle
@@ -904,24 +919,15 @@ struct DestinationView: View {
             planningSheet
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
-        .padding(.bottom, max(bottomInset, 8))
+        .padding(.bottom, isRegularWidth ? 8 : max(bottomInset, 8))
         .frame(height: height, alignment: .top)
-        .napNavGlass(
-            in: UnevenRoundedRectangle(
-                topLeadingRadius: 28,
-                topTrailingRadius: 28
-            )
-        )
-        .clipShape(
-            UnevenRoundedRectangle(
-                topLeadingRadius: 28,
-                topTrailingRadius: 28
-            )
-        )
-        .shadow(color: .black.opacity(0.16), radius: 18, y: -4)
-        // Extend through the home-indicator area, but keep the keyboard safe
-        // area so the panel moves above the keyboard while searching.
-        .ignoresSafeArea(.container, edges: .bottom)
+        .frame(maxWidth: isRegularWidth ? 500 : .infinity)
+        .napNavGlass(in: planningPanelShape)
+        .clipShape(planningPanelShape)
+        .shadow(color: .black.opacity(0.16), radius: 18, y: isRegularWidth ? 6 : -4)
+        .padding(.bottom, isRegularWidth ? max(bottomInset, 16) : 0)
+        .padding(.horizontal, isRegularWidth ? 24 : 0)
+        .ignoresSafeArea(.container, edges: isRegularWidth ? [] : .bottom)
     }
 
     private var panelDragGesture: some Gesture {
@@ -963,7 +969,10 @@ struct DestinationView: View {
         }
 
         let compactHeight: CGFloat = dynamicTypeSize.isAccessibilitySize ? 260 : 214
-        let expandedHeight = min(max(availableHeight * 0.65, 420), availableHeight * (dynamicTypeSize.isAccessibilitySize ? 0.90 : 0.82))
+        let expandedMaxFraction = dynamicTypeSize.isAccessibilitySize ? 0.90 : 0.82
+        let expandedHeight = isRegularWidth
+            ? min(520, availableHeight * 0.65)
+            : min(max(availableHeight * 0.65, 420), availableHeight * expandedMaxFraction)
         let restingHeight = panelState == .expanded ? expandedHeight : compactHeight
         return min(max(restingHeight - panelDragOffset, compactHeight), expandedHeight)
     }
