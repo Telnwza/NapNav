@@ -90,7 +90,8 @@
 "ล้างข้อมูลทริปเดิมไม่ได้ ลองใหม่อีกครั้ง" = "Couldn’t clear the previous trip. Try again.";
 
 /* Destination and trip setup */
-"การตั้งค่าการเตือน" = "Alert Settings";
+"การตั้งค่า NapNav" = "NapNav Settings";
+"การตั้งค่าการเตือน" = "NapNav Settings";
 "ค้นหาสถานที่" = "Search for a place";
 "เลือกจุดหมายนี้" = "Use This Destination";
 "กลับไปเลือกจุดหมาย" = "Back to Destination";

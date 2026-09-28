@@ -24,6 +24,12 @@ struct LocalizationTests {
         #expect(
             AppLocalization.string("NapNav บน GitHub", language: .thai) == "NapNav บน GitHub"
         )
+        #expect(
+            AppLocalization.string("การตั้งค่า NapNav", language: .english) == "NapNav Settings"
+        )
+        #expect(
+            AppLocalization.string("การตั้งค่า NapNav", language: .thai) == "การตั้งค่า NapNav"
+        )
     }
 
     @Test("Permission copy and unsupported Time Sensitive state resolve in Thai and English")

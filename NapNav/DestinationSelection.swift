@@ -283,7 +283,9 @@ struct DestinationView: View {
 
             ZStack {
                 mapView
-                MapHeaderOverlay()
+                if store.screen != .tracking {
+                    MapHeaderOverlay()
+                }
                 trackingDistanceOverlay
                 mapControlsOverlay(panelHeight: panelHeight, safeBottom: proxy.safeAreaInsets.bottom)
                 bottomContainer(panelHeight: panelHeight, bottomInset: proxy.safeAreaInsets.bottom)
@@ -574,7 +576,7 @@ struct DestinationView: View {
         VStack {
             if store.screen == .tracking {
                 distanceCard
-                    .padding(.top, 48)
+                    .padding(.top, 12)
                     .transition(
                         .asymmetric(
                             insertion: .move(edge: .top).combined(with: .opacity),
@@ -585,7 +587,6 @@ struct DestinationView: View {
             Spacer()
         }
         .padding(.horizontal)
-        .padding(.top, 10)
         .allowsHitTesting(store.screen == .tracking)
     }
 
@@ -626,7 +627,7 @@ struct DestinationView: View {
         }
         .buttonStyle(.plain)
         .contentShape(Circle())
-        .accessibilityLabel(AppLocalization.string("การตั้งค่าการเตือน"))
+        .accessibilityLabel(AppLocalization.string("การตั้งค่า NapNav"))
         .accessibilityIdentifier("alertSettingsButton")
         .padding(.trailing, 16)
         .padding(.top, 8)
@@ -1408,20 +1409,6 @@ struct DestinationView: View {
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
-
-                Button {
-                    store.showsSettings = true
-                    sheetItem = .settings
-                    HapticFeedback.selection()
-                } label: {
-                    Image(systemName: "gearshape.fill")
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundStyle(.secondary)
-                        .frame(width: 36, height: 36)
-                        .background(Color.secondary.opacity(0.12), in: Circle())
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel(AppLocalization.string("การตั้งค่าการเตือน"))
             }
 
             HStack {

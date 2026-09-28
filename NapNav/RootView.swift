@@ -47,6 +47,7 @@ extension View {
 struct RootView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @State private var stopConfirmationRequest: TripStopConfirmationRequest?
     @State private var pendingDeepLinkURL: URL?
@@ -123,7 +124,7 @@ struct RootView: View {
             StopTripConfirmationSheet(request: request) {
                 Task { await store.confirmStop(request) }
             }
-            .presentationDetents([.height(238)])
+            .presentationDetents(stopConfirmationDetents)
             .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $store.showsOnboarding) {
@@ -134,6 +135,18 @@ struct RootView: View {
             .presentationDetents([.large])
             .presentationDragIndicator(.visible)
             .interactiveDismissDisabled(!hasCompletedOnboarding)
+        }
+    }
+
+    private var stopConfirmationDetents: Set<PresentationDetent> {
+        if dynamicTypeSize.isAccessibilitySize {
+            return [.medium, .large]
+        } else if dynamicTypeSize >= .xxxLarge {
+            return [.height(330), .medium, .large]
+        } else if dynamicTypeSize >= .xLarge {
+            return [.height(295), .medium]
+        } else {
+            return [.height(265), .medium]
         }
     }
 
@@ -223,46 +236,49 @@ struct StopTripConfirmationSheet: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Label(
-                AppLocalization.string(isStopping ? "หยุดทริปนี้หรือไม่?" : "เสร็จสิ้นทริปนี้หรือไม่?"),
-                systemImage: isStopping ? "stop.circle.fill" : "checkmark.circle.fill"
-            )
-            .font(.title3.bold())
-            .foregroundStyle(isStopping ? Color.red : Color.green)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 14) {
+                Label(
+                    AppLocalization.string(isStopping ? "หยุดทริปนี้หรือไม่?" : "เสร็จสิ้นทริปนี้หรือไม่?"),
+                    systemImage: isStopping ? "stop.circle.fill" : "checkmark.circle.fill"
+                )
+                .font(.title3.bold())
+                .foregroundStyle(isStopping ? Color.red : Color.green)
 
-            Text(AppLocalization.format(
-                isStopping
-                    ? "NapNav จะหยุดติดตามตำแหน่งและยกเลิกการแจ้งเตือนของทริปไป %@"
-                    : "NapNav จะยกเลิกการแจ้งเตือนของทริปไป %@ และจบทริปนี้",
-                request.destinationName
-            ))
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-            .fixedSize(horizontal: false, vertical: true)
+                Text(AppLocalization.format(
+                    isStopping
+                        ? "NapNav จะหยุดติดตามตำแหน่งและยกเลิกการแจ้งเตือนของทริปไป %@"
+                        : "NapNav จะยกเลิกการแจ้งเตือนของทริปไป %@ และจบทริปนี้",
+                    request.destinationName
+                ))
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
 
-            VStack(spacing: 8) {
-                Button(role: isStopping ? .destructive : nil, action: confirm) {
-                    Text(AppLocalization.string(isStopping ? "หยุดทริป" : "เสร็จสิ้น"))
-                        .frame(maxWidth: .infinity)
+                VStack(spacing: 8) {
+                    Button(role: isStopping ? .destructive : nil, action: confirm) {
+                        Text(AppLocalization.string(isStopping ? "หยุดทริป" : "เสร็จสิ้น"))
+                            .frame(maxWidth: .infinity)
+                    }
+                    .napNavPrimaryButtonStyle()
+                    .tint(isStopping ? .red : .green)
+                    .controlSize(.large)
+
+                    Button {
+                        dismiss()
+                    } label: {
+                        Text(AppLocalization.string(isStopping ? "เดินทางต่อ" : "ยังไม่เสร็จ"))
+                            .frame(maxWidth: .infinity)
+                    }
+                    .napNavSecondaryButtonStyle()
+                    .controlSize(.large)
                 }
-                .napNavPrimaryButtonStyle()
-                .tint(isStopping ? .red : .green)
-                .controlSize(.large)
-
-                Button {
-                    dismiss()
-                } label: {
-                    Text(AppLocalization.string(isStopping ? "เดินทางต่อ" : "ยังไม่เสร็จ"))
-                        .frame(maxWidth: .infinity)
-                }
-                .napNavSecondaryButtonStyle()
-                .controlSize(.large)
             }
+            .padding(.horizontal, 22)
+            .padding(.top, 24)
+            .padding(.bottom, 20)
         }
-        .padding(.horizontal, 22)
-        .padding(.top, 26)
-        .padding(.bottom, 16)
+        .scrollBounceBehavior(.basedOnSize)
     }
 
     private func confirm() {
