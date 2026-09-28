@@ -395,7 +395,7 @@ struct MapHeaderOverlay: View {
             VStack(spacing: 0) {
                 Text("NapNav")
                     .font(.headline)
-                Text("Trip Alarm")
+                Text("Wake at Your Stop")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }
