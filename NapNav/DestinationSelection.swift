@@ -646,6 +646,9 @@ struct DestinationView: View {
     }
 
     private func clusterBottomPadding(panelHeight: CGFloat, safeBottom: CGFloat) -> CGFloat {
+        if isRegularWidth {
+            return max(safeBottom + 20, 28)
+        }
         if store.screen == .tracking {
             return max(safeBottom + 96, 108)
         } else {
