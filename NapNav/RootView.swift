@@ -321,6 +321,7 @@ struct MapControlCluster: View {
                     .napNavGlass(in: Circle(), interactive: true)
             }
             .buttonStyle(.plain)
+            .contentShape(Circle())
             .accessibilityLabel(AppLocalization.string("แสดงตำแหน่งของฉัน"))
 
             Button {
@@ -333,7 +334,8 @@ struct MapControlCluster: View {
                     .napNavGlass(in: Circle(), interactive: true)
             }
             .buttonStyle(.plain)
-            .popover(isPresented: $showsStylePicker, arrowEdge: .bottom) {
+            .contentShape(Circle())
+            .popover(isPresented: $showsStylePicker) {
                 VStack(alignment: .leading, spacing: 6) {
                     Text(AppLocalization.string("รูปแบบแผนที่"))
                         .font(.headline)

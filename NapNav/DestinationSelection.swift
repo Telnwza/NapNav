@@ -292,12 +292,14 @@ struct DestinationView: View {
                     MapHeaderOverlay()
                 }
                 trackingDistanceOverlay
-                mapControlsOverlay(panelHeight: panelHeight, safeBottom: proxy.safeAreaInsets.bottom)
                 bottomContainer(panelHeight: panelHeight, bottomInset: proxy.safeAreaInsets.bottom)
                     .frame(maxHeight: .infinity, alignment: .bottom)
             }
             .animation(MotionTokens.morphSpring(reduceMotion: reduceMotion), value: store.screen)
             .animation(MotionTokens.morphSpring(reduceMotion: reduceMotion), value: panelHeight)
+            .overlay(alignment: .bottomTrailing) {
+                mapControlsOverlay(panelHeight: panelHeight, safeBottom: proxy.safeAreaInsets.bottom)
+            }
             .overlay(alignment: .topTrailing) {
                 settingsButtonOverlay
             }
@@ -595,26 +597,21 @@ struct DestinationView: View {
         .allowsHitTesting(store.screen == .tracking)
     }
 
+    @ViewBuilder
     private func mapControlsOverlay(panelHeight: CGFloat, safeBottom: CGFloat) -> some View {
-        VStack {
-            Spacer()
-            HStack {
-                Spacer()
-                MapControlCluster(
-                    selection: Binding(
-                        get: { store.mapDisplayStyle },
-                        set: { store.mapDisplayStyle = $0 }
-                    ),
-                    mapScope: mapScope,
-                    onLocate: recenterOnUser
-                )
-            }
-            .padding(.trailing, 16)
-            .padding(
-                .bottom,
-                clusterBottomPadding(panelHeight: panelHeight, safeBottom: safeBottom)
-            )
-        }
+        MapControlCluster(
+            selection: Binding(
+                get: { store.mapDisplayStyle },
+                set: { store.mapDisplayStyle = $0 }
+            ),
+            mapScope: mapScope,
+            onLocate: recenterOnUser
+        )
+        .padding(.trailing, 16)
+        .padding(
+            .bottom,
+            clusterBottomPadding(panelHeight: panelHeight, safeBottom: safeBottom)
+        )
     }
 
     @ViewBuilder
