@@ -1,13 +1,13 @@
 ## 2026-09-30 23:50 — Repository: commit and push reviewed documentation
 
-- **Status:** In progress
+- **Status:** Complete
 - **Goal:** Commit the completed NapNav documentation updates and push them to `main`, as explicitly authorized by the user.
 - **Baseline:** Read `docs/NAPNAV_REMEDIATION_PLAN.md` and this report first. Branch is `main` at `db7937f`, tracking `origin/main` at the same commit. Seven tracked documentation files are modified: `AGENTS.md`, `README.md`, `docs/A1_D_A1_2_HANDOFF.md`, this report, `docs/LUNA_CODE_FIX_TICKETS.md`, `docs/NAPNAV_REMEDIATION_PLAN.md`, and `docs/app-store-metadata.md`. `NapNav.xcodeproj/xcshareddata/xcodecloud/manifest.json` is untracked and outside this documentation change.
 - **Expected files:** The seven tracked documentation files listed above.
-- **Changes:** Staged only the seven reviewed documentation files. The untracked Xcode Cloud manifest remains outside the staged change. The requested target is `origin/main`.
-- **Test evidence:** `git diff --check` and `git diff --cached --check` exited 0. `git diff --cached --name-only` lists exactly the seven expected files; no app tests or build are requested for this documentation commit.
-- **Risks / open items:** Push is pending. No signing, release, or App Store Connect state will be changed.
-- **Next:** Commit the verified seven-file staged change, then push `main` and record exact results.
+- **Changes:** Committed the seven reviewed documentation files as `2e9b84e` (`docs: sync NapNav review docs and handoff guidance`). `git push origin main` exited 0 and updated `main` from `db7937f` to `2e9b84e`.
+- **Test evidence:** `git diff --check` and `git diff --cached --check` exited 0. `git diff --cached --name-only` listed exactly the seven expected files. After push, `git rev-parse --short HEAD` and `git rev-parse --short origin/main` both returned `2e9b84e`; `git status --short --branch` showed `main` aligned with `origin/main`. An initial combined `git rev-parse --short HEAD origin/main` query returned `fatal: Needed a single revision`; separate checks succeeded. No app tests or build were run for this documentation change.
+- **Risks / open items:** The pre-existing untracked Xcode Cloud manifest remains untouched. No signing, release, or App Store Connect state was changed.
+- **Next:** None for this documentation commit/push.
 
 ## 2026-09-30 23:47 — Documentation: English report and handoff preference
 
