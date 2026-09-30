@@ -40,6 +40,7 @@ struct OnboardingView: View {
             bottomControlsSection
         }
         .background(Color(uiColor: .systemGroupedBackground))
+        .interactiveDismissDisabled()
         .onAppear {
             updatePermissionStatus()
         }
@@ -58,7 +59,7 @@ struct OnboardingView: View {
                     icon: "checkmark.shield.fill",
                     gradientColors: [AppTheme.primary, AppTheme.dark],
                     title: AppLocalization.string("สิทธิ์การใช้งานที่จำเป็น"),
-                    subtitle: AppLocalization.string("อนุญาตสิทธิ์เพื่อให้แอปแจ้งเตือนและระบุตำแหน่งได้อย่างแม่นยำ")
+                    subtitle: AppLocalization.string("ใช้ตำแหน่งที่ตั้งและการแจ้งเตือนเพื่อปลุกคุณเมื่อใกล้ถึงจุดหมาย")
                 )
 
                 permissionsCard
@@ -112,7 +113,7 @@ struct OnboardingView: View {
                         icon: "magnifyingglass.circle.fill",
                         color: AppTheme.primary,
                         title: AppLocalization.string("ค้นหาหรือแตะบนแผนที่"),
-                        detail: AppLocalization.string("พิมพ์ค้นหาสถานี ป้ายรถเมล์ หรือเลื่อนหมุดบนแผนที่ได้อย่างแม่นยำ")
+                        detail: AppLocalization.string("พิมพ์ค้นหาสถานี ป้ายรถเมล์ หรือเลื่อนหมุดบนแผนที่ได้")
                     )
 
                     featureCard(
@@ -153,21 +154,21 @@ struct OnboardingView: View {
                         icon: "iphone.badge.play",
                         color: .indigo,
                         title: AppLocalization.string("Dynamic Island & หน้าจอล็อก"),
-                        detail: AppLocalization.string("ดูกราฟิกระยะทางคงเหลือและเวลานับถอยหลังได้แบบเรียลไทม์")
+                        detail: AppLocalization.string("ดูระยะทางที่เหลือและสถานะทริป; ตัวนับ Auto-Stop แสดงหลังถึงจุดหมาย")
                     )
 
                     featureCard(
                         icon: "timer",
                         color: .teal,
-                        title: AppLocalization.string("หยุดเสียงเตือนอัตโนมัติ"),
-                        detail: AppLocalization.string("เมื่อถึงที่หมายแล้ว ระบบจะนับถอยหลังและปิดเสียงเตือนให้อัตโนมัติ")
+                        title: AppLocalization.string("ตั้ง Auto-Stop หลังถึงจุดหมาย"),
+                        detail: AppLocalization.string("หลังถึงจุดหมาย ระบบจะเริ่ม Auto-Stop ตามเวลาที่เลือก; iOS อาจทำให้ล่าช้า")
                     )
 
                     featureCard(
                         icon: "bolt.shield.fill",
                         color: .green,
-                        title: AppLocalization.string("ประหยัดพลังงาน"),
-                        detail: AppLocalization.string("ระบบติดตาม GPS อัจฉริยะ ปรับความถี่ตามระยะห่าง ไม่เปลืองแบตเตอรี่")
+                        title: AppLocalization.string("การใช้แบตเตอรี่"),
+                        detail: AppLocalization.string("ติดตามตำแหน่งขณะทริปทำงาน; การใช้แบตเตอรี่ขึ้นกับสัญญาณ อุปกรณ์ และระยะเวลาทริป")
                     )
                 }
             }
@@ -353,9 +354,9 @@ struct OnboardingView: View {
                     icon: "location.fill",
                     color: AppTheme.primary,
                     title: AppLocalization.string("ตำแหน่งที่ตั้ง"),
-                    detail: AppLocalization.string("ตรวจวัดระยะทางถึงจุดหมายอย่างแม่นยำ"),
+                    detail: AppLocalization.string("ช่วยคำนวณระยะจากตำแหน่งที่ได้รับ"),
                     isGranted: locationAuthorized,
-                    actionTitle: AppLocalization.string("อนุญาต")
+                    actionTitle: AppLocalization.string("ขอสิทธิ์")
                 ) {
                     store.requestLocationPermission()
                 }
@@ -366,9 +367,9 @@ struct OnboardingView: View {
                     icon: "bell.badge.fill",
                     color: .orange,
                     title: AppLocalization.string("การแจ้งเตือน & เสียงเตือน"),
-                    detail: AppLocalization.string("ส่งเสียงเตือนและแบนเนอร์เมื่อถึงจุดหมาย"),
+                    detail: AppLocalization.string("ใช้สำหรับแจ้งเตือนใกล้รัศมีที่เลือก; การส่งขึ้นกับสิทธิ์และการตั้งค่า iOS"),
                     isGranted: notificationAuthorized,
-                    actionTitle: AppLocalization.string("อนุญาต")
+                    actionTitle: AppLocalization.string("ขอสิทธิ์")
                 ) {
                     Task {
                         await store.requestNotificationPermission()
@@ -383,7 +384,7 @@ struct OnboardingView: View {
                         icon: "alarm.fill",
                         color: .purple,
                         title: AppLocalization.string("ระบบนาฬิกาปลุก (AlarmKit)"),
-                        detail: AppLocalization.string("ส่งเสียงปลุกดังชัดเจน แม้เปิดโหมดห้ามรบกวน (iOS 26+)"),
+                        detail: AppLocalization.string("AlarmKit ส่งเสียงเตือนบนอุปกรณ์ที่รองรับ; ผลการเตือนขึ้นกับสิทธิ์และการตั้งค่า iOS (iOS 26+)"),
                         isGranted: alarmKitAuthorized,
                         actionTitle: AppLocalization.string("ขอสิทธิ์")
                     ) {
@@ -393,28 +394,6 @@ struct OnboardingView: View {
                         }
                     }
                 }
-            }
-
-            if !allPermissionsAuthorized {
-                Button {
-                    requestPermissions()
-                } label: {
-                    HStack(spacing: 6) {
-                        if isRequesting {
-                            ProgressView()
-                                .tint(.white)
-                        } else {
-                            Image(systemName: "checkmark.circle.fill")
-                        }
-                        Text(AppLocalization.string("อนุญาตสิทธิ์ทั้งหมด"))
-                            .font(.subheadline.weight(.semibold))
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 8)
-                }
-                .napNavPrimaryButtonStyle()
-                .disabled(isRequesting)
-                .padding(.top, 4)
             }
         }
         .padding(14)
@@ -519,7 +498,7 @@ struct OnboardingView: View {
                     .font(.caption2)
                     .foregroundStyle(.secondary)
 
-                Text(AppLocalization.string("ประมวลผลตำแหน่งบนเครื่องเท่านั้น ไม่ส่งข้อมูลออกภายนอก"))
+                Text(AppLocalization.string("ตำแหน่งใช้คำนวณระยะทางระหว่างทริป; ค้นหาสถานที่ผ่านบริการ Apple และบันทึกสถานที่โปรด/ล่าสุดไว้บนอุปกรณ์"))
                     .font(.caption2)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
@@ -577,14 +556,16 @@ struct OnboardingView: View {
             .napNavPrimaryButtonStyle()
             .disabled(isRequesting)
 
-            // Secondary Action Button
-            Button {
-                handleSecondaryAction()
-            } label: {
-                Text(secondaryButtonTitle)
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                    .padding(.vertical, 2)
+            // Secondary Action Button (Only show on page > 0 so permissions are never delayed on page 0)
+            if currentPage > 0 {
+                Button {
+                    handleSecondaryAction()
+                } label: {
+                    Text(secondaryButtonTitle)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .padding(.vertical, 2)
+                }
             }
         }
         .padding(.horizontal, 24)
@@ -596,17 +577,15 @@ struct OnboardingView: View {
     private var primaryButtonTitle: String {
         if currentPage == totalPages - 1 {
             return AppLocalization.string("เริ่มต้นใช้งาน")
+        } else if currentPage == 0 {
+            return AppLocalization.string("ดำเนินการต่อ")
         } else {
             return AppLocalization.string("ถัดไป")
         }
     }
 
     private var secondaryButtonTitle: String {
-        if currentPage > 0 {
-            return AppLocalization.string("ย้อนกลับ")
-        } else {
-            return AppLocalization.string("ตั้งค่าภายหลัง")
-        }
+        AppLocalization.string("ย้อนกลับ")
     }
 
     private func handlePrimaryAction() {
@@ -630,27 +609,15 @@ struct OnboardingView: View {
     }
 
     private func handleSecondaryAction() {
-        if currentPage > 0 {
-            withAnimation {
-                currentPage -= 1
-            }
-        } else {
-            completeOnboarding()
+        guard currentPage > 0 else { return }
+        withAnimation {
+            currentPage -= 1
         }
     }
 
     private func completeOnboarding() {
         onComplete()
         dismiss()
-    }
-
-    private func requestPermissions() {
-        Task {
-            isRequesting = true
-            await store.requestOnboardingPermissions()
-            updatePermissionStatus()
-            isRequesting = false
-        }
     }
 
     // MARK: - Helpers

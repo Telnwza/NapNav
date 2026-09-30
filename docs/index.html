@@ -194,21 +194,21 @@
 
     <!-- THAI CONTENT -->
     <div id="content-th">
-        <div class="tagline">งีบหลับสบายบนรถเมล์ รถไฟฟ้า ไม่ต้องกังวลเรื่องเลยป้าย<br><small style="font-size: 14px; opacity: 0.85;">แอปปลุกเตือนตามพิกัดจุดหมายสำหรับ iOS</small></div>
+        <div class="tagline">ตั้งเตือนตามตำแหน่งระหว่างเดินทางด้วยรถเมล์หรือรถไฟฟ้า<br><small style="font-size: 14px; opacity: 0.85;">แอปช่วยเตือนใกล้จุดหมายสำหรับ iOS</small></div>
 
         <div class="features">
             <div class="feature-item">
                 <div class="icon">📍</div>
                 <div class="text">
-                    <strong>ปลุกตรงจุดตามระยะจริง (Proximity Alert)</strong>
-                    <span>อยากให้เตือนก่อนถึง 500 ม., 1 กม. หรือ 2 กม. ก็ปรับได้ตามใจ พร้อมระบบกรองพิกัดอัจฉริยะ ป้องกันการเตือนพลาดแม้สัญญาณ GPS สวิง</span>
+                    <strong>ตั้งรัศมีเตือนใกล้จุดหมาย</strong>
+                    <span>เลือกรัศมี เช่น 500 ม., 1 กม. หรือ 2 กม. แอปกรองตัวอย่างตำแหน่งที่ไม่แน่นอนเพื่อลดการเตือนผิดพลาด แต่ความแม่นยำยังขึ้นกับสัญญาณและอุปกรณ์</span>
                 </div>
             </div>
             <div class="feature-item">
                 <div class="icon">⏰</div>
                 <div class="text">
-                    <strong>ตื่นชัวร์ด้วยโหมดเตือนคู่ Use Both (AlarmKit + Notification)</strong>
-                    <span>ผสานเสียงปลุกฉุกเฉินเข้ากับแบนเนอร์แจ้งเตือน แม้คุณจะเปิดโหมดปิดเสียงหรือโฟกัสห้ามรบกวนไว้ ก็ยังปลุกให้ตื่นได้แน่นอน</span>
+                    <strong>โหมดเตือน Use Both</strong>
+                    <span>ใช้ AlarmKit เป็นเสียงหลักบน iOS/อุปกรณ์ที่รองรับ พร้อม Notification แบบไม่มีเสียงเมื่อพร้อมใช้งาน หาก AlarmKit ใช้ไม่ได้จะใช้ Notification เมื่อระบบอนุญาต ผลการเตือนขึ้นกับสิทธิ์และการตั้งค่า iOS</span>
                 </div>
             </div>
             <div class="feature-item">
@@ -221,15 +221,15 @@
             <div class="feature-item">
                 <div class="icon">🔋</div>
                 <div class="text">
-                    <strong>ถนอมแบตเตอรี่ด้วยระบบจัดสรรพลังงาน</strong>
-                    <span>ตอนยังอยู่ไกล ระบบจะตรวจจับตำแหน่งแบบประหยัดพลังงาน และจะเริ่มใช้ความแม่นยำสูงเมื่อเริ่มเข้าใกล้รัศมีที่คุณตั้งไว้เท่านั้น</span>
+                    <strong>ติดตามตำแหน่งระหว่างทริปที่เริ่ม</strong>
+                    <span>NapNav ใช้ตำแหน่งขณะทริปทำงาน การใช้แบตเตอรี่ขึ้นกับระยะเวลาทริป สัญญาณ อุปกรณ์ และการตั้งค่า iOS</span>
                 </div>
             </div>
             <div class="feature-item">
                 <div class="icon">🔒</div>
                 <div class="text">
-                    <strong>มั่นใจเรื่องความเป็นส่วนตัว 100% (Privacy-First)</strong>
-                    <span>พิกัดทั้งหมดคำนวณบนเครื่องของคุณเท่านั้น ไม่บันทึกประวัติการเดินทาง และไม่เคยส่งข้อมูลตำแหน่งออกไปยังเซิร์ฟเวอร์ภายนอก</span>
+                    <strong>ข้อมูลโปร่งใสและควบคุมได้</strong>
+                    <span>ตำแหน่งปัจจุบันใช้คำนวณระยะทางระหว่างทริป; สถานที่โปรด/ล่าสุดจัดเก็บบนอุปกรณ์ การค้นหาสถานที่ใช้ Apple Maps/MapKit ซึ่งอาจส่งคำค้นหรือพิกัดที่จำเป็นให้ Apple ดูรายละเอียดในนโยบายความเป็นส่วนตัว</span>
                 </div>
             </div>
         </div>
@@ -243,21 +243,21 @@
 
     <!-- ENGLISH CONTENT -->
     <div id="content-en" style="display: none;">
-        <div class="tagline">Nap comfortably on trains and buses without missing your stop.<br><small style="font-size: 14px; opacity: 0.85;">Transit Location-Based Alarm for iOS</small></div>
+        <div class="tagline">Set a location alert near your stop while traveling by train or bus.<br><small style="font-size: 14px; opacity: 0.85;">Transit proximity alert for iOS</small></div>
 
         <div class="features">
             <div class="feature-item">
                 <div class="icon">📍</div>
                 <div class="text">
-                    <strong>Precise Proximity Alerts</strong>
-                    <span>Set your preferred alert radius (500m, 1km, 2km, or custom slider). Smart geofencing filters out GPS jitter for dependable arrival wake-ups.</span>
+                    <strong>Choose an Alert Radius</strong>
+                    <span>Choose a radius such as 500m, 1km, or 2km. NapNav filters uncertain location samples to reduce false triggers, but accuracy still depends on the device and signal.</span>
                 </div>
             </div>
             <div class="feature-item">
                 <div class="icon">⏰</div>
                 <div class="text">
-                    <strong>Double Wake-Up with 'Use Both'</strong>
-                    <span>Combines prominent emergency alarms (AlarmKit on supported iOS) with banners. Rings through Silent Mode and Focus filters so you never oversleep.</span>
+                    <strong>Use Both Alert Mode</strong>
+                    <span>Uses AlarmKit as its primary sound on supported iOS devices, with a silent notification companion when available. If AlarmKit cannot be used, NapNav uses the notification path when allowed. Delivery depends on permissions and iOS settings.</span>
                 </div>
             </div>
             <div class="feature-item">
@@ -270,15 +270,15 @@
             <div class="feature-item">
                 <div class="icon">🔋</div>
                 <div class="text">
-                    <strong>Battery-Efficient Tracking</strong>
-                    <span>Adaptive GPS tracking conserves battery while you are far away, automatically switching to high precision as you approach your stop.</span>
+                    <strong>Location During Active Trips</strong>
+                    <span>NapNav uses location updates while a trip is active. Battery use varies with trip duration, signal, device, and iOS settings.</span>
                 </div>
             </div>
             <div class="feature-item">
                 <div class="icon">🔒</div>
                 <div class="text">
-                    <strong>100% Privacy by Design</strong>
-                    <span>All location data is processed locally on your device in real time. Zero tracking, no remote servers, and no personal data collection.</span>
+                    <strong>Clear Privacy Controls</strong>
+                    <span>Live location is used to calculate distance during an active trip; favorites and recents are stored on device. Place search uses Apple Maps/MapKit and may send the query or coordinates needed to Apple. See the Privacy Policy for details.</span>
                 </div>
             </div>
         </div>

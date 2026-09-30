@@ -168,8 +168,28 @@ struct LocalizationTests {
         #expect(AppLocalization.string("Dynamic Island & หน้าจอล็อก", language: .english) == "Dynamic Island & Lock Screen")
         #expect(AppLocalization.string("Dynamic Island & หน้าจอล็อค", language: .english) == "Dynamic Island & Lock Screen")
         #expect(
+            AppLocalization.string("ติดตามระยะทางและปลุกให้คุณตื่นตรงเวลา แม้ขณะล็อกหน้าจอ", language: .thai)
+                == "ติดตามระยะทางและปลุกให้คุณตื่นตรงเวลา แม้ขณะล็อกหน้าจอ"
+        )
+        #expect(
             AppLocalization.string("ติดตามระยะทางและปลุกให้คุณตื่นตรงเวลา แม้ขณะล็อกหน้าจอ", language: .english)
                 == "Track remaining distance and wake up on time even while locked."
+        )
+        #expect(
+            AppLocalization.string("พิมพ์ค้นหาสถานี ป้ายรถเมล์ หรือเลื่อนหมุดบนแผนที่ได้", language: .english)
+                == "Search for stations and bus stops, or move a pin on the map."
+        )
+        #expect(
+            AppLocalization.string("พักสายตาได้อย่างสบายใจ", language: .english)
+                == "Rest Easy on the Go"
+        )
+        #expect(
+            AppLocalization.string("ช่วยคำนวณระยะจากตำแหน่งที่ได้รับ", language: .english)
+                == "Helps calculate distance from the location available to NapNav."
+        )
+        #expect(
+            AppLocalization.string("ใช้สำหรับแจ้งเตือนใกล้รัศมีที่เลือก; การส่งขึ้นกับสิทธิ์และการตั้งค่า iOS", language: .english)
+                == "Used for alerts near the selected radius; delivery depends on permissions and iOS settings."
         )
     }
 }

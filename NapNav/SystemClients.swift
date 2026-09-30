@@ -369,13 +369,10 @@ final class LocalAlarmDelivery: AlarmDelivering {
 
         switch settings.authorizationStatus {
         case .authorized, .provisional, .ephemeral:
-            if settings.timeSensitiveSetting == .notSupported {
-                _ = try? await center.requestAuthorization(options: [.alert, .sound, .badge, .timeSensitive])
-            }
             return await readiness().canDeliverVisibleAlert
         case .notDetermined:
             do {
-                _ = try await center.requestAuthorization(options: [.alert, .sound, .badge, .timeSensitive])
+                _ = try await center.requestAuthorization(options: [.alert, .sound, .badge])
                 return await readiness().canDeliverVisibleAlert
             } catch {
                 return false

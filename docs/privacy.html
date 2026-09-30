@@ -151,25 +151,27 @@
         <div class="updated-date">แอปพลิเคชัน NapNav &bull; อัปเดตล่าสุด: กันยายน 2026</div>
 
         <div class="highlight-box">
-            <strong>หัวใจสำคัญด้านความเป็นส่วนตัว:</strong> NapNav พัฒนาขึ้นโดยยึดหลัก <strong>Privacy by Design</strong> ไม่มีการเก็บข้อมูลส่วนบุคคล ไม่มีการสะกดรอยพฤติกรรม (Zero Tracking) และคำนวณตำแหน่งทั้งหมดบนเครื่องของคุณโดยตรง
+            <strong>สรุปความเป็นส่วนตัว:</strong> NapNav ใช้ตำแหน่งที่ iOS ให้ระหว่างทริปที่คุณเริ่มเพื่อคำนวณระยะทาง และไม่บันทึกเส้นทาง GPS ต่อเนื่องไว้ในแอปหรือส่งไปยังเซิร์ฟเวอร์ของผู้พัฒนา การค้นหาสถานที่และแปลงพิกัดเป็นชื่อสถานที่ใช้บริการ Apple Maps/MapKit และ Core Location; ข้อมูลที่จำเป็นต่อคำขออาจถูกส่งให้ Apple ตาม <a href="https://www.apple.com/legal/privacy/data/en/apple-maps/" target="_blank" rel="noopener">นโยบาย Apple Maps &amp; Privacy</a>
         </div>
 
-        <h2>1. ข้อมูลที่เราใช้งานและวัตถุประสงค์</h2>
+        <h2>1. ข้อมูลที่ NapNav ใช้และวัตถุประสงค์</h2>
         <ul>
-            <li><strong>ข้อมูลตำแหน่งที่แม่นยำและโดยประมาณ (Precise &amp; Coarse Location):</strong> ขอสิทธิ์เข้าถึงพิกัดเฉพาะเพื่อคำนวณระยะทางแบบเรียลไทม์ระหว่างจุดที่คุณอยู่กับจุดหมาย และส่งสัญญาณปลุกเมื่อคุณเดินทางเข้าสู่รัศมีที่กำหนด โดยพิกัด GPS ทั้งหมดจะถูกประมวลผลในหน่วยความจำชั่วคราวบนเครื่องของคุณเท่านั้น <strong>ไม่มีการบันทึกประวัติเส้นทาง และไม่เคยส่งข้อมูลพิกัดออกไปยังเซิร์ฟเวอร์ภายนอก</strong></li>
-            <li><strong>การแจ้งเตือนและระบบนาฬิกาปลุก (Notifications &amp; AlarmKit):</strong> ใช้สำหรับส่งเสียงปลุก การสั่นเตือน และแสดงสถานะการเดินทางแบบสดบนหน้าจอล็อคและ Dynamic Island (Live Activities) เมื่อคุณใกล้ถึงหรือถึงปลายทาง</li>
-            <li><strong>การจัดเก็บข้อมูลภายในเครื่อง (Local Storage):</strong> ค่าการตั้งค่าเสียง รัศมีเตือนที่คุณเลือก และรายชื่อสถานที่โปรด (Favorites) จะถูกบันทึกไว้ในพื้นที่จัดเก็บของเครื่องคุณเอง (UserDefaults) เท่านั้น เพื่อความสะดวกรวดเร็วในการเดินทางครั้งต่อไป</li>
+            <li><strong>ตำแหน่ง (Location):</strong> NapNav ขอสิทธิ์ตำแหน่งแบบ While In Use เพื่อคำนวณระยะทางและเตือนเมื่อเข้าใกล้จุดหมายระหว่างทริปที่กำลังทำงาน รวมถึงใช้การอัปเดตตำแหน่งเบื้องหลังตามที่ iOS อนุญาตขณะทริปยังทำงาน ตัวอย่างพิกัดปัจจุบันใช้ประมวลผลในหน่วยความจำและไม่บันทึกเป็นเส้นทางต่อเนื่องในแอป</li>
+            <li><strong>ค้นหาแผนที่และแปลงพิกัดเป็นชื่อสถานที่:</strong> การค้นหา/คำแนะนำสถานที่และการค้นหาชื่อจากพิกัดใช้ Apple Maps/MapKit และ Core Location ข้อความค้นหาหรือพิกัดที่จำเป็นต่อการให้ผลลัพธ์อาจถูกส่งไปประมวลผลโดย Apple ตาม <a href="https://www.apple.com/legal/privacy/data/en/apple-maps/" target="_blank" rel="noopener">นโยบายความเป็นส่วนตัวของ Apple Maps</a></li>
+            <li><strong>ข้อมูลที่จัดเก็บในอุปกรณ์:</strong> NapNav บันทึกค่าการเตือน สถานที่โปรด และสถานที่ล่าสุดไว้ใน UserDefaults รายการสถานที่มีชื่อ รายละเอียด พิกัด รัศมี และวันที่ใช้ล่าสุด; รายการล่าสุดเก็บได้สูงสุด 10 แห่ง ระหว่างทริป แอปบันทึก snapshot สำหรับกู้คืนซึ่งมีจุดหมาย รัศมี เวลาเริ่ม และสถานะทริป แต่ไม่บันทึกพิกัด GPS ต่อเนื่อง</li>
+            <li><strong>การแจ้งเตือน, AlarmKit และ Live Activities:</strong> ใช้สิทธิ์ที่คุณอนุญาตเพื่อส่งการเตือนและแสดงสถานะทริปบนหน้าจอล็อกหรือ Dynamic Island ตามความสามารถของอุปกรณ์และ iOS</li>
         </ul>
 
-        <h2>2. ปลอดการสะกดรอย และไม่มีบุคคลที่สาม (No Tracking &amp; No Third-Parties)</h2>
+        <h2>2. การส่งต่อข้อมูลและการติดตาม</h2>
         <ul>
-            <li>ไม่มีการฝังโค้ดโฆษณา (Ad Networks) หรือระบบวิเคราะห์สถิติจากภายนอก (Third-Party Analytics SDKs) ใดๆ ทั้งสิ้น</li>
-            <li>ไม่มีการสร้างรหัสประจำตัว หรือระบบตรวจจำเครื่อง (Device Fingerprinting)</li>
-            <li>ไม่มีการขาย แลกเปลี่ยน หรือเปิดเผยข้อมูลใดๆ ให้กับบุคคลภายนอกโดยเด็ดขาด</li>
+            <li>NapNav ไม่มีบัญชีผู้ใช้หรือเซิร์ฟเวอร์ของผู้พัฒนาสำหรับรับหรือเก็บตำแหน่งและประวัติทริป และแอปไม่มี SDK โฆษณาหรือวิเคราะห์ข้อมูลจากผู้ให้บริการภายนอก</li>
+            <li>บริการ Apple Maps/MapKit ประมวลผลคำขอค้นหาสถานที่และพิกัดที่จำเป็นเพื่อส่งผลลัพธ์กลับมา การจัดการข้อมูลของบริการดังกล่าวเป็นไปตามนโยบายของ Apple ซึ่ง NapNav ไม่ได้ควบคุม</li>
+            <li>NapNav ไม่ใช้ข้อมูลเพื่อเชื่อมโยงกิจกรรมของคุณข้ามแอปหรือเว็บไซต์ และไม่ขายหรือให้เช่าข้อมูล</li>
         </ul>
 
-        <h2>3. สิทธิ์และการจัดการข้อมูลของคุณ</h2>
-        <p>คุณสามารถตรวจสอบ ปรับเปลี่ยน หรือเพิกถอนสิทธิ์การเข้าถึงตำแหน่งและการแจ้งเตือนได้ทุกเมื่อ ผ่านเมนู <strong>การตั้งค่า (Settings) &gt; NapNav</strong> บน iPhone ของคุณ</p>
+        <h2>3. ระยะเวลาเก็บข้อมูล การลบ และการเพิกถอนสิทธิ์</h2>
+        <p>ค่าการเตือนและสถานที่โปรดจะอยู่ในอุปกรณ์จนกว่าคุณจะลบรายการหรือเอาแอปออก สถานที่ล่าสุดลบทีละรายการหรือล้างทั้งหมดได้จากหน้ารายการ และระบบเก็บไว้ไม่เกิน 10 แห่ง snapshot ของทริปจะถูกลบเมื่อคุณหยุดหรือจบทริป NapNav ไม่มีบัญชีหรือสำเนาข้อมูลบนเซิร์ฟเวอร์ของผู้พัฒนาที่ต้องส่งคำขอลบข้อมูลแยกต่างหาก</p>
+        <p>คุณลบสถานที่โปรดและสถานที่ล่าสุดได้ในแอป หรือลบ NapNav จาก iOS เพื่อลบข้อมูลแอปที่จัดเก็บในอุปกรณ์ คุณเพิกถอนหรือปรับสิทธิ์ Location, Notifications และ AlarmKit ได้ที่ <strong>Settings &gt; NapNav</strong>; เมื่อปิด Location แอปจะไม่สามารถรับตำแหน่งเพื่อทำทริปต่อได้</p>
 
         <h2>4. ช่องทางติดต่อและบริการช่วยเหลือ (Support)</h2>
         <p>หากคุณมีคำถาม ข้อเสนอแนะ หรือต้องการความช่วยเหลือเกี่ยวกับการใช้งาน NapNav สามารถติดต่อทีมพัฒนาได้ที่:</p>
@@ -184,25 +186,27 @@
         <div class="updated-date">NapNav Application &bull; Last Updated: September 2026</div>
 
         <div class="highlight-box">
-            <strong>Core Privacy Principle:</strong> NapNav is built with <strong>Privacy by Design</strong>. We collect no personal data, implement zero user tracking, and perform all location processing locally on your device.
+            <strong>Privacy summary:</strong> NapNav uses the location provided by iOS during a trip you start to calculate distance. The app does not keep a continuous GPS route or send your live trip location to a developer-operated server. Place search and coordinate-to-place lookup use Apple Maps/MapKit and Core Location; information needed for those requests may be processed by Apple under its <a href="https://www.apple.com/legal/privacy/data/en/apple-maps/" target="_blank" rel="noopener">Apple Maps &amp; Privacy policy</a>.
         </div>
 
-        <h2>1. Data Usage &amp; Purpose</h2>
+        <h2>1. Data NapNav Uses and Why</h2>
         <ul>
-            <li><strong>Precise &amp; Coarse Location:</strong> Requested solely to compute real-time distance between your current location and your chosen destination, triggering alerts upon entering your selected radius. All GPS coordinates are processed entirely on-device in temporary memory. <strong>No route history is recorded, and no location data is ever transmitted to remote servers.</strong></li>
-            <li><strong>Notifications &amp; AlarmKit:</strong> Used to deliver alerts, alarms, and Lock Screen / Dynamic Island updates (Live Activities) when approaching or arriving at your destination.</li>
-            <li><strong>On-Device Local Storage:</strong> Preferences, radius options, and saved places (Favorites) are stored strictly within on-device local storage (UserDefaults) for your convenience.</li>
+            <li><strong>Location:</strong> NapNav requests While In Use location access to calculate distance and alert you during an active trip. iOS may provide background location updates while that trip is active, as allowed by the system. Current location samples are processed in memory and are not saved by the app as a continuous route.</li>
+            <li><strong>Map search and place lookup:</strong> Place search, search suggestions, and coordinate-to-place lookup use Apple Maps/MapKit and Core Location. Search text or coordinates needed to return results may be sent to Apple for processing under the <a href="https://www.apple.com/legal/privacy/data/en/apple-maps/" target="_blank" rel="noopener">Apple Maps privacy policy</a>.</li>
+            <li><strong>Information stored on your device:</strong> NapNav stores alert preferences, favorite destinations, and recent destinations in UserDefaults. Destination records include a name, details, coordinates, radius, and last-used date; up to 10 recent destinations are kept. While a trip is active, a recovery snapshot stores its destination, radius, start time, and trip/alert state, but not a continuous GPS route.</li>
+            <li><strong>Notifications, AlarmKit, and Live Activities:</strong> These use permissions you grant to deliver trip alerts and show trip status on the Lock Screen or Dynamic Island, depending on device and iOS support.</li>
         </ul>
 
-        <h2>2. Zero Tracking &amp; No Third-Party Analytics</h2>
+        <h2>2. Sharing and Tracking</h2>
         <ul>
-            <li>No advertising networks, analytics frameworks, or tracking SDKs are embedded.</li>
-            <li>No user identifiers or device fingerprinting are created or tracked.</li>
-            <li>We do not sell, rent, or share any data with third parties.</li>
+            <li>NapNav has no user accounts or developer-operated server that receives or stores trip locations, and the app does not include third-party advertising or analytics SDKs.</li>
+            <li>Apple Maps/MapKit processes place-search requests and the coordinates needed to return map results. Apple handles that information under its own privacy policy; NapNav does not control Apple's services.</li>
+            <li>NapNav does not use information to track you across other companies' apps or websites, and does not sell or rent data.</li>
         </ul>
 
-        <h2>3. Your Rights &amp; Control</h2>
-        <p>You can revoke or adjust location and notification permissions at any time via <strong>Settings &gt; NapNav</strong> on your iOS device.</p>
+        <h2>3. Retention, Deletion, and Permission Controls</h2>
+        <p>Alert preferences and favorite destinations remain on your device until you delete them or remove the app. You can delete recent destinations one at a time or clear the list in the app; the list is limited to 10 entries. NapNav deletes the active-trip recovery snapshot when you stop or finish a trip. NapNav has no account or developer-server copy for which you need to make a separate deletion request.</p>
+        <p>You can remove favorites and recent destinations in the app, or remove NapNav from iOS to delete the app's locally stored data. You can change or revoke Location, Notifications, and AlarmKit permissions in <strong>Settings &gt; NapNav</strong>. If Location is disabled, NapNav cannot receive location updates to continue a trip.</p>
 
         <h2>4. Contact &amp; Support</h2>
         <p>For questions, support, or feedback regarding NapNav, please reach out via:</p>

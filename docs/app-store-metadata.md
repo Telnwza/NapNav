@@ -1,6 +1,6 @@
 # NapNav - App Store Metadata & Launch Preparation
 
-เอกสารรวบรวมข้อมูลสำหรับกรอกในระบบ **App Store Connect** ครบทุกช่องตามข้อกำหนดของ Apple พร้อมภาษาไทยและภาษาอังกฤษ
+ร่างข้อมูลภาษาไทย/อังกฤษสำหรับตรวจทานก่อนกรอก **App Store Connect**; ยังไม่ใช่หลักฐานว่า metadata ที่เผยแพร่จริงตรงกับเอกสารนี้
 
 ---
 
@@ -8,12 +8,28 @@
 
 | หัวข้อ | ภาษาไทย | English | กฎของ Apple |
 | :--- | :--- | :--- | :--- |
-| **App Name** | `NapNav - ปลุกเตือนตามพิกัด` | `NapNav - GPS Transit Alarm` | ไม่เกิน 30 ตัวอักษร |
-| **Subtitle** | `งีบหลับสบาย ไม่ต้องกลัวเลยป้าย` | `Wake up before your stop` | ไม่เกิน 30 ตัวอักษร |
+| **App Name** | `NapNav - หลับไม่เลยป้าย` | `NapNav - Wake at Your Stop` | ไม่เกิน 30 ตัวอักษร |
+| **Subtitle** | `พักระหว่างทางได้อุ่นใจ` | `Rest on the way, stay aware` | ไม่เกิน 30 ตัวอักษร |
 | **Primary Category** | Navigation (การนำทาง) | Navigation | หมวดหมู่หลัก |
 | **Secondary Category** | Travel (การเดินทางและท่องเที่ยว) | Travel | หมวดหมู่รอง |
-| **Content Rights** | Does not contain third-party content | | |
+| **Content Rights** | ต้องตรวจใน App Store Connect: แอปแสดงข้อมูลแผนที่/สถานที่จาก Apple Maps | | ตรวจสิทธิ์และเงื่อนไข MapKit ก่อนยืนยัน |
 | **Age Rating** | 4+ (ไม่มีเนื้อหารุนแรง/ผู้ใหญ่) | 4+ | |
+
+---
+
+### Promotional Text (ข้อความโปรโมต)
+
+Apple limits Promotional Text to 170 characters per localization. ([App Store Connect Help](https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information))
+
+#### ภาษาไทย (107 ตัวอักษร)
+```text
+งีบระหว่างทางได้สบายใจขึ้น เลือกจุดหมายแล้วให้ NapNav เตือนเมื่อเข้าใกล้ พร้อมดูระยะทางที่เหลือบนหน้าจอล็อก
+```
+
+#### English (137 characters)
+```text
+Rest easier on the way. Choose a destination and let NapNav alert you when you're nearby. See the remaining distance on your Lock Screen.
+```
 
 ---
 
@@ -21,12 +37,12 @@
 
 > **ข้อแนะนำจาก Apple:** คั่นด้วยจุลภาค `,` ห้ามเว้นวรรคหลังจุลภาค ห้ามใส่ชื่อซ้ำกับชื่อแอป
 
-### ภาษาไทย (87 ตัวอักษร):
+### ภาษาไทย (94 Unicode code points; ต่ำกว่า 100):
 ```text
 ปลุก,เตือนพิกัด,บีทีเอส,mrt,bts,รถเมล์,รถไฟฟ้า,ตื่น,จุดหมาย,เลยป้าย,นาฬิกาปลุก,งีบ,ปลุกตามระยะ
 ```
 
-### English (98 characters):
+### English (97 characters; under 100):
 ```text
 transit,alarm,stop,wake,subway,train,bus,commute,sleep,nap,geofence,location,station,alert,arrive
 ```
@@ -47,36 +63,36 @@ transit,alarm,stop,wake,subway,train,bus,commute,sleep,nap,geofence,location,sta
 ```text
 เคยมั้ย? ขึ้นรถไฟฟ้า รถเมล์ หรือรถไฟหลังเลิกงานเหนื่อยๆ แล้วอยากงีบหลับ แต่ก็กังวลว่าจะนอนเพลินจนเลยป้าย...
 
-NapNav (แน็พนาฟ) คือแอปปลุกเตือนตามพิกัด GPS อัจฉริยะ ที่ออกแบบมาเพื่อคนเดินทางโดยเฉพาะ ช่วยให้คุณงีบหลับพักผ่อนได้อย่างสบายใจ โดยระบบจะส่งเสียงปลุกและสั่นเตือนอย่างแม่นยำก่อนถึงจุดหมายปลายทาง
+NapNav (แน็พนาฟ) คือแอปปลุกเตือนตามตำแหน่งสำหรับคนเดินทาง ช่วยให้คุณพักสายตาระหว่างทางและรับการเตือนเมื่อเข้าใกล้จุดหมายที่เลือก เวลาเตือนขึ้นกับตำแหน่งที่ได้รับ สิทธิ์ และการตั้งค่า iOS
 
 ฟีเจอร์เด่นของ NapNav:
-• ปลุกตรงจุดด้วย GPS อัจฉริยะ: เลือกระยะรัศมีแจ้งเตือนล่วงหน้าได้ตามต้องการ (500ม., 1 กม., 2 กม. ฯลฯ)
-• โหมดเตือนขั้นสุด "Use Both": ผสานพลังเสียงปลุกระดับ AlarmKit ร่วมกับการแจ้งเตือนแบบแบนเนอร์ ปลุกตื่นแน่นอนแม้เปิดโหมดเงียบ (บนอุปกรณ์ที่รองรับ)
-• แสดงสถานะแบบ Real-time บนหน้าจอล็อก: รองรับ Live Activities และ Dynamic Island ติดตามระยะทางที่เหลือได้ทันทีโดยไม่ต้องปลดล็อกเครื่อง
+• กำหนดระยะเตือนตามตำแหน่ง: เลือกรัศมีแจ้งเตือนล่วงหน้าได้ตามต้องการ (500 ม., 1 กม., 2 กม. ฯลฯ) ความแม่นยำและเวลาที่เตือนขึ้นกับสัญญาณ ตำแหน่ง และการตั้งค่า
+• โหมดเตือน "Use Both": ใช้ AlarmKit เป็นเสียงหลักบน iOS/อุปกรณ์ที่รองรับ พร้อม Notification แบบไม่มีเสียงเมื่ออนุญาตและพร้อมใช้งาน หาก AlarmKit ใช้ไม่ได้จะใช้ Notification เมื่อระบบอนุญาต ผลการเตือนขึ้นกับสิทธิ์และการตั้งค่าอุปกรณ์
+• ดูสถานะทริประหว่างทาง: เมื่อ Live Activity แสดงบนหน้าจอล็อกหรือ Dynamic Island คุณดูสถานะและระยะทางที่ระบบได้รับโดยไม่ต้องเปิดแอป
 • ค้นหาง่าย ปักหมุดสะดวก: ค้นหาสถานที่ หรือแตะลากหมุดบนแผนที่ได้อย่างอิสระ
 • บันทึกสถานที่โปรด: บันทึกสถานีประจำ บ้าน หรือที่ทำงาน เพื่อเริ่มทริปได้ในแตะเดียว
-• ประหยัดแบตเตอรี่: อัลกอริทึมคำนวณตำแหน่งแบบประหยัดพลังงาน ตรวจสอบแม่นยำสูงเฉพาะเมื่อเข้าใกล้พื้นที่
-• ปลอดภัย ไร้กังวล (100% Privacy): ไม่มีการเก็บข้อมูลส่วนบุคคล ไม่มีการติดตามพฤติกรรม ข้อมูลพิกัดประมวลผลบนเครื่องของคุณเท่านั้น
+• ติดตามตำแหน่งระหว่างทริปที่เริ่ม: ใช้ตำแหน่งเพื่อคำนวณระยะทาง การใช้แบตเตอรี่และความแม่นยำขึ้นกับอุปกรณ์ สัญญาณ และการตั้งค่า
+• ความเป็นส่วนตัว: ไม่มีบัญชีหรือ SDK โฆษณา/วิเคราะห์ข้อมูลจากผู้พัฒนา; สถานที่โปรดและล่าสุดจัดเก็บบนอุปกรณ์ การค้นหาสถานที่ใช้ Apple Maps/MapKit ซึ่งอาจส่งคำค้นหรือพิกัดที่จำเป็นให้ Apple
 
-ให้ทุกการเดินทางกลับบ้านหรือไปทำงานของคุณผ่อนคลายยิ่งขึ้น โหลด NapNav แล้วพักผ่อนสายตาได้เต็มที่เลยวันนี้!
+ให้ทุกการเดินทางกลับบ้านหรือไปทำงานของคุณผ่อนคลายยิ่งขึ้น โหลด NapNav แล้วพักผ่อนสายตาได้เต็มที่เลยวันนี้! โปรดสังเกตป้ายและประกาศระหว่างเดินทาง เพราะตำแหน่งและการส่งการเตือนอาจล่าช้าหรือไม่พร้อมใช้งาน
 ```
 
 ### ภาษาอังกฤษ (English Description):
 ```text
 Tired after a long day? Want to take a quick nap on the train, subway, or bus without worrying about missing your stop?
 
-NapNav is your smart location-based transit alarm that wakes you up right before you arrive. Designed specifically for commuters, NapNav lets you rest peacefully knowing you won’t miss your destination.
+NapNav is a location-based transit alarm designed for commuters. It helps you rest along the way and receive an alert as you approach your selected stop. Alert timing depends on location, permissions, and iOS settings.
 
 Key Features:
-• Precise GPS Geofencing: Customize your alert radius (500m, 1km, 2km, etc.) to get notified right on time.
-• "Use Both" Dual Alarm System: Combines prominent AlarmKit ringtones with notifications to ensure you wake up even in silent mode (on supported devices).
-• Live Activities & Dynamic Island: Glance at remaining distance and real-time transit progress right from your Lock Screen without unlocking your iPhone.
+• Adjustable Location Alert Radius: Choose a radius for NapNav to attempt an alert (500m, 1km, 2km, and more). Accuracy and timing vary with signal, location, and device settings.
+• "Use Both" Alert Mode: Uses AlarmKit as its primary sound on supported iOS devices when authorized, with a silent notification companion when available. If AlarmKit is unavailable, NapNav uses the notification path when allowed. Delivery depends on permissions and device settings.
+• Live Activities & Dynamic Island: When an activity is available, view trip status and the remaining distance reported by the device on your Lock Screen or Dynamic Island.
 • Intuitive Map Pinning: Search destinations effortlessly or drag-and-drop pins anywhere on the map.
 • Favorite Places: Save your frequent transit stations, home, or office for instant one-tap trip starts.
-• Battery Efficient: Smart tracking algorithm conserves battery while away and increases GPS precision only when nearing your stop.
-• 100% Privacy by Design: Zero user tracking, no ads, and no external data logging. All location processing happens entirely on your device.
+• Location During Active Trips: NapNav uses location updates while a trip is active; battery use and accuracy vary by device, signal, and settings.
+• Privacy: No NapNav account, developer-operated location server, or third-party advertising/analytics SDK. Favorites and recent destinations are stored on device. Place search uses Apple Maps/MapKit, which may send the query or coordinates needed to Apple.
 
-Make your daily commute restful and worry-free. Download NapNav today and nap with confidence!
+Make your daily commute restful and worry-free. Download NapNav today and nap with confidence! Location accuracy and alert delivery can be affected by signal, permissions, and device settings; continue to monitor transit signs and announcements.
 ```
 
 ---
@@ -105,11 +121,11 @@ Make your daily commute restful and worry-free. Download NapNav today and nap wi
    - *ข้อความพาดหัว:* "ปักหมุดจุดหมายง่ายๆ เลือกระยะเตือนได้ตามใจ"
    - *หน้าจอ:* แผนที่ปักหมุดที่สถานีปลายทาง พร้อมวงรัศมีวงกลมสีฟ้าสวยงาม
 2. **รูปที่ 2 - หน้าระหว่างเดินทางและตั้งค่าเสียงเตือน (Alert Method: Use Both)**
-   - *ข้อความพาดหัว:* "ระบบปลุกคู่ Use Both ปลุกตื่นชัวร์ แม้เปิดโหมดเงียบ"
+   - *ข้อความพาดหัว:* "Use Both: AlarmKit พร้อมการแจ้งเตือนบนอุปกรณ์ที่รองรับ"
    - *หน้าจอ:* หน้ารายการเลือกวิธีเตือนที่มี "เตือนทั้งสองแบบ (Use Both)" อยู่บนสุด
 3. **รูปที่ 3 - หน้าจอล็อกและ Dynamic Island (Live Activities)**
-   - *ข้อความพาดหัว:* "เช็กระยะทางแบบเรียลไทม์ บน Lock Screen"
-   - *หน้าจอ:* หน้าจอล็อกที่กำลังแสดง Widget Live Activity บอกระยะทางถอยหลังสู่จุดหมาย
+   - *ข้อความพาดหัว:* "ดูสถานะทริปบน Lock Screen"
+   - *หน้าจอ:* หน้าจอล็อกที่แสดง Live Activity พร้อมสถานะและระยะทางที่อุปกรณ์รายงาน
 4. **รูปที่ 4 - หน้าจัดการสถานที่โปรดและประวัติ (Favorites & History)**
    - *ข้อความพาดหัว:* "บันทึกสถานที่โปรด เริ่มเดินทางได้ในสัมผัสเดียว"
    - *หน้าจอ:* รายการสถานีโปรด เช่น "บ้าน", "ที่ทำงาน", "BTS อโศก"
@@ -125,20 +141,18 @@ Hello Apple App Review Team,
 
 Thank you for reviewing NapNav!
 
-NapNav is an on-device, location-based proximity alarm designed to help public transit commuters rest without missing their stop.
+NapNav is a location-based proximity alarm that helps transit commuters receive an alert near a destination they select.
 
 Key Testing Notes:
 1. No Login Required: The app functions immediately without any user authentication, sign-up, or third-party accounts.
-2. Background Location Usage: NapNav uses 'When In Use' location authorization coupled with the background location capability (UIBackgroundModes: location). This is required strictly to calculate the distance between the commuter and their destination while the screen is locked, firing the alarm when crossing the preset geofence perimeter. No background location is collected when a trip is not active.
-3. How to Test Arrival Alarm:
-   - Method A (Simulated GPX Route): In Xcode, simulate location using any of the GPX test files provided in the repository (e.g. TestRoutes/approach-destination.gpx).
-   - Method B (Physical On-Device Test): 
-     a. Grant Location and Notification permissions.
-     b. Search or drop a pin at a landmark ~300-500 meters from your current location.
-     c. Select alert radius (e.g. 500m).
-     d. Tap "Start Trip".
-     e. Because you are already within or approaching the perimeter, the alarm trigger will activate promptly, demonstrating the alarm sound, haptic feedback, and Live Activity / Dynamic Island presentation.
-4. Contact: If you need any clarification or assistance during review, please reach out via email: techin.cr@gmail.com.
+2. Background Location Usage: NapNav requests 'When In Use' authorization and uses the location background mode only while a trip is active, so it can update distance while the screen is locked when iOS allows it. NapNav does not request 'Always' authorization. Location accuracy and alert timing can vary with signal, permissions, and system activity.
+3. How to Review the Trip Alert:
+   - On a supported iPhone, allow While In Use location and Notifications. On iOS 26 or later, allow AlarmKit if the system prompt is shown.
+   - Choose a destination near the device's current location and a radius that includes the current location, then tap "Start Trip" and wait for a fresh location update.
+   - Observe the trip status and alert. Alert delivery and sound depend on authorization and device settings; NapNav does not guarantee an exact trigger time.
+   - Stop or finish the trip from inside NapNav after review. The system alarm's stop control silences that alarm; it does not end the active trip.
+4. Siri App Shortcuts: "Go home with NapNav" starts a trip to the saved Home destination, or the first saved favorite if Home is not set. "Stop alert" stops the active trip when explicitly invoked. Siri shortcuts are optional; the trip can be reviewed using the in-app steps above.
+5. Contact: If you need any clarification or assistance during review, please reach out via email: techin.cr@gmail.com.
 
 Best regards,
 Techin
@@ -148,18 +162,14 @@ Techin
 
 ## 8. App Privacy Questionnaire (แบบสอบถามความเป็นส่วนตัวใน App Store Connect)
 
-เมื่อ Apple ถามในแท็บ **App Privacy**:
+จาก source snapshot ที่ตรวจ ไม่พบ NapNav account/server, analytics/ad SDK หรือการส่ง live GPS ไปยังระบบของผู้พัฒนา; ตำแหน่งที่ใช้เฉพาะบนอุปกรณ์ไม่ถือเป็น data collected ตามคำอธิบายของ Apple และข้อมูลที่ Apple เก็บผ่าน Apple frameworks/services ไม่ใช่ข้อมูลที่ผู้พัฒนาต้องประกาศแทน Apple
 
-1. **Do you or your third-party partners collect data from this app?**
-   - ตอบ: **Yes** (เพราะมีการใช้พิกัดตำแหน่งในเครื่อง)
-2. **Data Types ที่เลือก:**
-   - ติ๊กเลือกเฉพาะ: **Location** -> **Precise Location** และ **Coarse Location**
-3. **การใช้งานพิกัด (Usage Purpose):**
-   - ติ๊กเลือก: **App Functionality** (การทำงานของแอป)
-4. **Is this data linked to the user's identity?**
-   - ตอบ: **No** (ไม่มีการผูกโยงกับตัวตนผู้ใช้)
-5. **Do you use this data for tracking purposes?**
-   - ตอบ: **No** (ไม่มีการสะกดรอยข้ามแอป/เว็บไซต์)
+1. **Do you or your third-party partners collect data from this app?** — draft answer: **No**, หลังตรวจยืนยัน release binary และ third-party SDK/บริการที่ใช้จริงอีกครั้ง
+2. **Data Types:** ไม่เลือกประเภทข้อมูล หากไม่มีการเก็บข้อมูลเพิ่มจาก source snapshot นี้
+3. **Tracking:** **No**; source ที่ตรวจไม่พบ ATT/IDFA use หรือการเชื่อมข้อมูลข้ามแอป/เว็บไซต์
+4. หากเพิ่ม analytics, advertising, crash reporting, account, backend, หรือ SDK ที่รับข้อมูล ต้องทบทวน App Privacy label และนโยบายนี้ใหม่ก่อนส่ง
+
+หมายเหตุ: Apple Maps/MapKit อาจประมวลผลข้อความค้นหาและพิกัดที่จำเป็นต่อผลลัพธ์ตามนโยบายของ Apple; ดู [App Privacy Details](https://developer.apple.com/app-store/app-privacy-details/) และ [Apple Maps & Privacy](https://www.apple.com/legal/privacy/data/en/apple-maps/). ตรวจรายการ dependency และ processed archive ก่อนเลือกคำตอบใน App Store Connect ทุกครั้ง
 
 ---
 
@@ -173,11 +183,11 @@ Techin
 
 ## 10. General App Information (ข้อมูลทั่วไปของแอป)
 
-* **Primary Category (หมวดหมู่หลัก):** Navigation (การนำทาง) หรือ Travel (การเดินทาง)
-* **Secondary Category (หมวดหมู่รอง):** Utilities (เครื่องมืออำนวยความสะดวก)
+* **Primary Category (หมวดหมู่หลัก):** Navigation (การนำทาง) — ให้ตรงกับตารางข้อ 1
+* **Secondary Category (หมวดหมู่รอง):** Travel (การเดินทางและท่องเที่ยว) — ให้ตรงกับตารางข้อ 1
 * **Price (ราคา):** Free (ฟรี)
 * **Availability (พื้นที่จำหน่าย):** All Countries and Regions (ทั่วโลก) หรือเฉพาะ Thailand ตามต้องการ
 * **Copyright:** `2026 Techin`
 * **Trade Representative Contact:** กรอกชื่อ-นามสกุล ที่อยู่ และเบอร์โทรศัพท์ของตนเอง
 * **Export Compliance (การปฏิบัติตามกฎหมายการส่งออก):**
-  - ตัวแอปมีคีย์ `ITSAppUsesNonExemptEncryption = NO` ใน `Info.plist` แล้ว ระบบจะไม่ถามคำถามเรื่องการเข้ารหัสซ้ำซ้อน
+  - `NapNav/Info.plist` ระบุ `ITSAppUsesNonExemptEncryption = NO`; ยืนยันคำตอบอีกครั้งกับสิ่งที่ release binary ใช้จริงใน App Store Connect

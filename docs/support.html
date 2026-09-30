@@ -167,28 +167,33 @@
         <div class="subtitle">รวมคำตอบสำหรับทุกข้อสงสัยเกี่ยวกับการใช้งาน NapNav เพื่อให้คุณเดินทางได้อุ่นใจที่สุด</div>
 
         <div class="faq-item">
-            <div class="faq-question">1. ทำไม NapNav ต้องขอสิทธิ์ตำแหน่ง (Location) แบบ "ตลอดเวลา" (Always)?</div>
-            <p class="faq-answer">เพื่อให้แอปยังคอยเฝ้าพิกัดและส่งเสียงปลุกคุณได้ตรงเวลา แม้ในขณะที่คุณล็อคหน้าจอนอนหลับ หรือสลับไปเปิดแอปอื่นระหว่างเดินทาง โดยพิกัดจะถูกนำมาคำนวณระยะทางบนเครื่องของคุณเท่านั้น ไม่เคยมีการส่งข้อมูลออกนอกเครื่องครับ</p>
+            <div class="faq-question">1. NapNav ขอสิทธิ์ตำแหน่งแบบใด และทำไมต้องใช้?</div>
+            <p class="faq-answer">NapNav ขอสิทธิ์ "ขณะใช้แอป (When In Use)" ไม่ได้ขอ Always เมื่อคุณเริ่มทริป แอปใช้ตำแหน่งเพื่อคำนวณระยะทางและเตือนเมื่อเข้าใกล้จุดหมาย รวมถึงรับตำแหน่งเบื้องหลังขณะทริปยังทำงานตามที่ iOS อนุญาต การค้นหาสถานที่ใช้บริการ Apple Maps/MapKit; โปรดอ่าน <a href="privacy.html">นโยบายความเป็นส่วนตัว</a> สำหรับข้อมูลที่จัดเก็บและบริการ Apple</p>
         </div>
 
         <div class="faq-item">
             <div class="faq-question">2. โหมดเตือนคู่ "Use Both" ทำงานอย่างไร และดีกว่าโหมดยังไง?</div>
-            <p class="faq-answer">Use Both รวมจุดเด่นของ <strong>ระบบเสียงปลุกฉุกเฉิน (AlarmKit)</strong> เข้ากับ <strong>การแจ้งเตือนสั่นสะเทือน (Notification)</strong> ทำให้ต่อให้คุณเผลอเปิดสวิตช์ปิดเสียงเครื่อง (Silent Switch) หรือเปิดโฟกัสห้ามรบกวน (Do Not Disturb) เอาไว้ เสียงปลุกก็ยังดังทะลุออกมาปลุกให้คุณตื่นได้ทันแน่นอน</p>
+            <p class="faq-answer">Use Both ใช้ AlarmKit เป็นเสียงหลักบน iOS และอุปกรณ์ที่รองรับและเมื่อคุณอนุญาต พร้อมการแจ้งเตือนแบบไม่มีเสียงเป็น companion หาก AlarmKit ใช้ไม่ได้ แอปจะใช้เส้นทาง Notification เมื่อระบบอนุญาต ผลการเตือนขึ้นกับสิทธิ์ การตั้งค่า iOS และความแม่นยำของตำแหน่ง จึงไม่รับประกันว่าจะปลุกได้ทุกกรณี</p>
         </div>
 
         <div class="faq-item">
             <div class="faq-question">3. เปิดระบบตรวจจับตำแหน่งแบบนี้ จะกินแบตเตอรี่ไหม?</div>
-            <p class="faq-answer">ไม่กินแบตเตอรี่อย่างที่คิดครับ เพราะ NapNav ออกแบบให้จัดสรรพลังงานแบบอัจฉริยะ ตอนที่คุณยังอยู่ไกลจากจุดหมาย ระบบจะรับสัญญาณ GPS แบบประหยัดพลังงานเป็นระยะ และจะเริ่มใช้ความแม่นยำสูงเมื่อระยะทางเริ่มงวดเข้าใกล้รัศมีที่คุณตั้งไว้เท่านั้น</p>
+            <p class="faq-answer">NapNav ใช้การอัปเดตตำแหน่งระหว่างทริปที่กำลังทำงาน การใช้แบตเตอรี่ขึ้นกับระยะเวลาทริป สภาพสัญญาณ อุปกรณ์ และการตั้งค่า iOS หากไม่ต้องการติดตามต่อ ให้หยุดหรือจบทริปในแอป</p>
         </div>
 
         <div class="faq-item">
             <div class="faq-question">4. ถ้าเครื่องดับ หรือเผลอปิดแอปไปกลางทาง จะทำอย่างไร?</div>
-            <p class="faq-answer">NapNav มีระบบจดจำสถานะฉุกเฉิน (Startup Recovery) เมื่อคุณเปิดเครื่องหรือเปิดแอปขึ้นมาใหม่ ระบบจะตรวจพบว่ามีทริปที่ยังเดินทางค้างอยู่ และขึ้นหน้าจอให้คุณแตะเดินทางต่อได้ทันทีโดยไม่ต้องค้นหาปลายทางใหม่</p>
+            <p class="faq-answer">NapNav บันทึกข้อมูลทริปที่กำลังทำงานไว้เพื่อให้แอปแสดงตัวเลือกกู้คืนเมื่อเปิดแอปอีกครั้ง แต่การปิดแอปหรือรีสตาร์ตเครื่องอาจทำให้การรับตำแหน่งสะดุด และ iOS อาจพักหรือยุติกระบวนการของแอปได้ การเตือนจึงอาจล่าช้าหรือไม่เกิดขึ้นในช่วงดังกล่าว</p>
         </div>
 
         <div class="faq-item">
             <div class="faq-question">5. บันทึกสถานที่ที่ไปบ่อย หรือปรับรัศมีเตือนตรงไหน?</div>
             <p class="faq-answer">ก่อนเริ่มเดินทาง คุณสามารถเลื่อนแถบเพื่อเลือกระยะเตือนล่วงหน้าได้ตามต้องการ (เช่น 500 ม., 1 กม. หรือปรับแบบละเอียด) และสามารถกดไอคอนรูปหัวใจเพื่อเซฟเก็บไว้เป็น "สถานที่โปรด" (Favorites) เช่น บ้าน หรือที่ทำงาน ให้แตะเริ่มทางได้ทันทีในครั้งถัดไป</p>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">6. NapNav รับประกันเวลาเตือนหรือความแม่นยำของ GPS ได้ไหม?</div>
+            <p class="faq-answer">ไม่ได้ครับ ตำแหน่งอาจคลาดเคลื่อนหรืออัปเดตช้า โดยเฉพาะในอาคาร อุโมงค์ พื้นที่สัญญาณอ่อน หรือเมื่อ iOS จำกัดการทำงานเบื้องหลัง NapNav ช่วยเตือนจากตำแหน่งที่ได้รับ แต่ไม่ควรใช้แทนการสังเกตป้ายและประกาศระหว่างเดินทาง</p>
         </div>
 
         <div class="contact-box">
@@ -212,28 +217,33 @@
         <div class="subtitle">Frequently asked questions and guides to help you travel worry-free with NapNav.</div>
 
         <div class="faq-item">
-            <div class="faq-question">1. Why does NapNav require "Always" location permission?</div>
-            <p class="faq-answer">This permission allows the app to monitor your location and fire the alarm when you enter your target zone, even while your screen is locked or you have switched to another app. All GPS coordinates remain strictly on your iPhone and are never uploaded to any server.</p>
+            <div class="faq-question">1. What location permission does NapNav request and why?</div>
+            <p class="faq-answer">NapNav requests "While In Use" location access, not Always. While a trip is active, the app uses location updates to calculate distance and alert you near the destination, including background updates when allowed by iOS. Place search uses Apple Maps/MapKit. See the <a href="privacy.html">Privacy Policy</a> for details about stored information and Apple services.</p>
         </div>
 
         <div class="faq-item">
             <div class="faq-question">2. How does the "Use Both" alert mode work?</div>
-            <p class="faq-answer">Use Both combines prominent emergency alarms (AlarmKit on supported iOS) with standard notifications and haptics. It is designed to sound through the Silent switch and Focus filters, ensuring you wake up even from deep sleep.</p>
+            <p class="faq-answer">Use Both uses AlarmKit as its primary sound on supported iOS devices when you authorize it, with a silent notification companion when available. If AlarmKit cannot be used, NapNav uses the notification path when available. Delivery depends on permissions, iOS settings, and location accuracy, so an alert cannot be guaranteed in every situation.</p>
         </div>
 
         <div class="faq-item">
             <div class="faq-question">3. Does continuous background tracking drain battery life?</div>
-            <p class="faq-answer">NapNav uses adaptive location management. While you are far from your destination, it runs in a low-power mode with reduced GPS frequency. It only ramps up to high accuracy as you approach your alert perimeter, keeping battery impact minimal.</p>
+            <p class="faq-answer">NapNav receives location updates while a trip is active. Battery use varies with trip duration, signal conditions, device, and iOS settings. Stop or finish the trip in the app when you no longer want location tracking.</p>
         </div>
 
         <div class="faq-item">
             <div class="faq-question">4. What happens if my iPhone restarts or the app terminates mid-journey?</div>
-            <p class="faq-answer">NapNav includes an automatic Startup Recovery system. When reopened, the app recognizes your active trip and prompts you to resume tracking with a single tap, without re-entering your destination.</p>
+            <p class="faq-answer">NapNav saves an active-trip snapshot so it can offer a recovery choice when reopened. Closing the app or restarting the device may interrupt location updates, and iOS may suspend or terminate the app process. An alert may be delayed or may not occur during such an interruption.</p>
         </div>
 
         <div class="faq-item">
             <div class="faq-question">5. How do I change the alert radius or save favorite destinations?</div>
             <p class="faq-answer">When choosing your destination, select a preset radius (500m, 1km, 2km) or drag the custom distance slider. Tap the heart icon on any destination card to save it to your Favorites (like Home or Office) for quick one-tap starts.</p>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">6. Can NapNav guarantee GPS accuracy or an exact alert time?</div>
+            <p class="faq-answer">No. Location can be inaccurate or delayed, especially indoors, in tunnels, in areas with weak reception, or when iOS limits background activity. NapNav alerts using the location it receives; continue to watch station signs and listen for transit announcements.</p>
         </div>
 
         <div class="contact-box">

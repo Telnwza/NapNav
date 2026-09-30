@@ -23,10 +23,17 @@ final class CurrentLocationModel {
         self.requestTimeout = requestTimeout
     }
 
-    func requestOnce() {
+    func requestOnce(requestAuthorizationIfNeeded: Bool = false) {
         guard updateTask == nil, coordinate == nil else { return }
 
-        authorizationManager.requestWhenInUseAuthorization()
+        let status = authorizationManager.authorizationStatus
+        if status == .notDetermined {
+            guard requestAuthorizationIfNeeded else { return }
+            authorizationManager.requestWhenInUseAuthorization()
+        } else if status != .authorizedWhenInUse && status != .authorizedAlways {
+            return
+        }
+
         serviceSession = CLServiceSession(authorization: .whenInUse)
         let timeout = requestTimeout
         updateTask = Task { [weak self] in
@@ -65,10 +72,10 @@ final class CurrentLocationModel {
         finishRequest()
     }
 
-    func requestFreshLocation() {
+    func requestFreshLocation(requestAuthorizationIfNeeded: Bool = false) {
         finishRequest()
         coordinate = nil
-        requestOnce()
+        requestOnce(requestAuthorizationIfNeeded: requestAuthorizationIfNeeded)
     }
 
     private func finishRequest() {
@@ -218,6 +225,7 @@ struct DestinationView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.openURL) private var openURL
+    @Environment(\.scenePhase) private var scenePhase
     var store: TripStore
     let onRequestStopConfirmation: () -> Void
     @State private var search: PlaceSearchService
@@ -308,6 +316,16 @@ struct DestinationView: View {
         .toolbar(.hidden, for: .navigationBar)
         .task {
             currentLocation.requestOnce()
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                currentLocation.requestOnce()
+            }
+        }
+        .onChange(of: store.showsOnboarding) { _, shows in
+            if !shows {
+                currentLocation.requestOnce()
+            }
         }
         .onChange(of: store.phase) { _, phase in
             if phase == .alarm {
@@ -1680,7 +1698,7 @@ struct DestinationView: View {
                 )
             }
         } else {
-            currentLocation.requestFreshLocation()
+            currentLocation.requestFreshLocation(requestAuthorizationIfNeeded: true)
             if let coordinate = currentLocation.coordinate {
                 centerOnUser(coordinate)
             } else {
