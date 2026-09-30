@@ -1,3 +1,37 @@
+## 2026-09-30 23:50 — Repository: commit and push reviewed documentation
+
+- **Status:** In progress
+- **Goal:** Commit the completed NapNav documentation updates and push them to `main`, as explicitly authorized by the user.
+- **Baseline:** Read `docs/NAPNAV_REMEDIATION_PLAN.md` and this report first. Branch is `main` at `db7937f`, tracking `origin/main` at the same commit. Seven tracked documentation files are modified: `AGENTS.md`, `README.md`, `docs/A1_D_A1_2_HANDOFF.md`, this report, `docs/LUNA_CODE_FIX_TICKETS.md`, `docs/NAPNAV_REMEDIATION_PLAN.md`, and `docs/app-store-metadata.md`. `NapNav.xcodeproj/xcshareddata/xcodecloud/manifest.json` is untracked and outside this documentation change.
+- **Expected files:** The seven tracked documentation files listed above.
+- **Changes:** Staged only the seven reviewed documentation files. The untracked Xcode Cloud manifest remains outside the staged change. The requested target is `origin/main`.
+- **Test evidence:** `git diff --check` and `git diff --cached --check` exited 0. `git diff --cached --name-only` lists exactly the seven expected files; no app tests or build are requested for this documentation commit.
+- **Risks / open items:** Push is pending. No signing, release, or App Store Connect state will be changed.
+- **Next:** Commit the verified seven-file staged change, then push `main` and record exact results.
+
+## 2026-09-30 23:47 — Documentation: English report and handoff preference
+
+- **Status:** Complete
+- **Goal:** Record the user's global preference for English reports and handoffs, preserving Thai where the Thai wording or context itself matters.
+- **Baseline:** Read `docs/NAPNAV_REMEDIATION_PLAN.md` and this report first, as required by `AGENTS.md`. `HEAD=db7937f`; pre-existing local modifications are present in `README.md`, this report, `docs/A1_D_A1_2_HANDOFF.md`, `docs/LUNA_CODE_FIX_TICKETS.md`, `docs/NAPNAV_REMEDIATION_PLAN.md`, and `docs/app-store-metadata.md`; `NapNav.xcodeproj/xcshareddata/xcodecloud/manifest.json` is untracked. These changes are outside this task and must be preserved.
+- **Files changed:** `AGENTS.md`, this report, and `/Users/te/.codex/memories/extensions/ad_hoc/notes/2026-09-30-2347-english-report-handoff-preference.md`.
+- **Changes:** Added an English-by-default rule to `AGENTS.md` and created a global memory note with the same preference; both preserve Thai when exact wording or context matters.
+- **Test evidence:** Read back the memory note and inspected the repo guidance. `git diff --check` exited 0. No app source, build, Simulator/GPX, or iPhone tests are in scope for this documentation-only change.
+- **Risks / open items:** None for this preference update. The existing unrelated local edits and untracked Xcode Cloud manifest remain untouched.
+- **Next:** None. No commit or push was made.
+
+## 2026-09-30 23:23 — A4: ซิงก์สถานะ push และตรวจเอกสาร Markdown
+
+- **สถานะ:** เสร็จสำหรับการซิงก์สถานะและ audit เอกสาร; App Review/release gates ยังเปิดตามแผน
+- **เป้าหมาย:** ยืนยันสถานะ commit/push ที่ผู้ใช้แจ้ง แล้วตรวจว่าแผน, development report และ Markdown ปัจจุบัน/เก่าระบุสถานะหรือข้อเท็จจริงที่ยังใช้ได้ตรงกันหรือไม่
+- **baseline:** อ่าน `docs/NAPNAV_REMEDIATION_PLAN.md` และรายงานนี้ก่อนเริ่มตรวจไฟล์อื่น. `HEAD=origin/main=db7937f37f062daf0ec9e91954a2a767b9f954c0`; branch `main` clean เมื่อเทียบกับ remote; มี untracked `NapNav.xcodeproj/xcshareddata/xcodecloud/manifest.json` ซึ่งไม่เกี่ยวกับงานนี้. แผนระบุอัปเดต 25 ก.ย. 2026 และมี A4/device/release gates เปิด; รายงานรายการล่าสุดยังบอกว่า push ถูกปฏิเสธก่อนรัน ซึ่งถูกต้องตามเวลารายการนั้นแต่ต้องเพิ่มสถานะล่าสุด
+- **ไฟล์ที่เปลี่ยน:** `README.md`, `docs/NAPNAV_REMEDIATION_PLAN.md`, `docs/LUNA_CODE_FIX_TICKETS.md`, `docs/A1_D_A1_2_HANDOFF.md`, `docs/app-store-metadata.md` และรายงานนี้. ไม่แก้ `archive/docs/` หรือ untracked Xcode Cloud manifest
+- **การเปลี่ยนแปลง:** ซิงก์แผนให้สะท้อน push ที่ผู้ใช้ทำเองและสถานะ security/A3 จริง; ระบุ S1 automated `stop-trip` กับสิ่งค้างของ `stop-alarm`/iPhone; ปรับ ticket/handoff source paths จาก `StopAlarm/` เป็น source folders ปัจจุบัน; ทำ handoff เดิมให้ระบุว่า A2.1–A2.3 เสร็จแล้ว; แก้ README ให้เป็น iOS 18/Swift 6/Xcode 16 และเอา static `126/126` badge/ข้ออ้าง alert/accessibility ที่เกินหลักฐานออก; คง App Name, Subtitle, Promotional Text และ keyword strings ตามเดิม พร้อมทำเครื่องหมาย keyword byte-limit/duplicate, screenshot specs และ What’s New first-version status
+- **หลักฐานทดสอบ:** ณ baseline `HEAD` และ local `origin/main` ชี้ `db7937f`; `git status --short --branch` ยืนยัน branch ไม่มี ahead/behind และแสดงเฉพาะ 6 Markdown ที่แก้ในงานนี้กับ untracked Xcode Cloud manifest. `rg --files -g '*.md'` เทียบ `git ls-files '*.md'` พบ 24 ไฟล์ครบ; `git diff --check` exit 0. ตรวจ source settings ยืนยัน iOS 18, Swift 6, iPhone+iPad; source route ยืนยัน `stop-trip` ใช้ confirmation ส่วน `stop-alarm` ยังสั่ง `handleStopAlarm()` โดยตรง. ตรวจ Apple App Store Connect Help ปัจจุบันเรื่อง 100-byte keywords, 170-character Promotional Text, What’s New และ screenshot sizes; link อ้างอิงอยู่ใน metadata draft
+- **Build/Simulator/GPX/iPhone:** ไม่รัน tests, build, Simulator/GPX หรือ iPhone เพราะรอบนี้แก้เฉพาะเอกสาร. Test `126/126` และ unsigned Release build ที่บันทึกใน audit 21:26 เป็นหลักฐานของ source fingerprint `a8ae7...` ในเวลานั้น ไม่ใช่หลักฐานของ copy/localization snapshot ที่ commit `db7937f`; ไม่มีการยืนยัน test/build ใหม่หลังการคืนคำโปรยล่าสุด
+- **ความเสี่ยง/สิ่งค้าง:** Thai keywords มี 246 UTF-8 bytes เกิน 100 และมีคำซ้ำชื่อ; English มี `stop` ซ้ำชื่อ. ต้องให้ผู้ใช้เลือกคำค้นใหม่ก่อนกรอก. Screenshot files จริงยังไม่ได้ตรวจ/จัดทำสำหรับ iPhone+iPad. Live privacy/support URLs ลองเปิดผ่าน web tool แล้วแต่ไม่ accessible; deploy/HTTP ยังไม่ยืนยัน. App Store Connect category/privacy/reviewer metadata และ processed binary ยังไม่มีหลักฐาน; `napnav://stop-alarm` route/security กับ iPhone checks ยังเปิด. เอกสารใน `archive/docs/` และ artwork boards เป็นบันทึกของช่วงเวลานั้น ไม่ใช่ release status ปัจจุบัน
+- **งานถัดไป:** ปรับ keyword draft โดยรักษาความหมายที่ผู้ใช้เลือก, ตรวจ URL จาก browser/hosting, สร้าง screenshots ตาม target iPhone+iPad, ทบทวน App Store Connect fields/processed build, ปิด `stop-alarm` decision และ manual iPhone/device gates; คง A4/release status เปิดจนมีหลักฐานครบ
+
 ## 2026-09-30 23:09 — A4: บันทึก Promotional Text ตามฉบับผู้ใช้
 
 - **สถานะ:** commit อยู่ในเครื่องแล้ว; push ถูก auto-review ปฏิเสธก่อนรันคำสั่ง

@@ -3,6 +3,8 @@
 อัปเดต: 23 กันยายน 2026  
 สถานะ: เสร็จสำหรับ automated gate; A1-R ปิดในขอบเขต automated verification แล้ว
 
+> **เอกสาร handoff ตามเวลา (superseded):** ส่วน “งานถัดไป” เดิมชี้ไป A2.1 ซึ่งทำเสร็จแล้วพร้อม A2.2/A2.3. สถานะงานปัจจุบันและ device/release gates ให้อ่าน `docs/NAPNAV_REMEDIATION_PLAN.md` กับรายการล่าสุดใน `docs/DEVELOPMENT_REPORT.md`; การทดสอบบน iPhone สำหรับ A1 ยังไม่ยืนยัน
+
 ## การตัดสินใจและ contract
 
 ผู้ใช้เลือกข้อ 1: ถ้าไม่มี delivery path ที่พร้อม ห้ามเริ่ม **Trip Alarm** และ
@@ -20,14 +22,14 @@ readiness กลับมา
 
 ## การเปลี่ยนแปลงที่ทำแล้ว
 
-- `StopAlarm/TripStore.swift`: start gate ก่อน location permission และ trip-state
+- `NapNav/TripStore.swift`: start gate ก่อน location permission และ trip-state
   mutation; unavailable แสดง Alert Settings และไม่เริ่ม resource ของทริป
-- `StopAlarm/DomainModels.swift`: fallback ไป Notification ที่ระบบปิดเสียง
+- `NapNav/DomainModels.swift`: fallback ไป Notification ที่ระบบปิดเสียง
   รวม muted-system explanation ใน summary
-- `StopAlarmTests/AlertSettingsTests.swift`: no-path matrix 4 delivery modes ×
+- `NapNavTests/AlertSettingsTests.swift`: no-path matrix 4 delivery modes ×
   2 sound modes, blocked start/recovery, AlarmKit-only start, muted fallback
   copy และ readiness/path recovery
-- `StopAlarmTests/TripStoreTests.swift`: regression coverage ว่า AlarmKit-only
+- `NapNavTests/TripStoreTests.swift`: regression coverage ว่า AlarmKit-only
   ที่ Notification denied ยังเริ่มทริปและขอ location ตามปกติ
 - `archive/docs/NAPNAV_ALERT_BEHAVIOR_TABLE.md`, `docs/NAPNAV_REMEDIATION_PLAN.md`,
   `docs/LUNA_CODE_FIX_TICKETS.md`, `docs/DEVELOPMENT_REPORT.md`: contract,
@@ -62,8 +64,7 @@ Automated tests และ generic Release build ไม่ยืนยันเ�
 การสั่น, locked screen, background หรือการได้รับ alert บน iPhone จริง สิ่งเหล่านี้
 ยังเป็น A4 physical-device gate; ห้ามใช้ผล Simulator แทนหลักฐานดังกล่าว
 
-## งานถัดไป
+## งานถัดไป (ข้อความเดิมถูก supersede)
 
-ตาม dependency ให้เริ่ม A2.1: ป้องกัน async result จากทริปที่หยุด/ถูกแทนที่
-ไม่ให้แก้ state หรือฟื้น snapshot ของทริปเก่า โดยอ่าน remediation plan และ
-development report ก่อนเริ่ม และบันทึกผลใน report ระหว่างทำ.
+A2.1–A2.3 ผ่าน automated gates ภายหลังเอกสาร handoff นี้. อย่าใช้หัวข้อนี้
+กำหนดงานถัดไป; ดู remediation plan และ development report ปัจจุบันก่อนเริ่มช่วงงานใหม่.

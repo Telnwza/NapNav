@@ -2,6 +2,8 @@
 
 ร่างข้อมูลภาษาไทย/อังกฤษสำหรับตรวจทานก่อนกรอก **App Store Connect**; ยังไม่ใช่หลักฐานว่า metadata ที่เผยแพร่จริงตรงกับเอกสารนี้
 
+**ตรวจร่างล่าสุด 30 กันยายน 2026:** ชื่อ, subtitle และ Promotional Text ด้านล่างคงตามถ้อยคำที่ผู้ใช้ระบุ. ยังห้ามถือ draft ทั้งชุดว่าพร้อมวาง: Thai keywords ยาว 246 UTF-8 bytes (เกิน 100-byte limit), keywords ไทย/อังกฤษมีคำซ้ำกับชื่อแอป, screenshot requirements ด้านล่างยังต้องจัดชุด iPhone/iPad, และ live URLs/App Store Connect ยังยืนยันไม่ได้
+
 ---
 
 ## 1. App Store Information (ข้อมูลทั่วไปของแอป)
@@ -33,16 +35,18 @@ Rest easier on the way. Choose a destination and let NapNav alert you when you'r
 
 ---
 
-## 2. Keywords (คำค้นหา - ไม่เกิน 100 ตัวอักษร)
+## 2. Keywords (คำค้นหา - ไม่เกิน 100 bytes ต่อ localization)
 
 > **ข้อแนะนำจาก Apple:** คั่นด้วยจุลภาค `,` ห้ามเว้นวรรคหลังจุลภาค ห้ามใส่ชื่อซ้ำกับชื่อแอป
 
-### ภาษาไทย (94 Unicode code points; ต่ำกว่า 100):
+> **ยังไม่พร้อมวางใน App Store Connect:** Apple จำกัด 100 bytes ไม่ใช่ 100 ตัวอักษร. คำค้นหาไทยด้านล่างยาว 94 Unicode code points แต่ 246 UTF-8 bytes และมี `เลยป้าย` ซ้ำกับ App Name. English ยาว 97 bytes แต่มี `stop` ซ้ำกับ App Name. คงรายการเดิมไว้รอผู้ใช้ปรับคำ ไม่แก้คำค้นแทนเอง
+
+### ภาษาไทย (94 Unicode code points; 246 UTF-8 bytes — เกินเพดาน):
 ```text
 ปลุก,เตือนพิกัด,บีทีเอส,mrt,bts,รถเมล์,รถไฟฟ้า,ตื่น,จุดหมาย,เลยป้าย,นาฬิกาปลุก,งีบ,ปลุกตามระยะ
 ```
 
-### English (97 characters; under 100):
+### English (97 UTF-8 bytes; under limit, but contains a duplicate):
 ```text
 transit,alarm,stop,wake,subway,train,bus,commute,sleep,nap,geofence,location,station,alert,arrive
 ```
@@ -54,6 +58,8 @@ transit,alarm,stop,wake,subway,train,bus,commute,sleep,nap,geofence,location,sta
 * **Privacy Policy URL:** `https://telnwza.github.io/NapNav/privacy.html`
 * **Support URL:** `https://telnwza.github.io/NapNav/support.html` (หรือ `https://github.com/Telnwza/NapNav/issues`)
 * **Marketing URL (ทางเลือก):** `https://github.com/Telnwza/NapNav`
+
+> เมื่อ 30 ก.ย. 2026 ไฟล์ local `docs/privacy.html` และ `docs/support.html` มีอยู่ แต่ web check เปิด public URLs ไม่ได้ จึงยังไม่ยืนยันว่า deploy/HTTP ใช้งานได้; ตรวจจาก browser หรือ App Store Connect ก่อนส่ง
 
 ---
 
@@ -97,7 +103,9 @@ Make your daily commute restful and worry-free. Download NapNav today and nap wi
 
 ---
 
-## 5. What’s New in This Version (สำหรับเวอร์ชัน 1.0.0)
+## 5. What’s New (ไม่ใช้กับ submission แรก 1.0.0)
+
+Apple ระบุว่า What’s New ไม่พร้อมใช้สำหรับแอปเวอร์ชันแรก ([App Store Connect Help](https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information/)); ข้อความด้านล่างเก็บเป็น draft สำหรับอัปเดตหลังมีเวอร์ชันแรกบน App Store แล้ว
 
 ```text
 ยินดีต้อนรับสู่ NapNav เวอร์ชันแรก!
@@ -109,11 +117,12 @@ Make your daily commute restful and worry-free. Download NapNav today and nap wi
 
 ---
 
-## 6. แผนผังภาพหน้าจอ (Screenshots Storyboard 6.7" / 6.9")
+## 6. แผนผังภาพหน้าจอ (Screenshots Storyboard: iPhone 6.9" และ iPad 13")
 
-ขนาดภาพที่ Apple กำหนด:
-- **6.9" Display** (iPhone 16 Pro Max): `1320 x 2868` พิกเซล
-- **6.7" Display** (iPhone 15 Pro Max): `1290 x 2796` พิกเซล
+ขนาดที่ Apple ระบุใน [Screenshot specifications](https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/) ปัจจุบัน:
+- **iPhone 6.9" Display:** เลือกขนาด portrait ที่รองรับ `1260 x 2736`, `1290 x 2796` หรือ `1320 x 2868` พิกเซล
+- **iPhone 6.5" Display:** `1284 x 2778` หรือ `1242 x 2688` พิกเซล; ใช้เมื่อไม่ได้ส่ง screenshot 6.9"
+- **iPad 13" Display:** `2064 x 2752` หรือ `2048 x 2732` พิกเซล. Project ปัจจุบันตั้ง `TARGETED_DEVICE_FAMILY = 1,2` จึงรองรับ iPad และต้องเตรียม screenshot สำหรับ iPad ด้วย
 
 ลำดับภาพที่แนะนำ (4 รูปเล่าเรื่องครบ):
 
@@ -175,9 +184,9 @@ Techin
 
 ## 9. Age Rating (การจัดเรตติ้งอายุ)
 
-ตอบคำถามในแบบสอบถามเรตติ้งอายุของ Apple ทุกข้อเป็น **"None" / "No"**:
+Draft answers: ตอบคำถามในแบบสอบถามเรตติ้งอายุของ Apple ทุกข้อเป็น **"None" / "No"**:
 - ไม่มีเนื้อหารุนแรง, ไม่มีคำหยาบ, ไม่มีการพนัน, ไม่มีการจำหน่ายแอลกอฮอล์/บุหรี่, ไม่มีการเข้าถึงเว็บเบราว์เซอร์อิสระ
-- **ผลลัพธ์เรตติ้งที่ได้:** **4+ (เหมาะสำหรับทุกวัย)**
+- **ผลลัพธ์ที่คาดจาก draft:** **4+ (เหมาะสำหรับทุกวัย)**; ต้องยืนยันผลจากแบบสอบถามจริงใน App Store Connect ก่อนส่ง
 
 ---
 
@@ -185,6 +194,7 @@ Techin
 
 * **Primary Category (หมวดหมู่หลัก):** Navigation (การนำทาง) — ให้ตรงกับตารางข้อ 1
 * **Secondary Category (หมวดหมู่รอง):** Travel (การเดินทางและท่องเที่ยว) — ให้ตรงกับตารางข้อ 1
+  - ยังไม่ได้ตรวจค่าจริงใน App Store Connect; local `NapNav/Info.plist` ระบุ category `travel` จึงต้องยืนยันหมวดที่เลือกจริงก่อนส่ง
 * **Price (ราคา):** Free (ฟรี)
 * **Availability (พื้นที่จำหน่าย):** All Countries and Regions (ทั่วโลก) หรือเฉพาะ Thailand ตามต้องการ
 * **Copyright:** `2026 Techin`

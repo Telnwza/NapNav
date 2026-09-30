@@ -28,3 +28,9 @@
 `baseline`, `การเปลี่ยนแปลง`, `หลักฐานทดสอบ`, `ความเสี่ยง/สิ่งค้าง`, และ `งานถัดไป`
 ใน `docs/DEVELOPMENT_REPORT.md` ไม่ต้องลบรายการเก่า เมื่อกลับมาทำต่อให้อัปเดต
 รายการเดิมหรือเพิ่มรายการใหม่พร้อมลิงก์กลับไปยังงานที่ค้าง
+
+## Report and handoff language
+
+Write reports and handoffs in English by default. Keep Thai wording when the exact
+Thai copy, label, evidence, or other Thai-language context is important to the
+work; do not translate or paraphrase away meaning that depends on that context.

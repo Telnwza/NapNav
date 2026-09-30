@@ -1,6 +1,6 @@
 # NapNav code-fix tickets for Luna
 
-Updated: 2026-09-23. This is a phased implementation handoff with ticket-level
+Updated: 2026-09-30. This is a phased implementation handoff with ticket-level
 status and evidence; a `DONE` label is limited to the checks explicitly recorded
 for that ticket and does not imply physical-device or release readiness. Read
 `AGENTS.md`, the active phase in `NAPNAV_REMEDIATION_PLAN.md`, and the latest
@@ -10,6 +10,13 @@ report; do not mark a ticket done from source inspection alone.
 Use `$lean-agent-handoff` when it is available in the next Codex turn; its
 compact workflow does not override this plan or the project's safety rules.
 
+**Current status:** A1-R/A2-R automated gates are complete on their recorded
+snapshots. S1 `napnav://stop-trip` confirmation is automated; physical-device
+checks and review of the direct `napnav://stop-alarm` route remain open. A3
+slices 1–3 have implementation/automated evidence on earlier snapshots; slice 4
+and accessibility/visual audition remain open. A4/device/release is not complete.
+The latest copy changes in `db7937f` have not been retested/rebuilt.
+
 ## Baseline and execution rules
 
 - A0-R evidence: unsigned generic iOS Release build passed; full 78/78 passed
@@ -17,10 +24,15 @@ compact workflow does not override this plan or the project's safety rules.
   27.0 Simulator. All runs used source fingerprint
   `29a83887e581606fea1d0430615211f440b352687fa0cdbc4e248b971b1a51cf`.
   See the 2026-09-23 A0-R report entry for `.xcresult` paths.
-- The repository has no initial Git commit and source files are untracked.
-  Preserve existing files; use the per-run `source-manifest.sha256` rather than
-  claiming that an absent Git revision identifies a test run. Do not commit,
-  push, or rewrite history on behalf of the user.
+- Historical A0 baseline only: at the first audit the repository had no initial
+  Git commit and source files were untracked. The repo now has Git history and
+  `main` is synced with `origin/main` at `db7937f`; the untracked Xcode Cloud
+  manifest is unrelated. Preserve per-run `source-manifest.sha256` for old
+  evidence. Do not commit, push, or rewrite history unless the user directly
+  authorizes that exact operation; authorization is scoped to the request.
+- Ticket paths were written before the source-folder rename. Current app,
+  widget, and test source folders are `NapNav/`, `NapNavWidget/`, and
+  `NapNavTests/`; update these file references when executing remaining work.
 - `Scripts/phase-a0.sh` records toolchain, source manifest, exit code, log,
   `.xcresult`, and test summary. Use a new `NAPNAV_DERIVED_DATA` path when
   isolating a build. On this host, sandboxed Xcode produced malformed macro
@@ -37,14 +49,16 @@ compact workflow does not override this plan or the project's safety rules.
 
 ## Dependency order
 
-`A1.1 + A1-D + A1.2 → A1 automated gate (DONE) → A2.1 → A2.2 → A2.3 → Security → A3 → A4 → device gate`
+`A1.1 + A1-D + A1.2 → A1 automated gate (DONE) → A2.1 → A2.2 → A2.3 → Security (partially complete) → A3 → A4 → device gate`
 
 `A1-D` was decided by the user on 2026-09-23: block Trip Alarm start if no
 delivery path is ready and show Alert Settings with recovery guidance. A1's
 automated gate is complete; physical-device alert behavior remains in the
-A4 device gate. `A2.2` and `A2.3` were completed as separate changes after
-`A2.1`; the automated A2 gate is now complete. Follow the dependency order
-through Security before A3 visual work.
+A4 device gate. `A2.1`–`A2.3` and the automated A2 gate are complete. The
+`stop-trip` confirmation is implemented, but the direct `stop-alarm` route and
+S1 manual-device checks remain open. Continue only the remaining A3 work listed
+below; do not call A3 or release complete until the visual/accessibility and
+device gates are evidenced.
 
 ## A1.1 — Model a failed delivery without losing the trigger (DONE — automated gate)
 
@@ -63,9 +77,9 @@ unverified and is not claimed by this automated result.
 return `.approaching`; a failed schedule is not retried. The existing
 `unavailableDeliveryDoesNotMarkAlertAsSent` test only checks `alertSent == false`.
 
-**Inspect.** `StopAlarm/TripStore.swift` (`handle`, `alertDeliveryReady`,
-`refreshReadiness`); `StopAlarm/TriggerPolicy.swift`; `StopAlarm/DomainModels.swift`
-(`AlertDeliveryResult`); `StopAlarmTests/AlertSettingsTests.swift`,
+**Inspect.** `NapNav/TripStore.swift` (`handle`, `alertDeliveryReady`,
+`refreshReadiness`); `NapNav/TriggerPolicy.swift`; `NapNav/DomainModels.swift`
+(`AlertDeliveryResult`); `NapNavTests/AlertSettingsTests.swift`,
 `TripStoreTests.swift`, `TriggerPolicyTests.swift`.
 
 **Change contract.** Keep proximity confirmation separate from delivery state.
@@ -122,7 +136,7 @@ a physical iPhone.
 ## A1.2 — Close the A1 delivery matrix (DONE — automated gate)
 
 Review `AlertDeliveryPolicy` and `LocalAlarmDelivery` in
-`StopAlarm/DomainModels.swift` and `StopAlarm/SystemClients.swift` against
+`NapNav/DomainModels.swift` and `NapNav/SystemClients.swift` against
 `archive/docs/NAPNAV_ALERT_BEHAVIOR_TABLE.md`. Preserve Notification as the
 iOS 18–25 baseline and AlarmKit availability gating on iOS 26+. Verify fallback
 results, `Both` without doubled sound, silent choice without claiming haptics,
@@ -134,7 +148,7 @@ Simulator runs, and the unsigned Release build passed. Real sound,
 Silent/Focus, locked-screen, background, and actual alert delivery remain
 device-gated in A4.
 
-## A2.1 — Reject results from a stopped or replaced trip (AFTER A1)
+## A2.1 — Reject results from a stopped or replaced trip (DONE — automated gate)
 
 **Baseline defect (resolved below).** `handle(_:)` awaited alert scheduling.
 `stopTrip()` could clear the trip while that call was suspended; the resumed
@@ -144,10 +158,10 @@ snapshot could be offered for recovery and restored as tracking. Other async
 boundaries (start authorization, snooze scheduling, recovery) had the same
 lifetime exposure.
 
-**Inspect.** `StopAlarm/TripStore.swift` (`startTrip`, `handle`,
+**Inspect.** `NapNav/TripStore.swift` (`startTrip`, `handle`,
 `handleNotificationAction`, `persistActiveTrip`, `finishTrip`, `restore`, launch
-recovery); `StopAlarm/DomainModels.swift` (`ActiveTripSnapshot`);
-`StopAlarm/TripPersistence.swift`; `StopAlarmTests/TripStoreTests.swift` and
+recovery); `NapNav/DomainModels.swift` (`ActiveTripSnapshot`);
+`NapNav/TripPersistence.swift`; `NapNavTests/TripStoreTests.swift` and
 `StartupRecoveryTests.swift`.
 
 **Change contract.** Capture a trip ID or generation before each suspend point
@@ -187,7 +201,7 @@ locked-screen, or background behavior on a physical iPhone. A2-R automated gate
 is now complete after A2.3 and the three consecutive full-suite runs; the A4
 physical-device gate remains open.
 
-## A2.2 — Make alert cancellation observable (AFTER A2.1)
+## A2.2 — Make alert cancellation observable (DONE — automated gate)
 
 **สถานะ 23 ก.ย. 2026: ผ่าน automated gate** บน source fingerprint
 `b9b155de2bc3fca9a9addde564e642346a95ce6d070a804f3e5284f53d936551`:
@@ -211,7 +225,7 @@ failure; next reconciliation succeeds → ID clears; repeated Stop is safe;
 successful Stop leaves no pending notification/AlarmKit/Live Activity. Native
 AlarmKit behavior requires an iOS 26+ physical-device check before release.
 
-## A2.3 — Auto-Stop follows the absolute deadline (AFTER A2.1)
+## A2.3 — Auto-Stop follows the absolute deadline (DONE — automated A2-R gate)
 
 **Status: DONE — automated A2-R gate passed 2026-09-25.** Production startup
 defaults to `fastIfPossible`: preparation that finishes within 275 ms does not
@@ -240,17 +254,21 @@ expiration before deadline does not complete; relaunch before and after
 deadline has the right state; Stop cancels the pending timer; timer from an
 old trip cannot stop a new trip. Keep Live Activity countdown consistent.
 
-## S1 — Remove the public one-tap stop path (AFTER A2 core)
+## S1 — Public stop URL (confirmation automated; device/security checks open)
 
-`StopAlarm/StopAlarmApp.swift` accepts `napnav://stop-trip` and stops the
-current trip immediately. `NapNavWidget/TripLiveActivityWidget.swift` uses
-the same public URL for Stop/Finish. Separate URL parsing from mutation.
-Preferred minimal design: URL opens the app's existing confirmation sheet;
-only an explicit confirmation stops the active trip. An OS-mediated action is
-acceptable only after checking deployment-target support and security
-properties. Do not treat a query token in a public URL as caller identity.
+**Status as of 2026-09-30:** `napnav://stop-trip` now opens a confirmation
+request tied to the current trip UUID; Live Activity Stop/Finish uses that
+route. The change and automated evidence are recorded in the 2026-09-25 S1
+entry in `docs/DEVELOPMENT_REPORT.md`. Manual iPhone checks for Live Activity,
+cold launch/recovery, and an external app remain open.
 
-Tests: unknown/malformed URL is inert; public stop URL opens confirmation but
+**Residual route to review:** `napnav://stop-alarm` maps directly to
+`store.handleStopAlarm()` and is opened by `StopAlarmIntent`. Decide how to
+preserve the explicit Siri action while preventing a public custom URL from
+silencing/ending an active alarm without a user-originated action. Do not treat
+a query token in a public URL as caller identity.
+
+Tests: unknown/malformed URL is inert; `stop-trip` opens confirmation but
 does not stop; dismiss keeps the trip; confirm stops exactly once; no active
 trip is safe. Manually verify the actual Live Activity link and an external
 app URL on device, because a unit test cannot prove cross-app dispatch.

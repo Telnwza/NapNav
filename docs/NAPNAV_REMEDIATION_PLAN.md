@@ -1,7 +1,7 @@
 # NapNav — แผนแก้โค้ดหลัง audit
 
-อัปเดต: 25 กันยายน 2026
-สถานะ: A0-R/A1-R/A2-R ผ่าน automated gates; A4/device และ release gates ยังเปิด
+อัปเดต: 30 กันยายน 2026
+สถานะ: A0-R/A1-R/A2-R ผ่าน automated gates. S1 เปลี่ยน `stop-trip` เป็น confirmation แล้ว แต่ยังค้าง manual iPhone check และทบทวน `stop-alarm` ที่ยังสั่งหยุดตรง. A3 slices 1–3 ผ่าน automated work บน snapshots ก่อนหน้า; slice 4 และ visual/accessibility audition ยังเปิด. A4/device/release gates ยังเปิด; copy ล่าสุดใน `db7937f` ยังไม่ได้รัน tests/build ซ้ำ
 
 ## เป้าหมายและขอบเขต
 
@@ -23,7 +23,7 @@ ticket ไม่ข้ามจุดที่รอการตัดสิน�
 
 | แผนเดิม | ผล audit และการปรับแผน |
 | --- | --- |
-| A0 ผ่านแล้ว | Git ยังไม่มี commit และไฟล์โปรเจกต์เป็น untracked; ต้องสร้าง baseline ที่ระบุ source/toolchain/log ได้ก่อน |
+| A0 ผ่านแล้ว | **baseline ณ audit แรก:** Git ยังไม่มี commit และไฟล์โปรเจกต์เป็น untracked; จึงสร้าง baseline ที่ระบุ source/toolchain/log ก่อน. Repository ปัจจุบันมี history แล้ว |
 | A1 ผ่านแล้ว | `TripStore` ตั้ง `alertTriggered` ก่อนรู้ผลส่ง; ถ้าส่งไม่สำเร็จ trigger policy ไม่ลองใหม่ จึงเปิด A1-R |
 | A2 ผ่านแล้ว | async result อาจบันทึกทริปที่หยุดไปแล้ว; AlarmKit cancellation กลืน error; Auto-Stop อาจจบก่อน deadline จึงเปิด A2-R |
 | เริ่ม A3 ต่อทันที | ปิด A1-R/A2-R และ device smoke test ของเส้นทางเตือนก่อน แล้วค่อยเดิน A3 |
@@ -116,12 +116,11 @@ timer/recovery regression tests, full suite 3 รอบ และ unsigned Relea
 
 ### Security gate — คำสั่งหยุดทริปจากภายนอก
 
-- เปลี่ยน `napnav://stop-trip` ที่หยุดทริปทันทีเป็นการนำไปยัง confirmation
-  หรือ system action ที่ตรวจบริบทได้ โดยรักษา Live Activity stop flow
-- ทดสอบ URL จากแอปอื่น, ทริปไม่มีอยู่, และทริปที่กำลัง active
+- **ทำแล้วบน automated snapshot 25 ก.ย.:** `napnav://stop-trip` เปิด confirmation ที่ผูกกับ trip UUID; Live Activity Stop/Finish ใช้ confirmation เดียวกัน. Targeted/full Simulator และ unsigned Release build ผ่านตาม `docs/DEVELOPMENT_REPORT.md` รายการ S1
+- **ยังเปิด:** `napnav://stop-alarm` ซึ่งใช้โดย Siri shortcut ยังเรียก `handleStopAlarm()` โดยตรง; ตัดสินใจ/ตรวจ guard สำหรับ public custom URL โดยไม่ทำให้ Siri action ที่ผู้ใช้สั่งเองเสียไป
+- **ยังเปิด:** manual check บน iPhone สำหรับ Live Activity, cold launch/recovery และการเรียก URL จากแอปอื่น
 
-จบเมื่อ: URL สาธารณะเพียงอย่างเดียวหยุดทริปไม่ได้ และผู้ใช้ยังหยุดจากทุกช่องทาง
-ที่รองรับได้
+จบเมื่อ: public URL ไม่หยุดทริปโดยไร้การยืนยัน, Siri/Live Activity ยังทำงานตามข้อตกลง, และ iPhone checks ผ่าน
 
 ### A3 — UX, ภาษา และ accessibility
 
@@ -131,11 +130,15 @@ timer/recovery regression tests, full suite 3 รอบ และ unsigned Relea
 - QA งานที่มีแล้ว เช่น safe area, เข็มทิศ, search distance, center pin และ
   Liquid Glass; ไม่เขียน flow ใหม่ถ้าไม่มี regression
 
-ความคืบหน้า 25 ก.ย. 2026: A3 slice 1 (permission/recovery, localization และ
+ความคืบหน้า ณ 30 ก.ย. 2026: A3 slice 1 (permission/recovery, localization และ
 search empty/error states) ผ่าน source/static checks, focused tests 41/41,
 full Simulator suite 116/116 และ unsigned generic iOS Release build บน source
 fingerprint `78873af69af8de03878c7b4cbc8c2463d51ede7de256b4496965c9cfb5ca709e`.
-ยังไม่มี visual/VoiceOver audition หรือ iPhone จริง; A3 slices 2–4 ยังเปิด.
+Slices 2–3 (Dynamic Type/VoiceOver labels และ Reduce Motion) มี implementation
+และ automated test 127/127 ใน Simulator บน snapshot 26 ก.ย. ตามรายงานด้านล่าง.
+หลังจากนั้นมีการแก้ localization/metadata copy; commit ปัจจุบัน `db7937f` ยังไม่มี
+ผล test/build ใหม่หลังการคืนคำโปรยล่าสุด. Slice 4 (Light/Dark และ map styles),
+visual/VoiceOver audition และ iPhone จริงยังเปิด; A3 phase ยังไม่ปิด.
 ภาพ iPhone ของผู้ใช้แสดง English title บน AlarmKit alert ถูกย่อและตัดท้าย;
 รอบ 21:25 ย่อข้อความเป็น `Almost there` แต่ยังต้องตรวจหน้าจอจริงหลังติดตั้ง build ใหม่.
 รอบเดียวกันแก้ปุ่ม X ของ AlarmKit ที่เคยเรียก `stopTrip()` ผ่าน `stopIntent`:
@@ -149,12 +152,19 @@ build ผ่านบน fingerprint สุดท้าย
 `2026-09-25 21:25 — A3: ปิดเสียง AlarmKit แล้วทริปต้องเดินต่อ`.
 
 จบเมื่อ: flow เลือกจุดหมายถึงหยุดทริปทำได้ด้วย VoiceOver และหน้าจอ/ข้อความ
-อ่านได้ในขนาดตัวอักษรและธีมที่รองรับ
+อ่านได้ในขนาดตัวอักษรและธีมที่รองรับ โดยยืนยันด้วย visual/accessibility audition
+บนอุปกรณ์ ไม่ใช่ automated test เพียงอย่างเดียว
 
 ### A4 → device gate → TestFlight
 
-- ตั้ง Bundle IDs, icon, permission copy, privacy manifest, developer-tool
-  policy และ signed Archive ตาม release roadmap
+ความคืบหน้า 30 ก.ย. 2026: App Icon ถูกติดตั้งใน asset catalog แล้ว (รายการ
+26 ก.ย. ใน `docs/DEVELOPMENT_REPORT.md`); unsigned Release build ตรวจ local Bundle
+IDs, privacy manifest และ settings ได้ใน audit 30 ก.ย. แต่ยังไม่มี signed Archive,
+processed upload, metadata/live URL confirmation หรือ physical-iPhone evidence.
+สถานะ A4 จึงยังเปิดอยู่
+
+- ยืนยัน Bundle IDs, App Icon, URL name, permission copy, privacy manifest,
+  developer-tool policy และ signed Archive ตาม release roadmap
 - ทดสอบ Notification บน iOS 18 path และ AlarmKit บน iOS 26+ path บน iPhone จริง
   ทั้ง foreground, background, locked, Silent, Focus, denied permission,
   stop/relaunch และเดินทางจริง พร้อมเวลา trigger/เวลา alert

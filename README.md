@@ -7,10 +7,9 @@
 
   <p>
     <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL_v3-blue.svg" alt="License: GPL v3"></a>
-    <img src="https://img.shields.io/badge/iOS-17.0%2B-black?logo=apple" alt="iOS 17.0+">
-    <img src="https://img.shields.io/badge/Swift-5.9%2B-orange?logo=swift" alt="Swift 5.9+">
-    <img src="https://img.shields.io/badge/Xcode-15.0%2B-blue?logo=xcode" alt="Xcode 15.0+">
-    <img src="https://img.shields.io/badge/Tests-Passed%20(126%2F126)-brightgreen" alt="Tests Passed">
+    <img src="https://img.shields.io/badge/iOS-18.0%2B-black?logo=apple" alt="iOS 18.0+">
+    <img src="https://img.shields.io/badge/Swift-6.0-orange?logo=swift" alt="Swift 6.0">
+    <img src="https://img.shields.io/badge/Xcode-16.0%2B-blue?logo=xcode" alt="Xcode 16.0+">
     <a href="https://buymeacoffee.com/techin"><img src="https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Donate-yellow.svg?logo=buy-me-a-coffee" alt="Buy Me A Coffee"></a>
   </p>
 </div>
@@ -21,33 +20,32 @@
 
 **NapNav** เป็นแอปพลิเคชันบน iOS พัฒนาด้วย **SwiftUI** และ **ActivityKit** ออกแบบมาเพื่อแก้ปัญหาคลาสสิกของคนเดินทางด้วยระบบขนส่งสาธารณะ (รถไฟฟ้า BTS/MRT, รถไฟชานเมือง, รถเมล์ หรือรถตู้) ที่เหนื่อยล้าจากการทำงานหรือเรียน แล้วอยากงีบหลับพักสายตาระหว่างทาง แต่กังวลว่าจะนอนเพลินจนเลยป้ายหรือสถานีปลายทาง
 
-NapNav จะคอยเฝ้าระวังตำแหน่งของคุณอยู่เบื้องหลัง และส่งเสียงเตือนพร้อมการสั่นเมื่อคุณเดินทางเข้าสู่รัศมีที่กำหนดไว้ล่วงหน้าอย่างแม่นยำ พร้อมทั้งมีระบบแสดงผลบน **Dynamic Island** และ **Lock Screen Live Activities** ทำให้คุณติดตามสถานะการเดินทางได้ตลอดเวลาโดยไม่ต้องคอยปลดล็อกเปิดหน้าจอ
+เมื่อเริ่มทริป NapNav ใช้ตำแหน่งเพื่อคำนวณระยะและพยายามแจ้งเตือนเมื่อเข้าใกล้รัศมีที่เลือก เวลาและการส่งเตือนขึ้นกับตำแหน่งที่ระบบได้รับ สิทธิ์ และการตั้งค่า iOS. เมื่อระบบรองรับและแสดง **Live Activity** คุณดูสถานะกับระยะทางบน **Lock Screen** หรือ **Dynamic Island** ได้โดยไม่ต้องเปิดแอป
 
 ---
 
 ## ✨ คุณสมบัติเด่น (Key Features)
 
 - 📍 **ระบบเตือนตามพิกัดจริง (Proximity & Location-based Alert)**
-  - กำหนดระยะเตือนล่วงหน้าได้ตามต้องการ เช่น 500 ม., 1 กม., 2 กม. หรือปรับด้วย Slider กำหนดเอง
-  - ระบบตรวจจับขอบเขตรัศมีอัจฉริยะ (Smart Arrival & Trigger Policy) ป้องกันการปลุกผิดพลาดกรณีสัญญาณ GPS สะดุด
+  - เลือกระยะเตือน เช่น 500 ม., 1 กม., 2 กม. หรือกำหนดเอง
+  - Trigger policy ใช้ตำแหน่งที่ได้รับเพื่อยืนยันการเข้าเขต; สัญญาณหรือการอัปเดตตำแหน่งอาจทำให้การเตือนล่าช้าหรือไม่พร้อมใช้งาน
 - 🏝️ **Live Activities & Dynamic Island**
-  - ติดตามระยะห่างที่เหลือแบบวินาทีต่อวินาทีบนหน้าจอล็อก (Lock Screen)
-  - แสดงสถานะบน Dynamic Island แบบ Compact และ Expanded รองรับการแตะเพื่อสั่งหยุดทริปได้ทันที
+  - ดูสถานะทริปและระยะทางบน Lock Screen หรือ Dynamic Island เมื่อ Live Activity พร้อมใช้งาน
+  - ปุ่มหยุด/จบทริปเปิดหน้าต่างยืนยันก่อนเปลี่ยนสถานะทริป
 - 🔔 **ตั้งค่าการแจ้งเตือนได้ยืดหยุ่น (Customizable Alerts)**
-  - เลือกระดับเสียงเตือน, เสียงซ้ำวนลูป (Continuous Alarm), และแพทเทิร์นการสั่น (Haptic Feedback)
-  - ระบบเตือนต่อเนื่องจนกว่าผู้ใช้จะตื่นขึ้นมากดปิดด้วยตัวเอง
+  - ใช้ AlarmKit และ/หรือ Notification ตามโหมดที่เลือก การอนุญาต และความพร้อมของอุปกรณ์
+  - ปุ่มหยุดเสียงของระบบ AlarmKit ปิดเสียง alarm นั้น; ทริปที่ยัง active จะติดตามต่อจนถึงจุดหมายหรือผู้ใช้สั่งหยุดทริปแยกต่างหาก
 - 🗺️ **ค้นหาสถานที่ & จุดหมายโปรด (Search & Favorites)**
   - ค้นหาสถานีหรือสถานที่ปลายทางได้อย่างรวดเร็วผ่าน Apple Maps (MapKit)
   - บันทึกสถานที่ที่ใช้บ่อยเป็นรายการโปรด (Favorites) เช่น "บ้าน", "ที่ทำงาน" แตะครั้งเดียวเริ่มเดินทางได้ทันที
   - ประวัติจุดหมายล่าสุด (Recent Destinations) เพื่อความสะดวกรวดเร็ว
-- 🔋 **ประหยัดพลังงาน (Energy Efficient Background Tracking)**
-  - อัลกอริทึมจัดการความถี่ในการอ่าน GPS อัจฉริยะตามระยะห่างจริง ไม่ดูดแบตเตอรี่ตลอดเวลาขณะอยู่ไกลจากจุดหมาย
+- 🔋 **ติดตามตำแหน่งระหว่างทริป (Location During Active Trips)**
+  - ใช้ location updates ขณะทริป active; การใช้แบตเตอรี่และความแม่นยำขึ้นกับอุปกรณ์ สัญญาณ และการตั้งค่า
 - 🌐 **รองรับ 2 ภาษาเต็มรูปแบบ (Bilingual Support)**
   - ภาษาไทย (Thai) และ ภาษาอังกฤษ (English) ปรับเปลี่ยนตามระบบหรือเลือกในแอปได้
-- ♿ **ออกแบบเพื่อการเข้าถึงที่เท่าเทียม (Accessibility-First)**
-  - รองรับ **VoiceOver** เต็มรูปแบบ อธิบายสถานะและข้อมูลการเดินทางด้วยเสียงอย่างครบถ้วน
-  - รองรับ **Dynamic Type** ปรับขนาดตัวอักษรได้ตามต้องการโดยเลย์เอาต์ไม่พัง
-  - รองรับ **Reduce Motion** ปรับเปลี่ยนแอนิเมชันให้เหมาะสมสำหรับผู้ที่มีอาการวิงเวียนง่าย
+- ♿ **การช่วยการเข้าถึง (Accessibility)**
+  - มี accessibility labels/values สำหรับตัวควบคุมหลัก และปรับ layout สำหรับ Dynamic Type กับ Reduce Motion
+  - การตรวจด้วย VoiceOver และหน้าจอจริงยังเป็นงาน QA แยกต่างหาก; ดูสถานะล่าสุดใน `docs/DEVELOPMENT_REPORT.md`
 
 ---
 
@@ -55,14 +53,14 @@ NapNav จะคอยเฝ้าระวังตำแหน่งของ�
 
 NapNav พัฒนาขึ้นโดยยึดหลัก Clean Architecture และ Modern iOS Concurrency:
 
-- **UI Framework:** SwiftUI (iOS 17+)
-- **Concurrency:** Swift Concurrency (`async`/`await`, `Task`, `@MainActor`) ไม่ใช้ Combine
+- **UI Framework:** SwiftUI (iOS 18+)
+- **Concurrency:** Swift Concurrency (`async`/`await`, `Task`, `@MainActor`) บน Swift 6.0
 - **Location Services:** CoreLocation, MapKit (`PlaceSearchService`)
 - **Live Activities & Widgets:** ActivityKit, WidgetKit
 - **Notifications:** UserNotifications
 - **State Management:** Observable Pattern (`TripStore`) แยก Business Logic ออกจาก View ชัดเจน
 - **Persistence:** Local Storage Protocol-oriented (`UserDefaultsTripPersistence`)
-- **Automated Testing:** ชุดการทดสอบ Unit & Integration Tests มากกว่า 120 เคส ครอบคลุมการคำนวณตำแหน่ง, การกู้คืน State เมื่อแอปถูกปิด, ระบบแปลภาษา, และระบบการแจ้งเตือน
+- **Automated Testing:** Swift Testing ครอบคลุม location policy, trip recovery, localization และ alert delivery; ผลล่าสุดพร้อม source fingerprint อยู่ใน `docs/DEVELOPMENT_REPORT.md` (ไม่มี static pass-count badge เพื่อไม่ให้ผลเก่าถูกเข้าใจว่าเป็น snapshot ปัจจุบัน)
 
 ```text
 NapNav/
@@ -84,9 +82,9 @@ NapNav/
 ## 🚀 วิธีติดตั้งและรันโปรเจกต์ (Getting Started)
 
 ### ความต้องการของระบบ (Prerequisites)
-- เครื่อง Mac ที่ติดตั้ง macOS Sonoma (14.0) หรือใหม่กว่า
-- **Xcode 15.0** หรือใหม่กว่า
-- อุปกรณ์ iOS 17.0+ (หรือ iPhone Simulator ที่มี Dynamic Island เช่น iPhone 15 Pro / 16 / 16 Pro)
+- Mac ที่ใช้ macOS รุ่นซึ่งรองรับ Xcode 16 หรือใหม่กว่า
+- **Xcode 16.0** หรือใหม่กว่า (project ใช้ Swift 6.0)
+- อุปกรณ์ iOS 18.0+ หรือ iPhone/iPad Simulator ที่ Xcode รองรับ
 
 ### ขั้นตอนการรัน
 1. **Clone คลังโค้ดนี้:**
