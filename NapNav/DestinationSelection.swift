@@ -108,7 +108,7 @@ final class DestinationSelectionModel {
     init(
         candidate: Destination,
         resolver: any MapCoordinateResolving,
-        debounce: Duration = .milliseconds(400)
+        debounce: Duration = .milliseconds(150)
     ) {
         self.candidate = candidate
         self.resolver = resolver
@@ -137,15 +137,17 @@ final class DestinationSelectionModel {
         requestGeneration += 1
         let generation = requestGeneration
         resolutionTask?.cancel()
+        mapPickerState = .resolving
 
         let task = Task { [weak self, resolver, debounce] in
             do {
-                try await Task.sleep(for: debounce)
+                if debounce > .zero {
+                    try await Task.sleep(for: debounce)
+                }
                 guard let self,
                       Task.isCancelled == false,
                       generation == self.requestGeneration else { return }
 
-                self.mapPickerState = .resolving
                 let resolution = await resolver.resolveDestination(at: center)
 
                 guard Task.isCancelled == false,
@@ -174,24 +176,19 @@ final class DestinationSelectionModel {
     /// Place names may snap to a nearby POI, but the trip must keep the exact
     /// center coordinate underneath the pin that the user positioned.
     func destinationForConfirmation() -> Destination {
-        let isSameCoordinate = abs(latestCenter.latitude - candidate.coordinate.latitude) < 0.00001
-            && abs(latestCenter.longitude - candidate.coordinate.longitude) < 0.00001
+        let isSameCoordinate = abs(latestCenter.latitude - candidate.coordinate.latitude) < 0.0001
+            && abs(latestCenter.longitude - candidate.coordinate.longitude) < 0.0001
 
-        let resolvedID = isSameCoordinate
-            ? candidate.id
-            : String(
-                format: "%.6f,%.6f",
-                locale: Locale(identifier: "en_US_POSIX"),
-                latestCenter.latitude,
-                latestCenter.longitude
+        if isSameCoordinate {
+            return Destination(
+                id: candidate.id,
+                name: candidate.name,
+                detail: candidate.detail,
+                coordinate: latestCenter
             )
-
-        return Destination(
-            id: resolvedID,
-            name: candidate.name,
-            detail: candidate.detail,
-            coordinate: latestCenter
-        )
+        } else {
+            return Self.fallbackDestination(at: latestCenter)
+        }
     }
 
     private static func fallbackDestination(at coordinate: LocationCoordinate) -> Destination {
@@ -232,6 +229,7 @@ struct DestinationView: View {
     @State private var selection: DestinationSelectionModel
     @State private var currentLocation = CurrentLocationModel()
     @State private var position: MapCameraPosition
+    @State private var programmaticTargetCoordinate: LocationCoordinate?
     @State private var searchText = ""
     @State private var resolvedSuggestions: [String: Destination] = [:]
     @State private var resolvingSuggestionID: String?
@@ -282,6 +280,7 @@ struct DestinationView: View {
                 resolver: search
             )
         )
+        _programmaticTargetCoordinate = State(initialValue: store.destination.coordinate)
         _position = State(
             initialValue: .userLocation(
                 followsHeading: false,
@@ -366,6 +365,8 @@ struct DestinationView: View {
             case .destination:
                 didFrameTrip = false
                 panelState = .compact
+                selection.selectSearchDestination(store.destination)
+                programmaticTargetCoordinate = store.destination.coordinate
                 withAnimation(.easeInOut(duration: oldScreen == .tracking ? MotionTokens.cameraFly : MotionTokens.mapCamera)) {
                     position = Self.position(for: store.destination)
                 }
@@ -573,15 +574,28 @@ struct DestinationView: View {
         .mapStyle(store.mapDisplayStyle.mapStyle)
         .mapControlVisibility(.hidden)
         .onMapCameraChange(frequency: .continuous) { context in
-            guard store.screen == .destination,
-                  position.positionedByUser else { return }
-            selection.cameraDidMove(to: context.region.center.locationCoordinate)
+            guard store.screen == .destination else { return }
+            let center = context.region.center.locationCoordinate
+            if let target = programmaticTargetCoordinate {
+                if center.distance(from: target) > 60 {
+                    programmaticTargetCoordinate = nil
+                } else {
+                    return
+                }
+            }
+            selection.cameraDidMove(to: center)
         }
         .onMapCameraChange(frequency: .onEnd) { context in
             search.updateRegion(context.region)
-            guard store.screen == .destination,
-                  position.positionedByUser else { return }
-            selection.cameraDidStop(at: context.region.center.locationCoordinate)
+            guard store.screen == .destination else { return }
+            let center = context.region.center.locationCoordinate
+            if let target = programmaticTargetCoordinate {
+                programmaticTargetCoordinate = nil
+                if center.distance(from: target) < 60 {
+                    return
+                }
+            }
+            selection.cameraDidStop(at: center)
             HapticFeedback.selection()
         }
         .overlay {
@@ -1625,6 +1639,7 @@ struct DestinationView: View {
             search.updateQuery("")
             searchIsFocused = false
             panelState = .compact
+            programmaticTargetCoordinate = destination.coordinate
             withAnimation(.easeInOut(duration: reduceMotion ? 0.18 : MotionTokens.mapCamera)) {
                 position = Self.position(for: destination)
             }
@@ -1668,6 +1683,7 @@ struct DestinationView: View {
     private func selectSaved(_ saved: SavedDestination) {
         store.selectSavedDestination(saved)
         selection.selectSearchDestination(saved.asDestination)
+        programmaticTargetCoordinate = saved.coordinate
         withAnimation(.easeInOut(duration: MotionTokens.cameraFly)) {
             position = .region(
                 MKCoordinateRegion(
@@ -1702,6 +1718,7 @@ struct DestinationView: View {
             if let coordinate = currentLocation.coordinate {
                 centerOnUser(coordinate)
             } else {
+                programmaticTargetCoordinate = selection.candidate.coordinate
                 withAnimation(.easeInOut(duration: MotionTokens.mapCamera)) {
                     position = .userLocation(
                         followsHeading: false,
@@ -1714,6 +1731,7 @@ struct DestinationView: View {
     }
 
     private func centerOnUser(_ coordinate: LocationCoordinate) {
+        programmaticTargetCoordinate = coordinate
         withAnimation(.easeInOut(duration: MotionTokens.mapCamera)) {
             position = .region(
                 MKCoordinateRegion(
@@ -1765,6 +1783,11 @@ struct DestinationView: View {
 extension LocationCoordinate {
     var clCoordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+
+    func distance(from other: LocationCoordinate) -> Double {
+        CLLocation(latitude: latitude, longitude: longitude)
+            .distance(from: CLLocation(latitude: other.latitude, longitude: other.longitude))
     }
 }
 

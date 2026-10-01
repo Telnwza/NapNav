@@ -291,6 +291,55 @@ struct DestinationSelectionTests {
         #expect(fav?.isFavorite == true)
         #expect(persistence.favorites.count == 1)
     }
+
+    @Test("destinationForConfirmation ใช้พิกัดล่าสุดเสมอเมื่อลากหมุด ไม่เด้งกลับไปพิกัดเดิม")
+    func destinationForConfirmationKeepsLatestCenterWhenMoved() async {
+        let initialCoord = LocationCoordinate(latitude: 13.746, longitude: 100.534)
+        let initialDest = Destination(id: "siam-paragon", name: "สยามพารากอน", detail: "ห้าง", coordinate: initialCoord)
+        let resolver = ControlledResolver()
+        let model = DestinationSelectionModel(
+            candidate: initialDest,
+            resolver: resolver,
+            debounce: .zero
+        )
+
+        // Before any movement, confirmation matches initial destination
+        #expect(model.destinationForConfirmation().coordinate == initialCoord)
+        #expect(model.destinationForConfirmation().name == "สยามพารากอน")
+
+        // User starts dragging pin to a new coordinate
+        let newCoord = LocationCoordinate(latitude: 13.800, longitude: 100.600)
+        model.cameraDidMove(to: newCoord)
+
+        // Confirmation immediately reflects newCoord (as fallback destination), never the old coordinate!
+        let inFlightConfirm = model.destinationForConfirmation()
+        #expect(inFlightConfirm.coordinate == newCoord)
+        #expect(inFlightConfirm.name != "สยามพารากอน")
+
+        // Map stops moving -> state becomes .resolving immediately
+        let stopTask = model.cameraDidStop(at: newCoord)
+        #expect(model.mapPickerState == .resolving)
+
+        // Finish resolution
+        let resolvedDest = Destination(id: "lat-phrao", name: "ห้าแยกลาดพร้าว", detail: "แยกลาดพร้าว", coordinate: newCoord)
+        resolver.finish(at: newCoord, with: DestinationResolution(destination: resolvedDest, isFallback: false))
+        await stopTask.value
+
+        #expect(model.mapPickerState == .ready)
+        let finalConfirm = model.destinationForConfirmation()
+        #expect(finalConfirm.coordinate == newCoord)
+        #expect(finalConfirm.name == "ห้าแยกลาดพร้าว")
+    }
+
+    @Test("LocationCoordinate distance calculation works accurately")
+    func locationCoordinateDistanceCalculation() {
+        let asok = LocationCoordinate(latitude: 13.7367, longitude: 100.5604)
+        let phromPhong = LocationCoordinate(latitude: 13.7303, longitude: 100.5698)
+        let dist = asok.distance(from: phromPhong)
+        // Distance between Asok and Phrom Phong BTS is approximately 1.2-1.3 km
+        #expect(dist > 1000 && dist < 1500)
+        #expect(asok.distance(from: asok) == 0)
+    }
 }
 
 @MainActor
