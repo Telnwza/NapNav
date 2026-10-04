@@ -567,3 +567,14 @@
 - **Risks / remaining work:** Public deployment and App Store Connect configuration require separate user-directed actions; this work cannot certify App Review approval or physical alert behavior.
 - **User review / Git authorization:** The user tested the supplied website ZIP, accepted the result, and explicitly authorized committing and pushing this web change on October 4, 2026. Final pre-commit `git diff --check` exited 0; only the five expected documentation/web files are modified. Commit/push execution follows this entry.
 - **Next:** Verify the public HTTPS pages after the authorized push and any hosting deployment before using the prepared metadata in App Store Connect. The support inbox must be monitored and the stated correspondence retention/deletion practice followed. No A4 device/release gate was closed by this web-only work.
+
+## 2026-10-04 15:17 — A4 web: explain underground rail limitations
+
+- **Status:** Complete at source/static level.
+- **Goal:** Add a Thai/English Help FAQ explaining why location alerts are unreliable on underground rail.
+- **Baseline:** Clean working tree after website commit `c5a6e61`; FAQ 6 mentions tunnels but does not explain satellite obstruction or why mobile internet does not guarantee accurate location.
+- **Expected files:** `docs/support.html` and this report.
+- **Changes:** Added FAQ 7 in Thai and English: underground obstructions can prevent GPS reception; network-based estimates and internet connectivity do not guarantee accurate updates; missing/stale/inaccurate locations can cause late or absent alerts. Explained that NapNav uses location rather than timetables/station counting and advised observing station signs/announcements. Qualified above-ground sections rather than banning entire metro routes.
+- **Verification evidence:** Inspected Help, remediation plan/report, A4 ticket, and CLLocation-based location source. Apple reference: https://support.apple.com/en-us/102515 (obstructions affect GPS; alternative location sources). Source/static: Python HTMLParser confirmed balanced tags and 14 FAQ headings (7 per language); `git diff --check` exited 0. Reviewed `NapNav/TriggerPolicy.swift` stale/inaccurate sample rejection and distance-based triggering. Updated test ZIP `/tmp/NapNav-web-test-underground-faq.zip` passed ZIP integrity check; no iOS build, Simulator/GPX, or physical underground journey test in this copy-only scope.
+- **Risks / remaining work:** Actual reception varies by route and device. The user explicitly authorized committing and pushing this additional FAQ change on October 4, 2026; only the two expected files are modified and final `git diff --check` exited 0.
+- **Next:** Execute the user-authorized commit/push, then verify the public Help page after hosting deployment; no release gate changed. Browser rendering was not rechecked for this text-only addition.
