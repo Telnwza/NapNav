@@ -115,12 +115,22 @@ final class PlaceSearchService: NSObject, @preconcurrency MKLocalSearchCompleter
     }
 
     private func searchDestination(for suggestion: Suggestion) async throws -> Destination? {
+        do {
+            let request = MKLocalSearch.Request(completion: suggestion.completion)
+            let response = try await MKLocalSearch(request: request).start()
+            if let item = response.mapItems.first {
+                return destination(from: item)
+            }
+        } catch {
+            // Fall back to natural language query if completion-based search fails
+        }
 
-        let request = MKLocalSearch.Request(completion: suggestion.completion)
-        request.resultTypes = [.address, .pointOfInterest]
-
-        let response = try await MKLocalSearch(request: request).start()
-        guard let item = response.mapItems.first else { return nil }
+        let query = suggestion.subtitle.isEmpty ? suggestion.title : "\(suggestion.title), \(suggestion.subtitle)"
+        let fallbackRequest = MKLocalSearch.Request()
+        fallbackRequest.naturalLanguageQuery = query
+        fallbackRequest.region = completer.region
+        let fallbackResponse = try await MKLocalSearch(request: fallbackRequest).start()
+        guard let item = fallbackResponse.mapItems.first else { return nil }
         return destination(from: item)
     }
 

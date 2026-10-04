@@ -340,6 +340,23 @@ struct DestinationSelectionTests {
         #expect(dist > 1000 && dist < 1500)
         #expect(asok.distance(from: asok) == 0)
     }
+
+    @Test("Recent destination distance calculation relative to current location")
+    func recentDestinationDistanceCalculation() {
+        let currentLocation = LocationCoordinate(latitude: 13.746, longitude: 100.534)
+        let recentItem = SavedDestination(
+            title: "เซ็นทรัลเวิลด์",
+            subtitle: "ห้างสรรพสินค้า",
+            coordinate: LocationCoordinate(latitude: 13.747, longitude: 100.539),
+            radiusMeters: 500,
+            icon: .pin
+        )
+
+        let distance = currentLocation.distance(from: recentItem.coordinate)
+        #expect(distance > 400 && distance < 800)
+        let formatted = distanceText(distance)
+        #expect(formatted.contains("ม.") || formatted.contains("m"))
+    }
 }
 
 @MainActor

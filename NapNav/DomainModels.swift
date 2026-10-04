@@ -737,23 +737,77 @@ struct UserAlertPreferences: Codable, Equatable, Sendable {
 }
 
 
-enum SavedDestinationIcon: String, CaseIterable, Identifiable, Codable, Sendable {
-    case house = "house.fill"
-    case briefcase = "briefcase.fill"
-    case education = "graduationcap.fill"
-    case star = "star.fill"
-    case pin = "mappin"
+struct SavedDestinationIcon: Hashable, Identifiable, Codable, Sendable {
+    var rawValue: String
 
     var id: String { rawValue }
 
-    var title: String {
-        switch self {
-        case .house: AppLocalization.string("บ้าน")
-        case .briefcase: AppLocalization.string("ที่ทำงาน")
-        case .education: AppLocalization.string("สถานศึกษา")
-        case .star: AppLocalization.string("สถานที่โปรด")
-        case .pin: AppLocalization.string("หมุด")
+    var emoji: String {
+        switch rawValue {
+        case "house.fill": return "🏠"
+        case "briefcase.fill": return "💼"
+        case "graduationcap.fill": return "🎓"
+        case "star.fill": return "⭐️"
+        case "mappin": return "📍"
+        default: return rawValue
         }
+    }
+
+    var title: String {
+        switch emoji {
+        case "🏠": AppLocalization.string("บ้าน")
+        case "💼": AppLocalization.string("ที่ทำงาน")
+        case "🎓": AppLocalization.string("สถานศึกษา")
+        case "☕️": AppLocalization.string("คาเฟ่")
+        case "🏋️": AppLocalization.string("ฟิตเนส")
+        case "⭐️": AppLocalization.string("สถานที่โปรด")
+        case "📍": AppLocalization.string("หมุด")
+        default: AppLocalization.string("กำหนดเอง")
+        }
+    }
+
+    static let house = SavedDestinationIcon("🏠")
+    static let briefcase = SavedDestinationIcon("💼")
+    static let education = SavedDestinationIcon("🎓")
+    static let cafe = SavedDestinationIcon("☕️")
+    static let gym = SavedDestinationIcon("🏋️")
+    static let star = SavedDestinationIcon("⭐️")
+    static let pin = SavedDestinationIcon("📍")
+
+    static let allCases: [SavedDestinationIcon] = [.house, .briefcase, .education, .cafe, .gym, .star]
+
+    init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    init(_ emoji: String) {
+        self.rawValue = emoji
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let val = try container.decode(String.self)
+        switch val {
+        case "house.fill": self.rawValue = "🏠"
+        case "briefcase.fill": self.rawValue = "💼"
+        case "graduationcap.fill": self.rawValue = "🎓"
+        case "star.fill": self.rawValue = "⭐️"
+        case "mappin": self.rawValue = "📍"
+        default: self.rawValue = val
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+
+    static func == (lhs: SavedDestinationIcon, rhs: SavedDestinationIcon) -> Bool {
+        lhs.emoji == rhs.emoji
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(emoji)
     }
 }
 

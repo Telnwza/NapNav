@@ -5,7 +5,7 @@ import UIKit
 
 @MainActor
 @Observable
-final class CurrentLocationModel {
+final class CurrentLocationModel: NSObject, CLLocationManagerDelegate {
     private(set) var coordinate: LocationCoordinate?
 
     @ObservationIgnored
@@ -21,20 +21,36 @@ final class CurrentLocationModel {
 
     init(requestTimeout: Duration = .seconds(12)) {
         self.requestTimeout = requestTimeout
+        super.init()
+        self.authorizationManager.delegate = self
+        if let location = authorizationManager.location,
+           location.horizontalAccuracy >= 0,
+           location.horizontalAccuracy <= 500 {
+            self.coordinate = location.coordinate.locationCoordinate
+        }
     }
 
     func requestOnce(requestAuthorizationIfNeeded: Bool = false) {
+        if let location = authorizationManager.location,
+           location.horizontalAccuracy >= 0,
+           location.horizontalAccuracy <= 500 {
+            coordinate = location.coordinate.locationCoordinate
+            return
+        }
+
         guard updateTask == nil, coordinate == nil else { return }
 
         let status = authorizationManager.authorizationStatus
         if status == .notDetermined {
             guard requestAuthorizationIfNeeded else { return }
             authorizationManager.requestWhenInUseAuthorization()
+            return
         } else if status != .authorizedWhenInUse && status != .authorizedAlways {
             return
         }
 
         serviceSession = CLServiceSession(authorization: .whenInUse)
+        authorizationManager.requestLocation()
         let timeout = requestTimeout
         updateTask = Task { [weak self] in
             guard let self else { return }
@@ -49,7 +65,7 @@ final class CurrentLocationModel {
                     guard update.locationUnavailable == false,
                           let location = update.location,
                           location.horizontalAccuracy >= 0,
-                          location.horizontalAccuracy <= 200 else { continue }
+                          location.horizontalAccuracy <= 500 else { continue }
                     coordinate = location.coordinate.locationCoordinate
                     break
                 }
@@ -66,6 +82,36 @@ final class CurrentLocationModel {
                 // Cancelled because a location arrived or the view disappeared.
             }
         }
+    }
+
+    nonisolated func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        let status = manager.authorizationStatus
+        let coordinate = manager.location?.coordinate.locationCoordinate
+        let accuracy = manager.location?.horizontalAccuracy ?? -1
+        Task { @MainActor in
+            if status == .authorizedWhenInUse || status == .authorizedAlways {
+                if let coordinate, accuracy >= 0, accuracy <= 500 {
+                    self.coordinate = coordinate
+                } else {
+                    self.requestOnce()
+                }
+            }
+        }
+    }
+
+    nonisolated func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last,
+              location.horizontalAccuracy >= 0,
+              location.horizontalAccuracy <= 500 else { return }
+        let coordinate = location.coordinate.locationCoordinate
+        Task { @MainActor in
+            self.coordinate = coordinate
+            self.finishRequest()
+        }
+    }
+
+    nonisolated func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        // Ignored, timeout handles it
     }
 
     func cancel() {
@@ -305,7 +351,10 @@ struct DestinationView: View {
             .animation(MotionTokens.morphSpring(reduceMotion: reduceMotion), value: store.screen)
             .animation(MotionTokens.morphSpring(reduceMotion: reduceMotion), value: panelHeight)
             .overlay(alignment: .bottomTrailing) {
-                mapControlsOverlay(panelHeight: panelHeight, safeBottom: proxy.safeAreaInsets.bottom)
+                if store.screen != .destination || (panelState == .compact && !searchIsFocused) {
+                    mapControlsOverlay(panelHeight: panelHeight, safeBottom: proxy.safeAreaInsets.bottom)
+                        .transition(.opacity.combined(with: .scale(scale: 0.9)))
+                }
             }
             .overlay(alignment: .topTrailing) {
                 settingsButtonOverlay
@@ -314,16 +363,16 @@ struct DestinationView: View {
         }
         .toolbar(.hidden, for: .navigationBar)
         .task {
-            currentLocation.requestOnce()
+            currentLocation.requestOnce(requestAuthorizationIfNeeded: true)
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
-                currentLocation.requestOnce()
+                currentLocation.requestOnce(requestAuthorizationIfNeeded: true)
             }
         }
         .onChange(of: store.showsOnboarding) { _, shows in
             if !shows {
-                currentLocation.requestOnce()
+                currentLocation.requestOnce(requestAuthorizationIfNeeded: true)
             }
         }
         .onChange(of: store.phase) { _, phase in
@@ -350,10 +399,21 @@ struct DestinationView: View {
                 return
             }
         }
+        .task(id: search.suggestions.map(\.id)) {
+            let suggestions = search.suggestions
+            guard suggestions.isEmpty == false else { return }
+            for (index, suggestion) in suggestions.enumerated() {
+                guard Task.isCancelled == false else { break }
+                await resolveSuggestionPreview(suggestion, index: index)
+            }
+        }
         .onChange(of: searchIsFocused) { _, focused in
             guard focused else { return }
             withAnimation(.snappy(duration: 0.28)) {
                 panelState = .expanded
+            }
+            if currentLocation.coordinate == nil {
+                currentLocation.requestFreshLocation(requestAuthorizationIfNeeded: true)
             }
         }
         .onChange(of: store.screen) { oldScreen, newScreen in
@@ -923,7 +983,9 @@ struct DestinationView: View {
         )
     }
 
+    @ViewBuilder
     private func planningPanel(height: CGFloat, bottomInset: CGFloat) -> some View {
+        let actualBottomInset = (searchIsFocused || bottomInset > 50) ? 0 : bottomInset
         VStack(spacing: 0) {
             // Drag Handle Area with generous touch target and tap-to-toggle
             ZStack {
@@ -951,13 +1013,13 @@ struct DestinationView: View {
             planningSheet
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
-        .padding(.bottom, isRegularWidth ? 8 : max(bottomInset, 8))
+        .padding(.bottom, isRegularWidth ? 8 : max(actualBottomInset, 8))
         .frame(height: height, alignment: .top)
         .frame(maxWidth: isRegularWidth ? 500 : .infinity)
         .napNavGlass(in: planningPanelShape)
         .clipShape(planningPanelShape)
         .shadow(color: .black.opacity(0.16), radius: 18, y: isRegularWidth ? 6 : -4)
-        .padding(.bottom, isRegularWidth ? max(bottomInset, 16) : 0)
+        .padding(.bottom, isRegularWidth ? max(actualBottomInset, 16) : 0)
         .padding(.horizontal, isRegularWidth ? 24 : 0)
         .ignoresSafeArea(.container, edges: isRegularWidth ? [] : .bottom)
     }
@@ -1001,10 +1063,21 @@ struct DestinationView: View {
         }
 
         let compactHeight: CGFloat = dynamicTypeSize.isAccessibilitySize ? 260 : 214
+        let topClearance: CGFloat = 68
+        let maxAllowedHeight = max(availableHeight - topClearance, compactHeight)
+
         let expandedMaxFraction = dynamicTypeSize.isAccessibilitySize ? 0.90 : 0.82
-        let expandedHeight = isRegularWidth
+        let normalExpandedHeight = isRegularWidth
             ? min(520, availableHeight * 0.65)
             : min(max(availableHeight * 0.65, 420), availableHeight * expandedMaxFraction)
+
+        let expandedHeight: CGFloat
+        if searchIsFocused && !isRegularWidth {
+            expandedHeight = maxAllowedHeight
+        } else {
+            expandedHeight = min(normalExpandedHeight, maxAllowedHeight)
+        }
+
         let restingHeight = panelState == .expanded ? expandedHeight : compactHeight
         return min(max(restingHeight - panelDragOffset, compactHeight), expandedHeight)
     }
@@ -1096,6 +1169,7 @@ struct DestinationView: View {
             }
             .padding(.bottom, 36)
         }
+        .scrollDismissesKeyboard(.interactively)
     }
 
     private var favoritesSection: some View {
@@ -1124,11 +1198,10 @@ struct DestinationView: View {
 
     private func favoriteCard(_ fav: SavedDestination) -> some View {
         HStack(spacing: 12) {
-            Image(systemName: fav.icon.rawValue)
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundStyle(.white)
-                .frame(width: 34, height: 34)
-                .background(Color.accentColor, in: Circle())
+            Text(fav.icon.emoji)
+                .font(.system(size: 20))
+                .frame(width: 36, height: 36)
+                .background(Color.secondary.opacity(0.12), in: Circle())
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(fav.title)
@@ -1232,9 +1305,8 @@ struct DestinationView: View {
 
     private func recentCard(_ item: SavedDestination) -> some View {
         HStack(spacing: 12) {
-            Image(systemName: item.icon.rawValue)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+            Text(item.icon.emoji)
+                .font(.system(size: 16))
                 .frame(width: 32, height: 32)
                 .background(Color.secondary.opacity(0.1), in: Circle())
 
@@ -1252,6 +1324,14 @@ struct DestinationView: View {
             }
 
             Spacer()
+
+            if let current = currentLocation.coordinate ?? store.currentCoordinate {
+                let distance = current.distance(from: item.coordinate)
+                Text(distanceText(distance))
+                    .font(.caption.monospacedDigit())
+                    .foregroundStyle(.secondary)
+                    .fixedSize()
+            }
 
             Image(systemName: "chevron.right")
                 .font(.caption2.bold())
@@ -1656,8 +1736,9 @@ struct DestinationView: View {
         index: Int
     ) async {
         if index > 0 {
-            try? await Task.sleep(for: .milliseconds(index * 70))
+            try? await Task.sleep(for: .milliseconds(60))
         }
+        guard Task.isCancelled == false else { return }
         guard resolvedSuggestions[suggestion.id] == nil,
               let destination = await search.previewDestination(for: suggestion),
               Task.isCancelled == false else { return }
@@ -1665,15 +1746,9 @@ struct DestinationView: View {
     }
 
     private func distanceToSuggestion(_ suggestion: PlaceSearchService.Suggestion) -> Double? {
-        guard let currentCoordinate = currentLocation.coordinate,
+        guard let currentCoordinate = currentLocation.coordinate ?? store.currentCoordinate,
               let destination = resolvedSuggestions[suggestion.id] else { return nil }
-        return CLLocation(latitude: currentCoordinate.latitude, longitude: currentCoordinate.longitude)
-            .distance(
-                from: CLLocation(
-                    latitude: destination.coordinate.latitude,
-                    longitude: destination.coordinate.longitude
-                )
-            )
+        return currentCoordinate.distance(from: destination.coordinate)
     }
 
     private func isCurrentCandidate(_ saved: SavedDestination) -> Bool {
@@ -2028,6 +2103,8 @@ struct SaveFavoriteSheet: View {
     let coordinate: LocationCoordinate
     @State private var radius: Double
     @State private var selectedIcon: SavedDestinationIcon
+    @State private var customEmojiText: String
+    @FocusState private var isCustomEmojiFocused: Bool
     let isEditing: Bool
     let onSave: (String, SavedDestinationIcon, Double) -> Void
     let onDelete: (() -> Void)?
@@ -2049,6 +2126,8 @@ struct SaveFavoriteSheet: View {
         self.coordinate = coordinate
         _radius = State(initialValue: initialRadius)
         _selectedIcon = State(initialValue: initialIcon)
+        let isQuickPick = SavedDestinationIcon.allCases.contains(where: { $0.emoji == initialIcon.emoji })
+        _customEmojiText = State(initialValue: isQuickPick ? "" : initialIcon.emoji)
         self.isEditing = isEditing
         self.onSave = onSave
         self.onDelete = onDelete
@@ -2059,39 +2138,63 @@ struct SaveFavoriteSheet: View {
         NavigationStack {
             Form {
                 Section {
-                    TextField(AppLocalization.string("ชื่อสถานที่"), text: $title)
-                        .font(.body)
+                    VStack(spacing: 12) {
+                        ZStack {
+                            Circle()
+                                .fill(Color.accentColor.opacity(0.15))
+                                .frame(width: 72, height: 72)
 
-                    if subtitle.isEmpty == false {
-                        Text(subtitle)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                            Text(selectedIcon.emoji)
+                                .font(.system(size: 38))
+                        }
+                        .contentShape(Circle())
+                        .onTapGesture {
+                            isCustomEmojiFocused = true
+                        }
+
+                        TextField(AppLocalization.string("ชื่อสถานที่"), text: $title)
+                            .font(.headline)
+                            .multilineTextAlignment(.center)
+
+                        if subtitle.isEmpty == false {
+                            Text(subtitle)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .multilineTextAlignment(.center)
+                                .lineLimit(1)
+                        }
                     }
-                } header: {
-                    Text(AppLocalization.string("ชื่อสถานที่"))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 6)
                 }
 
                 Section {
-                    HStack(spacing: 12) {
+                    // Quick Pick (1 row)
+                    HStack(spacing: 8) {
                         ForEach(SavedDestinationIcon.allCases) { icon in
                             Button {
                                 selectedIcon = icon
+                                customEmojiText = ""
+                                isCustomEmojiFocused = false
                                 HapticFeedback.selection()
                             } label: {
-                                VStack(spacing: 6) {
-                                    Image(systemName: icon.rawValue)
-                                        .font(.title3)
+                                VStack(spacing: 4) {
+                                    Text(icon.emoji)
+                                        .font(.system(size: 24))
                                         .frame(width: 44, height: 44)
                                         .background(
                                             Circle()
-                                                .fill(selectedIcon == icon ? Color.accentColor : Color.secondary.opacity(0.12))
+                                                .fill(selectedIcon.emoji == icon.emoji && customEmojiText.isEmpty ? Color.accentColor.opacity(0.18) : Color.secondary.opacity(0.1))
                                         )
-                                        .foregroundStyle(selectedIcon == icon ? Color.white : Color.primary)
+                                        .overlay(
+                                            Circle()
+                                                .strokeBorder(selectedIcon.emoji == icon.emoji && customEmojiText.isEmpty ? Color.accentColor : Color.clear, lineWidth: 2)
+                                        )
                                     Text(icon.title)
-                                        .font(.caption2)
-                                        .foregroundStyle(selectedIcon == icon ? Color.accentColor : Color.secondary)
+                                        .font(.system(size: 11))
+                                        .foregroundStyle(selectedIcon.emoji == icon.emoji && customEmojiText.isEmpty ? Color.accentColor : Color.secondary)
                                         .lineLimit(1)
-                                        .minimumScaleFactor(0.8)
+                                        .minimumScaleFactor(0.7)
                                 }
                             }
                             .buttonStyle(.plain)
@@ -2099,6 +2202,34 @@ struct SaveFavoriteSheet: View {
                         }
                     }
                     .padding(.vertical, 4)
+
+                    // Custom Emoji
+                    HStack {
+                        Label(AppLocalization.string("อิโมจิกำหนดเอง"), systemImage: "face.smiling")
+                            .font(.body)
+
+                        Spacer()
+
+                        TextField("😀", text: $customEmojiText)
+                            .font(.title3)
+                            .multilineTextAlignment(.center)
+                            .frame(width: 44, height: 36)
+                            .background(Color.secondary.opacity(0.12), in: RoundedRectangle(cornerRadius: 8))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .strokeBorder(isCustomEmojiFocused || !customEmojiText.isEmpty ? Color.accentColor : Color.clear, lineWidth: 1.5)
+                            )
+                            .focused($isCustomEmojiFocused)
+                            .onChange(of: customEmojiText) { _, newValue in
+                                guard let lastChar = newValue.last else { return }
+                                let emojiStr = String(lastChar)
+                                if customEmojiText != emojiStr {
+                                    customEmojiText = emojiStr
+                                }
+                                selectedIcon = SavedDestinationIcon(emojiStr)
+                                HapticFeedback.selection()
+                            }
+                    }
                 } header: {
                     Text(AppLocalization.string("ไอคอน"))
                 }
@@ -2149,7 +2280,7 @@ struct SaveFavoriteSheet: View {
                 }
             }
         }
-        .presentationDetents([.medium])
+        .presentationDetents([.medium, .large])
         .confirmationDialog(
             AppLocalization.string("ลบสถานที่โปรดนี้หรือไม่?"),
             isPresented: $showingDeleteConfirmation,
