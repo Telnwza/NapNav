@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NapNav - ปลุกเตือนตามพิกัดสำหรับคนเดินทาง</title>
-    <meta name="description" content="NapNav แอพแจ้งเตือนพิกัดจุดหมายสำหรับคนเดินทาง งีบหลับสบายบนรถเมล์ รถไฟฟ้า ไม่ต้องกังวลเรื่องเลยป้าย">
+    <meta name="description" content="NapNav ช่วยเตือนเมื่อเข้าใกล้จุดหมายระหว่างเดินทางด้วยรถเมล์หรือรถไฟฟ้า">
     <link rel="icon" type="image/png" href="app-icon.png">
     <style>
         :root {
-            --primary: #10B981;
-            --primary-dark: #059669;
+            --primary: #047857;
+            --primary-dark: #065F46;
             --secondary: #A7F3D0;
             --bg: #f5f5f7;
             --card-bg: #ffffff;
@@ -27,7 +27,7 @@
                 --bg: #000000;
                 --card-bg: #1c1c1e;
                 --text-main: #f5f5f7;
-                --text-sub: #86868b;
+                --text-sub: #a1a1a6;
                 --border: #38383a;
                 --card-inner: rgba(52, 211, 153, 0.12);
                 --btn-text: #062b1e;
@@ -74,7 +74,7 @@
         }
         .lang-btn.active {
             background: var(--primary);
-            color: #ffffff;
+            color: var(--btn-text);
             border-color: var(--primary);
         }
         .app-icon-img {
@@ -155,7 +155,6 @@
             border: 1px solid var(--primary);
         }
         .btn:hover {
-            opacity: 0.9;
             transform: translateY(-1px);
         }
         .btn.secondary:hover {
@@ -180,21 +179,36 @@
         footer a:hover {
             text-decoration: underline;
         }
+        a { overflow-wrap: anywhere; }
+        .lang-btn, .btn { min-height: 44px; }
+        a:focus-visible, button:focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 4px;
+        }
+        @media (max-width: 480px) {
+            body { padding: 16px 12px; }
+            .container { padding: 24px 18px 28px; }
+            .lang-switch { flex-wrap: wrap; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .lang-btn, .btn { transition: none; }
+            .btn:hover { transform: none; }
+        }
     </style>
 </head>
 <body>
-<div class="container">
+<main class="container">
     <div class="lang-switch">
-        <button id="btn-th" class="lang-btn active" onclick="setLanguage('th')">🇹🇭 ภาษาไทย</button>
-        <button id="btn-en" class="lang-btn" onclick="setLanguage('en')">🇬🇧 English</button>
+        <button id="btn-th" class="lang-btn active" lang="th" aria-pressed="true" onclick="setLanguage('th')">🇹🇭 ภาษาไทย</button>
+        <button id="btn-en" class="lang-btn" lang="en" aria-pressed="false" onclick="setLanguage('en')">🇬🇧 English</button>
     </div>
 
     <img src="app-icon.png" alt="NapNav Icon" class="app-icon-img">
     <h1>NapNav</h1>
 
     <!-- THAI CONTENT -->
-    <div id="content-th">
-        <div class="tagline">ตั้งเตือนตามตำแหน่งระหว่างเดินทางด้วยรถเมล์หรือรถไฟฟ้า<br><small style="font-size: 14px; opacity: 0.85;">แอปช่วยเตือนใกล้จุดหมายสำหรับ iOS</small></div>
+    <div id="content-th" lang="th">
+        <div class="tagline">ตั้งเตือนตามตำแหน่งระหว่างเดินทางด้วยรถเมล์หรือรถไฟฟ้า<br><small style="font-size: 14px;">แอปช่วยเตือนใกล้จุดหมายสำหรับ iOS</small></div>
 
         <div class="features">
             <div class="feature-item">
@@ -208,14 +222,14 @@
                 <div class="icon">⏰</div>
                 <div class="text">
                     <strong>โหมดเตือน Use Both</strong>
-                    <span>ใช้ AlarmKit เป็นเสียงหลักบน iOS/อุปกรณ์ที่รองรับ พร้อม Notification แบบไม่มีเสียงเมื่อพร้อมใช้งาน หาก AlarmKit ใช้ไม่ได้จะใช้ Notification เมื่อระบบอนุญาต ผลการเตือนขึ้นกับสิทธิ์และการตั้งค่า iOS</span>
+                    <span>ใช้ AlarmKit เป็นเสียงหลักบน iOS 26 ขึ้นไปเมื่อคุณอนุญาต พร้อม Notification แบบไม่มีเสียงเมื่อพร้อมใช้งาน หาก AlarmKit ใช้ไม่ได้จะใช้ Notification เมื่อระบบอนุญาต ผลการเตือนขึ้นกับสิทธิ์และการตั้งค่า iOS</span>
                 </div>
             </div>
             <div class="feature-item">
                 <div class="icon">🏝️</div>
                 <div class="text">
                     <strong>เหลือบมองง่ายผ่าน Live Activities & Dynamic Island</strong>
-                    <span>ก้มมองหน้าจอ Lock Screen หรือเกาะ Dynamic Island ก็รู้ระยะห่างและเวลาที่เหลือได้ทันที โดยไม่ต้องปลดล็อกเปิดจอ</span>
+                    <span>ดูระยะทางที่เหลือและความคืบหน้าของทริปบนหน้าจอล็อกหรือ Dynamic Island ได้โดยไม่ต้องปลดล็อก ทั้งนี้ขึ้นกับรุ่นอุปกรณ์และการตั้งค่า iOS</span>
                 </div>
             </div>
             <div class="feature-item">
@@ -242,8 +256,8 @@
     </div>
 
     <!-- ENGLISH CONTENT -->
-    <div id="content-en" style="display: none;">
-        <div class="tagline">Set a location alert near your stop while traveling by train or bus.<br><small style="font-size: 14px; opacity: 0.85;">Transit proximity alert for iOS</small></div>
+    <div id="content-en" lang="en" style="display: none;">
+        <div class="tagline">Set a location alert near your stop while traveling by train or bus.<br><small style="font-size: 14px;">Transit proximity alert for iOS</small></div>
 
         <div class="features">
             <div class="feature-item">
@@ -257,14 +271,14 @@
                 <div class="icon">⏰</div>
                 <div class="text">
                     <strong>Use Both Alert Mode</strong>
-                    <span>Uses AlarmKit as its primary sound on supported iOS devices, with a silent notification companion when available. If AlarmKit cannot be used, NapNav uses the notification path when allowed. Delivery depends on permissions and iOS settings.</span>
+                    <span>Uses AlarmKit as its primary sound on iOS 26 or later when you authorize it, with a silent notification companion when available. If AlarmKit cannot be used, NapNav uses the notification path when allowed. Delivery depends on permissions and iOS settings.</span>
                 </div>
             </div>
             <div class="feature-item">
                 <div class="icon">🏝️</div>
                 <div class="text">
                     <strong>Live Activities & Dynamic Island</strong>
-                    <span>Glance at remaining distance and travel progress right on your Lock Screen without unlocking your iPhone.</span>
+                    <span>Glance at remaining distance and travel progress right on your Lock Screen without unlocking your iPhone, depending on device support and iOS settings.</span>
                 </div>
             </div>
             <div class="feature-item">
@@ -290,7 +304,7 @@
         </div>
     </div>
 
-    <footer>
+    <footer lang="en">
         <div>&copy; 2026 NapNav. All rights reserved.</div>
         <div>
             <a href="privacy.html">Privacy</a> &bull;
@@ -298,23 +312,31 @@
             <a href="https://github.com/Telnwza/NapNav">GitHub</a>
         </div>
     </footer>
-</div>
+</main>
 
 <script>
     function setLanguage(lang) {
+        lang = lang === 'en' ? 'en' : 'th';
+        document.documentElement.lang = lang;
+        document.title = lang === 'en' ? 'NapNav - Transit Location Alerts' : 'NapNav - ปลุกเตือนตามพิกัดสำหรับคนเดินทาง';
+        document.querySelector('meta[name="description"]').content = lang === 'en'
+            ? 'NapNav helps alert you near your destination while traveling by bus or train.'
+            : 'NapNav ช่วยเตือนเมื่อเข้าใกล้จุดหมายระหว่างเดินทางด้วยรถเมล์หรือรถไฟฟ้า';
         document.getElementById('content-th').style.display = lang === 'th' ? 'block' : 'none';
         document.getElementById('content-en').style.display = lang === 'en' ? 'block' : 'none';
-        document.getElementById('btn-th').classList.toggle('active', lang === 'th');
-        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-        localStorage.setItem('napnav_lang', lang);
+        ['th', 'en'].forEach(function(language) {
+            var button = document.getElementById('btn-' + language);
+            button.classList.toggle('active', lang === language);
+            button.setAttribute('aria-pressed', String(lang === language));
+        });
+        // Language switching also works when browser storage is unavailable.
+        try { localStorage.setItem('napnav_lang', lang); } catch (error) {}
     }
 
-    // Auto-restore language preference if set
     (function() {
-        var saved = localStorage.getItem('napnav_lang');
-        if (saved && (saved === 'th' || saved === 'en')) {
-            setLanguage(saved);
-        }
+        var saved;
+        try { saved = localStorage.getItem('napnav_lang'); } catch (error) {}
+        setLanguage(saved === 'en' ? 'en' : 'th');
     })();
 </script>
 </body>

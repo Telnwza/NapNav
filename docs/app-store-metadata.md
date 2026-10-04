@@ -56,8 +56,11 @@ transit,alarm,stop,wake,subway,train,bus,commute,sleep,nap,geofence,location,sta
 ## 3. URLs (ลิงก์ที่ Apple บังคับ)
 
 * **Privacy Policy URL:** `https://telnwza.github.io/NapNav/privacy.html`
-* **Support URL:** `https://telnwza.github.io/NapNav/support.html` (หรือ `https://github.com/Telnwza/NapNav/issues`)
-* **Marketing URL (ทางเลือก):** `https://github.com/Telnwza/NapNav`
+* **Support URL:** `https://telnwza.github.io/NapNav/support.html`
+* **Marketing URL (ทางเลือก):** `https://telnwza.github.io/NapNav/`
+* **Support email:** `napnav.support@gmail.com`
+
+> Local update on October 4, 2026: the support and privacy pages include the support email and public GitHub Issues. These changes must be deployed and the public URLs verified before submitting them to App Store Connect.
 
 > เมื่อ 30 ก.ย. 2026 ไฟล์ local `docs/privacy.html` และ `docs/support.html` มีอยู่ แต่ web check เปิด public URLs ไม่ได้ จึงยังไม่ยืนยันว่า deploy/HTTP ใช้งานได้; ตรวจจาก browser หรือ App Store Connect ก่อนส่ง
 

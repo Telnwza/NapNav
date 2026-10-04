@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="app-icon.png">
-    <title>NapNav Support & FAQ</title>
+    <title>ศูนย์ช่วยเหลือและคำถามที่พบบ่อย - NapNav</title>
+    <meta name="description" content="คำถามที่พบบ่อยและช่องทางติดต่อ NapNav ทางอีเมลหรือ GitHub Issues">
     <style>
         :root {
-            --primary: #10B981;
-            --primary-dark: #059669;
+            --primary: #047857;
+            --primary-dark: #065F46;
             --secondary: #A7F3D0;
             --bg: #f5f5f7;
             --card-bg: #ffffff;
@@ -26,7 +27,7 @@
                 --bg: #000000;
                 --card-bg: #1c1c1e;
                 --text-main: #f5f5f7;
-                --text-sub: #86868b;
+                --text-sub: #a1a1a6;
                 --border: #38383a;
                 --card-inner: rgba(52, 211, 153, 0.12);
                 --btn-text: #062b1e;
@@ -70,7 +71,7 @@
         }
         .lang-btn.active {
             background: var(--primary);
-            color: #ffffff;
+            color: var(--btn-text);
             border-color: var(--primary);
         }
         h1 {
@@ -95,6 +96,7 @@
             padding-bottom: 8px;
         }
         .faq-question {
+            margin-top: 0;
             font-weight: 600;
             font-size: 16.5px;
             color: var(--text-main);
@@ -115,7 +117,7 @@
             margin-top: 32px;
             text-align: center;
         }
-        .contact-box h3 {
+        .contact-box h2 {
             margin: 0 0 8px 0;
             color: var(--primary);
             font-size: 18px;
@@ -133,7 +135,6 @@
             transition: all 0.2s ease;
         }
         .btn:hover {
-            opacity: 0.9;
             transform: translateY(-1px);
         }
         .footer-links {
@@ -152,54 +153,72 @@
         .footer-links a:hover {
             text-decoration: underline;
         }
+        a { overflow-wrap: anywhere; }
+        .lang-btn, .btn { min-height: 44px; }
+        a:focus-visible, button:focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 4px;
+        }
+        @media (max-width: 480px) {
+            body { padding: 16px 12px; }
+            .container { padding: 24px 18px 28px; }
+            .lang-switch { flex-wrap: wrap; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .lang-btn, .btn { transition: none; }
+            .btn:hover { transform: none; }
+        }
+        .faq-answer a, .contact-box p a { color: var(--primary); text-decoration: underline; }
     </style>
 </head>
 <body>
-<div class="container">
+<main class="container">
     <div class="lang-switch">
-        <button id="btn-th" class="lang-btn active" onclick="setLanguage('th')">🇹🇭 ภาษาไทย</button>
-        <button id="btn-en" class="lang-btn" onclick="setLanguage('en')">🇬🇧 English</button>
+        <button id="btn-th" class="lang-btn active" lang="th" aria-pressed="true" onclick="setLanguage('th')">🇹🇭 ภาษาไทย</button>
+        <button id="btn-en" class="lang-btn" lang="en" aria-pressed="false" onclick="setLanguage('en')">🇬🇧 English</button>
     </div>
 
     <!-- THAI CONTENT -->
-    <div id="content-th">
+    <div id="content-th" lang="th">
         <h1>ศูนย์ช่วยเหลือ &amp; คำถามที่พบบ่อย</h1>
-        <div class="subtitle">รวมคำตอบสำหรับทุกข้อสงสัยเกี่ยวกับการใช้งาน NapNav เพื่อให้คุณเดินทางได้อุ่นใจที่สุด</div>
+        <div class="subtitle">คำแนะนำการใช้งาน NapNav และช่องทางติดต่อผู้พัฒนา</div>
 
         <div class="faq-item">
-            <div class="faq-question">1. NapNav ขอสิทธิ์ตำแหน่งแบบใด และทำไมต้องใช้?</div>
+            <h2 class="faq-question">1. NapNav ขอสิทธิ์ตำแหน่งแบบใด และทำไมต้องใช้?</h2>
             <p class="faq-answer">NapNav ขอสิทธิ์ "ขณะใช้แอป (When In Use)" ไม่ได้ขอ Always เมื่อคุณเริ่มทริป แอปใช้ตำแหน่งเพื่อคำนวณระยะทางและเตือนเมื่อเข้าใกล้จุดหมาย รวมถึงรับตำแหน่งเบื้องหลังขณะทริปยังทำงานตามที่ iOS อนุญาต การค้นหาสถานที่ใช้บริการ Apple Maps/MapKit; โปรดอ่าน <a href="privacy.html">นโยบายความเป็นส่วนตัว</a> สำหรับข้อมูลที่จัดเก็บและบริการ Apple</p>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">2. โหมดเตือนคู่ "Use Both" ทำงานอย่างไร และดีกว่าโหมดยังไง?</div>
-            <p class="faq-answer">Use Both ใช้ AlarmKit เป็นเสียงหลักบน iOS และอุปกรณ์ที่รองรับและเมื่อคุณอนุญาต พร้อมการแจ้งเตือนแบบไม่มีเสียงเป็น companion หาก AlarmKit ใช้ไม่ได้ แอปจะใช้เส้นทาง Notification เมื่อระบบอนุญาต ผลการเตือนขึ้นกับสิทธิ์ การตั้งค่า iOS และความแม่นยำของตำแหน่ง จึงไม่รับประกันว่าจะปลุกได้ทุกกรณี</p>
+            <h2 class="faq-question">2. โหมดเตือนคู่ "Use Both" ทำงานอย่างไร เมื่อใดจึงใช้ได้?</h2>
+            <p class="faq-answer">Use Both ใช้ AlarmKit เป็นเสียงหลักบน iOS 26 ขึ้นไปเมื่อคุณอนุญาต พร้อมการแจ้งเตือนแบบไม่มีเสียงเมื่อระบบอนุญาต หาก AlarmKit ใช้ไม่ได้ แอปจะใช้เส้นทาง Notification เมื่อระบบอนุญาต ผลการเตือนขึ้นกับสิทธิ์ การตั้งค่า iOS และความแม่นยำของตำแหน่ง จึงไม่รับประกันว่าจะปลุกได้ทุกกรณี</p>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">3. เปิดระบบตรวจจับตำแหน่งแบบนี้ จะกินแบตเตอรี่ไหม?</div>
+            <h2 class="faq-question">3. เปิดระบบตรวจจับตำแหน่งแบบนี้ จะกินแบตเตอรี่ไหม?</h2>
             <p class="faq-answer">NapNav ใช้การอัปเดตตำแหน่งระหว่างทริปที่กำลังทำงาน การใช้แบตเตอรี่ขึ้นกับระยะเวลาทริป สภาพสัญญาณ อุปกรณ์ และการตั้งค่า iOS หากไม่ต้องการติดตามต่อ ให้หยุดหรือจบทริปในแอป</p>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">4. ถ้าเครื่องดับ หรือเผลอปิดแอปไปกลางทาง จะทำอย่างไร?</div>
+            <h2 class="faq-question">4. ถ้าเครื่องดับ หรือเผลอปิดแอปไปกลางทาง จะทำอย่างไร?</h2>
             <p class="faq-answer">NapNav บันทึกข้อมูลทริปที่กำลังทำงานไว้เพื่อให้แอปแสดงตัวเลือกกู้คืนเมื่อเปิดแอปอีกครั้ง แต่การปิดแอปหรือรีสตาร์ตเครื่องอาจทำให้การรับตำแหน่งสะดุด และ iOS อาจพักหรือยุติกระบวนการของแอปได้ การเตือนจึงอาจล่าช้าหรือไม่เกิดขึ้นในช่วงดังกล่าว</p>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">5. บันทึกสถานที่ที่ไปบ่อย หรือปรับรัศมีเตือนตรงไหน?</div>
-            <p class="faq-answer">ก่อนเริ่มเดินทาง คุณสามารถเลื่อนแถบเพื่อเลือกระยะเตือนล่วงหน้าได้ตามต้องการ (เช่น 500 ม., 1 กม. หรือปรับแบบละเอียด) และสามารถกดไอคอนรูปหัวใจเพื่อเซฟเก็บไว้เป็น "สถานที่โปรด" (Favorites) เช่น บ้าน หรือที่ทำงาน ให้แตะเริ่มทางได้ทันทีในครั้งถัดไป</p>
+            <h2 class="faq-question">5. บันทึกสถานที่ที่ไปบ่อย หรือปรับรัศมีเตือนตรงไหน?</h2>
+            <p class="faq-answer">ก่อนเริ่มเดินทาง คุณสามารถเลื่อนแถบเพื่อเลือกระยะเตือนล่วงหน้าได้ตามต้องการ (เช่น 500 ม., 1 กม. หรือปรับแบบละเอียด) และสามารถกดไอคอนรูปดาวเพื่อบันทึกไว้เป็น "สถานที่โปรด" (Favorites) เช่น บ้าน หรือที่ทำงาน เพื่อเลือกจุดหมายและเริ่มทริปได้สะดวกในครั้งถัดไป</p>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">6. NapNav รับประกันเวลาเตือนหรือความแม่นยำของ GPS ได้ไหม?</div>
+            <h2 class="faq-question">6. NapNav รับประกันเวลาเตือนหรือความแม่นยำของ GPS ได้ไหม?</h2>
             <p class="faq-answer">ไม่ได้ครับ ตำแหน่งอาจคลาดเคลื่อนหรืออัปเดตช้า โดยเฉพาะในอาคาร อุโมงค์ พื้นที่สัญญาณอ่อน หรือเมื่อ iOS จำกัดการทำงานเบื้องหลัง NapNav ช่วยเตือนจากตำแหน่งที่ได้รับ แต่ไม่ควรใช้แทนการสังเกตป้ายและประกาศระหว่างเดินทาง</p>
         </div>
 
         <div class="contact-box">
-            <h3>พบปัญหาการใช้งาน หรือมีข้อเสนอแนะ?</h3>
-            <p style="margin: 0; font-size: 14px; color: var(--text-sub);">คุณสามารถส่งรายงานข้อผิดพลาด (Bug Report) หรือแนะนำไอเดียฟีเจอร์ใหม่ให้กับผู้พัฒนาได้โดยตรงผ่าน GitHub Issues</p>
+            <h2>พบปัญหาการใช้งาน หรือมีข้อเสนอแนะ?</h2>
+            <p style="margin: 0; font-size: 14px; color: var(--text-sub);">ส่งคำถามหรือแจ้งปัญหาทางอีเมลได้ที่ <a href="mailto:napnav.support@gmail.com">napnav.support@gmail.com</a> โปรดระบุรุ่น iPhone เวอร์ชัน iOS เวอร์ชัน NapNav และขั้นตอนที่พบปัญหา โดยส่งเฉพาะข้อมูลที่จำเป็น</p>
+            <a class="btn" href="mailto:napnav.support@gmail.com">napnav.support@gmail.com</a>
             <a class="btn" href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">เปิดแจ้งปัญหาบน GitHub Issues</a>
+            <p>GitHub Issues เป็นพื้นที่สาธารณะ โปรดอย่าโพสต์อีเมลส่วนตัว พิกัดบ้านหรือที่ทำงาน หรือภาพที่มีข้อมูลส่วนตัว หากต้องส่งข้อมูลดังกล่าว ให้ใช้อีเมลแทน อ่านรายละเอียดการจัดการข้อมูลใน <a href="privacy.html">นโยบายความเป็นส่วนตัว</a></p>
         </div>
 
         <div class="footer-links">
@@ -212,44 +231,46 @@
     </div>
 
     <!-- ENGLISH CONTENT -->
-    <div id="content-en" style="display: none;">
+    <div id="content-en" lang="en" style="display: none;">
         <h1>Support &amp; FAQ</h1>
-        <div class="subtitle">Frequently asked questions and guides to help you travel worry-free with NapNav.</div>
+        <div class="subtitle">Answers to common NapNav questions and ways to contact the developer.</div>
 
         <div class="faq-item">
-            <div class="faq-question">1. What location permission does NapNav request and why?</div>
+            <h2 class="faq-question">1. What location permission does NapNav request and why?</h2>
             <p class="faq-answer">NapNav requests "While In Use" location access, not Always. While a trip is active, the app uses location updates to calculate distance and alert you near the destination, including background updates when allowed by iOS. Place search uses Apple Maps/MapKit. See the <a href="privacy.html">Privacy Policy</a> for details about stored information and Apple services.</p>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">2. How does the "Use Both" alert mode work?</div>
-            <p class="faq-answer">Use Both uses AlarmKit as its primary sound on supported iOS devices when you authorize it, with a silent notification companion when available. If AlarmKit cannot be used, NapNav uses the notification path when available. Delivery depends on permissions, iOS settings, and location accuracy, so an alert cannot be guaranteed in every situation.</p>
+            <h2 class="faq-question">2. How does the "Use Both" alert mode work?</h2>
+            <p class="faq-answer">Use Both uses AlarmKit as its primary sound on iOS 26 or later when you authorize it, with a silent notification when available. If AlarmKit cannot be used, NapNav uses the notification path when available. Delivery depends on permissions, iOS settings, and location accuracy, so an alert cannot be guaranteed in every situation.</p>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">3. Does continuous background tracking drain battery life?</div>
+            <h2 class="faq-question">3. Does continuous background tracking drain battery life?</h2>
             <p class="faq-answer">NapNav receives location updates while a trip is active. Battery use varies with trip duration, signal conditions, device, and iOS settings. Stop or finish the trip in the app when you no longer want location tracking.</p>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">4. What happens if my iPhone restarts or the app terminates mid-journey?</div>
+            <h2 class="faq-question">4. What happens if my iPhone restarts or the app terminates mid-journey?</h2>
             <p class="faq-answer">NapNav saves an active-trip snapshot so it can offer a recovery choice when reopened. Closing the app or restarting the device may interrupt location updates, and iOS may suspend or terminate the app process. An alert may be delayed or may not occur during such an interruption.</p>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">5. How do I change the alert radius or save favorite destinations?</div>
-            <p class="faq-answer">When choosing your destination, select a preset radius (500m, 1km, 2km) or drag the custom distance slider. Tap the heart icon on any destination card to save it to your Favorites (like Home or Office) for quick one-tap starts.</p>
+            <h2 class="faq-question">5. How do I change the alert radius or save favorite destinations?</h2>
+            <p class="faq-answer">When choosing your destination, select a preset radius (500m, 1km, 2km) or drag the custom distance slider. Tap the star icon on any destination card to save it to your Favorites (like Home or Office) to select them quickly on your next trip.</p>
         </div>
 
         <div class="faq-item">
-            <div class="faq-question">6. Can NapNav guarantee GPS accuracy or an exact alert time?</div>
+            <h2 class="faq-question">6. Can NapNav guarantee GPS accuracy or an exact alert time?</h2>
             <p class="faq-answer">No. Location can be inaccurate or delayed, especially indoors, in tunnels, in areas with weak reception, or when iOS limits background activity. NapNav alerts using the location it receives; continue to watch station signs and listen for transit announcements.</p>
         </div>
 
         <div class="contact-box">
-            <h3>Need further help or found a bug?</h3>
-            <p style="margin: 0; font-size: 14px; color: var(--text-sub);">Feel free to report issues or suggest new features directly on our public GitHub repository.</p>
+            <h2>Need further help or found a bug?</h2>
+            <p style="margin: 0; font-size: 14px; color: var(--text-sub);">Email <a href="mailto:napnav.support@gmail.com">napnav.support@gmail.com</a> with your iPhone model, iOS version, NapNav version, and steps to reproduce the issue. Share only information needed for support.</p>
+            <a class="btn" href="mailto:napnav.support@gmail.com">napnav.support@gmail.com</a>
             <a class="btn" href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">Open an Issue on GitHub</a>
+            <p>GitHub Issues are public. Do not post personal email addresses, home or work coordinates, or screenshots containing private information. Use email if private details are needed. See the <a href="privacy.html">Privacy Policy</a> for how support information is handled.</p>
         </div>
 
         <div class="footer-links">
@@ -260,23 +281,31 @@
             <a href="https://github.com/Telnwza/NapNav">GitHub Repository</a>
         </div>
     </div>
-</div>
+</main>
 
 <script>
     function setLanguage(lang) {
+        lang = lang === 'en' ? 'en' : 'th';
+        document.documentElement.lang = lang;
+        document.title = lang === 'en' ? 'NapNav Support & FAQ' : 'ศูนย์ช่วยเหลือและคำถามที่พบบ่อย - NapNav';
+        document.querySelector('meta[name="description"]').content = lang === 'en'
+            ? 'NapNav frequently asked questions and support by email or GitHub Issues.'
+            : 'คำถามที่พบบ่อยและช่องทางติดต่อ NapNav ทางอีเมลหรือ GitHub Issues';
         document.getElementById('content-th').style.display = lang === 'th' ? 'block' : 'none';
         document.getElementById('content-en').style.display = lang === 'en' ? 'block' : 'none';
-        document.getElementById('btn-th').classList.toggle('active', lang === 'th');
-        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-        localStorage.setItem('napnav_lang', lang);
+        ['th', 'en'].forEach(function(language) {
+            var button = document.getElementById('btn-' + language);
+            button.classList.toggle('active', lang === language);
+            button.setAttribute('aria-pressed', String(lang === language));
+        });
+        // Language switching also works when browser storage is unavailable.
+        try { localStorage.setItem('napnav_lang', lang); } catch (error) {}
     }
 
-    // Auto-restore language preference if set
     (function() {
-        var saved = localStorage.getItem('napnav_lang');
-        if (saved && (saved === 'th' || saved === 'en')) {
-            setLanguage(saved);
-        }
+        var saved;
+        try { saved = localStorage.getItem('napnav_lang'); } catch (error) {}
+        setLanguage(saved === 'en' ? 'en' : 'th');
     })();
 </script>
 </body>

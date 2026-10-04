@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="app-icon.png">
-    <title>Privacy Policy - NapNav</title>
+    <title>นโยบายความเป็นส่วนตัว - NapNav</title>
+    <meta name="description" content="ข้อมูลที่ NapNav ใช้ การเก็บและลบข้อมูล สิทธิ์ของแอป และช่องทางติดต่อ">
     <style>
         :root {
-            --primary: #10B981;
-            --primary-dark: #059669;
+            --primary: #047857;
+            --primary-dark: #065F46;
             --secondary: #A7F3D0;
             --bg: #f5f5f7;
             --card-bg: #ffffff;
@@ -26,7 +27,7 @@
                 --bg: #000000;
                 --card-bg: #1c1c1e;
                 --text-main: #f5f5f7;
-                --text-sub: #86868b;
+                --text-sub: #a1a1a6;
                 --border: #38383a;
                 --card-inner: rgba(52, 211, 153, 0.12);
                 --btn-text: #062b1e;
@@ -70,7 +71,7 @@
         }
         .lang-btn.active {
             background: var(--primary);
-            color: #ffffff;
+            color: var(--btn-text);
             border-color: var(--primary);
         }
         h1 {
@@ -136,19 +137,34 @@
         footer a {
             margin: 0 8px;
         }
+        a { overflow-wrap: anywhere; }
+        .lang-btn, .btn { min-height: 44px; }
+        a:focus-visible, button:focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 4px;
+        }
+        @media (max-width: 480px) {
+            body { padding: 16px 12px; }
+            .container { padding: 24px 18px 28px; }
+            .lang-switch { flex-wrap: wrap; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .lang-btn, .btn { transition: none; }
+            .btn:hover { transform: none; }
+        }
     </style>
 </head>
 <body>
-<div class="container">
+<main class="container">
     <div class="lang-switch">
-        <button id="btn-th" class="lang-btn active" onclick="setLanguage('th')">🇹🇭 ภาษาไทย</button>
-        <button id="btn-en" class="lang-btn" onclick="setLanguage('en')">🇬🇧 English</button>
+        <button id="btn-th" class="lang-btn active" lang="th" aria-pressed="true" onclick="setLanguage('th')">🇹🇭 ภาษาไทย</button>
+        <button id="btn-en" class="lang-btn" lang="en" aria-pressed="false" onclick="setLanguage('en')">🇬🇧 English</button>
     </div>
 
     <!-- THAI CONTENT -->
-    <div id="content-th">
+    <div id="content-th" lang="th">
         <h1>นโยบายความเป็นส่วนตัว (Privacy Policy)</h1>
-        <div class="updated-date">แอปพลิเคชัน NapNav &bull; อัปเดตล่าสุด: กันยายน 2026</div>
+        <div class="updated-date">แอปพลิเคชัน NapNav &bull; อัปเดตล่าสุด: 4 ตุลาคม 2026</div>
 
         <div class="highlight-box">
             <strong>สรุปความเป็นส่วนตัว:</strong> NapNav ใช้ตำแหน่งที่ iOS ให้ระหว่างทริปที่คุณเริ่มเพื่อคำนวณระยะทาง และไม่บันทึกเส้นทาง GPS ต่อเนื่องไว้ในแอปหรือส่งไปยังเซิร์ฟเวอร์ของผู้พัฒนา การค้นหาสถานที่และแปลงพิกัดเป็นชื่อสถานที่ใช้บริการ Apple Maps/MapKit และ Core Location; ข้อมูลที่จำเป็นต่อคำขออาจถูกส่งให้ Apple ตาม <a href="https://www.apple.com/legal/privacy/data/en/apple-maps/" target="_blank" rel="noopener">นโยบาย Apple Maps &amp; Privacy</a>
@@ -170,20 +186,26 @@
         </ul>
 
         <h2>3. ระยะเวลาเก็บข้อมูล การลบ และการเพิกถอนสิทธิ์</h2>
-        <p>ค่าการเตือนและสถานที่โปรดจะอยู่ในอุปกรณ์จนกว่าคุณจะลบรายการหรือเอาแอปออก สถานที่ล่าสุดลบทีละรายการหรือล้างทั้งหมดได้จากหน้ารายการ และระบบเก็บไว้ไม่เกิน 10 แห่ง snapshot ของทริปจะถูกลบเมื่อคุณหยุดหรือจบทริป NapNav ไม่มีบัญชีหรือสำเนาข้อมูลบนเซิร์ฟเวอร์ของผู้พัฒนาที่ต้องส่งคำขอลบข้อมูลแยกต่างหาก</p>
-        <p>คุณลบสถานที่โปรดและสถานที่ล่าสุดได้ในแอป หรือลบ NapNav จาก iOS เพื่อลบข้อมูลแอปที่จัดเก็บในอุปกรณ์ คุณเพิกถอนหรือปรับสิทธิ์ Location, Notifications และ AlarmKit ได้ที่ <strong>Settings &gt; NapNav</strong>; เมื่อปิด Location แอปจะไม่สามารถรับตำแหน่งเพื่อทำทริปต่อได้</p>
+        <p>ค่าการเตือนและสถานที่โปรดจะอยู่ในอุปกรณ์จนกว่าคุณจะลบรายการหรือเลือก Delete App เพื่อลบแอป สถานที่ล่าสุดลบทีละรายการหรือล้างทั้งหมดได้จากหน้ารายการ และระบบเก็บไว้ไม่เกิน 10 แห่ง snapshot ของทริปจะถูกลบเมื่อคุณหยุดหรือจบทริป NapNav ไม่มีบัญชีผู้ใช้หรือสำเนาข้อมูลทริปบนเซิร์ฟเวอร์ของผู้พัฒนา ข้อมูลที่คุณส่งขอความช่วยเหลือมีรายละเอียดแยกไว้ในข้อ 4</p>
+        <p>คุณลบสถานที่โปรดและสถานที่ล่าสุดได้ในแอป หรือเลือก Delete App ใน iOS เพื่อลบข้อมูลแอปที่จัดเก็บในอุปกรณ์ การเอาไอคอนออกจากหน้าจอโฮมหรือเลือก Offload App ไม่ได้ลบข้อมูลแอปทั้งหมด คุณเพิกถอนหรือปรับสิทธิ์ Location, Notifications และ AlarmKit ได้ที่ <strong>Settings</strong> โดยค้นหา NapNav; เมื่อปิด Location แอปจะไม่สามารถรับตำแหน่งเพื่อทำทริปต่อได้</p>
 
         <h2>4. ช่องทางติดต่อและบริการช่วยเหลือ (Support)</h2>
         <p>หากคุณมีคำถาม ข้อเสนอแนะ หรือต้องการความช่วยเหลือเกี่ยวกับการใช้งาน NapNav สามารถติดต่อทีมพัฒนาได้ที่:</p>
         <ul>
+            <li><strong>Email:</strong> <a href="mailto:napnav.support@gmail.com">napnav.support@gmail.com</a></li>
             <li><strong>GitHub Repository &amp; Issues:</strong> <a href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">https://github.com/Telnwza/NapNav/issues</a></li>
         </ul>
+        <p>เมื่อคุณติดต่อขอความช่วยเหลือ ผู้พัฒนาจะได้รับอีเมลหรือชื่อบัญชี ข้อความ และไฟล์ที่คุณเลือกส่ง เช่น รุ่นอุปกรณ์ เวอร์ชันแอป หรือภาพหน้าจอ ข้อมูลเหล่านี้ใช้เพื่อตอบคำถาม ตรวจสอบและแก้ปัญหาเท่านั้น ไม่ใช้เพื่อโฆษณาหรือติดตามคุณ</p>
+        <p>อีเมลรับผ่าน Gmail ตาม <a href="https://policies.google.com/privacy">นโยบายความเป็นส่วนตัวของ Google</a> ส่วน GitHub Issues จัดการโดย GitHub ตาม <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">นโยบายความเป็นส่วนตัวของ GitHub</a> และเป็นพื้นที่สาธารณะ โปรดอย่าโพสต์ข้อมูลส่วนตัวหรือพิกัดที่ระบุตัวคุณได้ ให้ส่งเฉพาะข้อมูลที่จำเป็นทางอีเมลแทน</p>
+        <p>ผู้พัฒนาเก็บข้อความขอความช่วยเหลือเท่าที่จำเป็นต่อการแก้ปัญหาและติดตามผล คุณขอลบข้อมูลที่ผู้พัฒนาเก็บไว้ได้โดยส่งอีเมลมาที่ napnav.support@gmail.com การลบข้อมูลบนระบบของ Google หรือ GitHub รวมถึงสำเนาหรือข้อมูลสำรอง อยู่ภายใต้นโยบายและเครื่องมือของผู้ให้บริการนั้น</p>
+        <h2>5. เว็บไซต์นี้</h2>
+        <p>เว็บไซต์บันทึกเฉพาะภาษาที่คุณเลือกไว้ใน localStorage ของเบราว์เซอร์เพื่อใช้เมื่อเปิดหน้าอื่น คุณล้างค่านี้ได้โดยลบข้อมูลเว็บไซต์ในเบราว์เซอร์ เว็บไซต์โฮสต์บน GitHub Pages ซึ่งอาจประมวลผลข้อมูลการเชื่อมต่อ เช่น IP address ตามนโยบายความเป็นส่วนตัวของ GitHub</p>
     </div>
 
     <!-- ENGLISH CONTENT -->
-    <div id="content-en" style="display: none;">
+    <div id="content-en" lang="en" style="display: none;">
         <h1>Privacy Policy</h1>
-        <div class="updated-date">NapNav Application &bull; Last Updated: September 2026</div>
+        <div class="updated-date">NapNav Application &bull; Last Updated: October 4, 2026</div>
 
         <div class="highlight-box">
             <strong>Privacy summary:</strong> NapNav uses the location provided by iOS during a trip you start to calculate distance. The app does not keep a continuous GPS route or send your live trip location to a developer-operated server. Place search and coordinate-to-place lookup use Apple Maps/MapKit and Core Location; information needed for those requests may be processed by Apple under its <a href="https://www.apple.com/legal/privacy/data/en/apple-maps/" target="_blank" rel="noopener">Apple Maps &amp; Privacy policy</a>.
@@ -205,39 +227,53 @@
         </ul>
 
         <h2>3. Retention, Deletion, and Permission Controls</h2>
-        <p>Alert preferences and favorite destinations remain on your device until you delete them or remove the app. You can delete recent destinations one at a time or clear the list in the app; the list is limited to 10 entries. NapNav deletes the active-trip recovery snapshot when you stop or finish a trip. NapNav has no account or developer-server copy for which you need to make a separate deletion request.</p>
-        <p>You can remove favorites and recent destinations in the app, or remove NapNav from iOS to delete the app's locally stored data. You can change or revoke Location, Notifications, and AlarmKit permissions in <strong>Settings &gt; NapNav</strong>. If Location is disabled, NapNav cannot receive location updates to continue a trip.</p>
+        <p>Alert preferences and favorite destinations remain on your device until you delete them or choose Delete App. You can delete recent destinations one at a time or clear the list in the app; the list is limited to 10 entries. NapNav deletes the active-trip recovery snapshot when you stop or finish a trip. NapNav has no user account or developer-server copy of trip data. Information you voluntarily send for support is described separately in section 4.</p>
+        <p>You can remove favorites and recent destinations in the app, or choose Delete App in iOS to delete locally stored app data. Removing the Home Screen icon or choosing Offload App does not delete all app data. You can change or revoke Location, Notifications, and AlarmKit permissions by opening <strong>Settings</strong> and searching for NapNav. If Location is disabled, NapNav cannot receive location updates to continue a trip.</p>
 
         <h2>4. Contact &amp; Support</h2>
         <p>For questions, support, or feedback regarding NapNav, please reach out via:</p>
         <ul>
+            <li><strong>Email:</strong> <a href="mailto:napnav.support@gmail.com">napnav.support@gmail.com</a></li>
             <li><strong>GitHub Repository &amp; Issues:</strong> <a href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">https://github.com/Telnwza/NapNav/issues</a></li>
         </ul>
+        <p>When you contact support, the developer receives your email address or account name, message, and any files you choose to send, such as device details, app version, or screenshots. This information is used only to respond to your request, investigate issues, and provide fixes, not for advertising or tracking.</p>
+        <p>Email is handled through Gmail under the <a href="https://policies.google.com/privacy">Google Privacy Policy</a>. GitHub Issues are handled by GitHub under the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub Privacy Statement</a> and are public. Do not post private information or identifying coordinates. Send only necessary private details by email instead.</p>
+        <p>The developer retains support correspondence only as needed to resolve the request and follow up. To request deletion of information held by the developer, email napnav.support@gmail.com. Deletion within Google or GitHub services, including copies or backups, is subject to those providers' policies and tools.</p>
+        <h2>5. This Website</h2>
+        <p>This website stores only your selected language in browser localStorage to remember it across pages. You can remove this preference by clearing the website's browser data. The site is hosted on GitHub Pages, which may process connection information such as your IP address under GitHub's privacy statement.</p>
     </div>
 
-    <footer>
+    <footer lang="en">
         <a href="index.html">Home</a> &bull;
         <a href="support.html">Support</a> &bull;
         <a href="https://github.com/Telnwza/NapNav">GitHub</a>
         <div style="margin-top: 10px;">&copy; 2026 NapNav. All rights reserved.</div>
     </footer>
-</div>
+</main>
 
 <script>
     function setLanguage(lang) {
+        lang = lang === 'en' ? 'en' : 'th';
+        document.documentElement.lang = lang;
+        document.title = lang === 'en' ? 'Privacy Policy - NapNav' : 'นโยบายความเป็นส่วนตัว - NapNav';
+        document.querySelector('meta[name="description"]').content = lang === 'en'
+            ? 'How NapNav uses data, retention and deletion, app permissions, and support contacts.'
+            : 'ข้อมูลที่ NapNav ใช้ การเก็บและลบข้อมูล สิทธิ์ของแอป และช่องทางติดต่อ';
         document.getElementById('content-th').style.display = lang === 'th' ? 'block' : 'none';
         document.getElementById('content-en').style.display = lang === 'en' ? 'block' : 'none';
-        document.getElementById('btn-th').classList.toggle('active', lang === 'th');
-        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-        localStorage.setItem('napnav_lang', lang);
+        ['th', 'en'].forEach(function(language) {
+            var button = document.getElementById('btn-' + language);
+            button.classList.toggle('active', lang === language);
+            button.setAttribute('aria-pressed', String(lang === language));
+        });
+        // Language switching also works when browser storage is unavailable.
+        try { localStorage.setItem('napnav_lang', lang); } catch (error) {}
     }
 
-    // Auto-restore language preference if set
     (function() {
-        var saved = localStorage.getItem('napnav_lang');
-        if (saved && (saved === 'th' || saved === 'en')) {
-            setLanguage(saved);
-        }
+        var saved;
+        try { saved = localStorage.getItem('napnav_lang'); } catch (error) {}
+        setLanguage(saved === 'en' ? 'en' : 'th');
     })();
 </script>
 </body>
