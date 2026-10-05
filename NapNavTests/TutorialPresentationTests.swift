@@ -46,6 +46,20 @@ struct TutorialPresentationTests {
         #expect(OnboardingMode.firstRun.requestsPermissions(on: .permissions))
     }
 
+    @Test("The first-run pre-alert has only a Continue action; replay can close or go back")
+    func permissionPageActions() {
+        #expect(OnboardingMode.firstRun.primaryButtonTitleKey(on: .permissions) == "ดำเนินการต่อ")
+        #expect(!OnboardingMode.firstRun.showsBackButton(on: .permissions))
+        #expect(OnboardingMode.firstRun.showsBackButton(on: .alertMethod))
+        #expect(!OnboardingMode.firstRun.showsBackButton(on: .destination))
+        #expect(OnboardingMode.replay.primaryButtonTitleKey(on: .permissions) == "ปิดแนะนำการใช้งาน")
+        #expect(OnboardingMode.replay.showsBackButton(on: .permissions))
+        for language in [AppLanguage.thai, .english] {
+            #expect(AppLocalization.string(OnboardingMode.firstRun.primaryButtonTitleKey(on: .permissions), language: language)
+                == (language == .thai ? "ดำเนินการต่อ" : "Continue"))
+        }
+    }
+
     @Test("Replay never requests permissions automatically", arguments: OnboardingPage.allCases)
     func replayPagePermissions(page: OnboardingPage) {
         #expect(!OnboardingMode.replay.requestsPermissions(on: page))

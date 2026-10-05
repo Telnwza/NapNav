@@ -272,7 +272,6 @@
 /* Concise Onboarding */
 "ปักหมุดจุดหมาย" = "Set Destination";
 "ค้นหาสถานีหรือแตะเลือกบนแผนที่" = "Search transit stops or tap on the map";
-"สิทธิ์การใช้งานที่จำเป็น" = "Required Permissions";
 "ใช้วัดระยะห่างถึงจุดหมาย" = "Track distance to destination";
 "เสียงและการแจ้งเตือน" = "Sound & Alerts";
 "ตำแหน่งใช้คำนวณระยะทางระหว่างทริป; ค้นหาสถานที่ผ่านบริการ Apple และบันทึกสถานที่โปรด/ล่าสุดไว้บนอุปกรณ์" = "Location is used to measure distance during active trips. Place search uses Apple services; favorites and recents are stored on device.";
@@ -347,12 +346,10 @@
 "ระบบนาฬิกาปลุก (AlarmKit)" = "Alarm System (AlarmKit)";
 "AlarmKit ส่งเสียงเตือนบนอุปกรณ์ที่รองรับ; ผลการเตือนขึ้นกับสิทธิ์และการตั้งค่า iOS (iOS 26+)" = "AlarmKit provides system alarms on supported devices; delivery depends on permissions and iOS settings (iOS 26+).";
 "ขอสิทธิ์" = "Request";
-"อนุญาตสิทธิ์ทั้งหมด" = "Continue";
 "ตั้งค่าวิธีเตือน" = "Alert Method";
 "เลือกรูปแบบและระดับเสียงการเตือนที่เหมาะกับการเดินทางของคุณ" = "Choose your preferred alarm style and transit wake-up experience.";
 
 "ยังไม่ได้รับอนุญาต AlarmKit" = "AlarmKit Not Authorized";
-"แตะขอสิทธิ์เพื่อให้ระบบนาฬิกาปลุกทำงานได้เต็มรูปแบบ" = "Grant permission for the alarm system to ring at full volume.";
 
 "ลากขึ้นเพื่อดูสถานที่โปรดและประวัติ" = "Swipe up for favorites & recents";
 
@@ -370,7 +367,6 @@
 "เลือกสถานที่นี้และตั้งค่ารัศมีเตือน" = "Select this place and configure the alert radius";
 
 /* Concise tutorial */
-"อนุญาตเพื่อคำนวณระยะและส่งเตือน" = "Allow access to calculate distance and send alerts.";
 "เลือกวิธีเตือน" = "Choose an Alert Method";
 "เปลี่ยนภายหลังได้ในการตั้งค่า" = "You can change this later in Settings.";
 "สัญญาณตำแหน่งไม่ดีอาจทำให้เตือนช้า Focus อาจทำให้ไม่มีเสียง" = "Poor location signal may delay alerts. Focus may silence them.";
@@ -383,8 +379,11 @@
 "นาฬิกาปลุก พร้อมแจ้งเตือนแบบเงียบ" = "Alarm with a silent notification.";
 "เสียงและแบนเนอร์แจ้งเตือน" = "A sound and notification banner.";
 "เสียงปลุกของระบบ" = "A system alarm.";
-"อนุญาตนาฬิกาปลุก" = "Allow Alarm Access";
-"เพื่อใช้วิธีเตือนนี้" = "To use this alert method.";
 "คำนวณระยะถึงจุดหมาย" = "Measures distance to your destination.";
 "ส่งเตือนเมื่อใกล้จุดหมาย" = "Sends an alert near your destination.";
-"สำหรับเสียงปลุกของระบบ" = "Enables the system alarm.";
+
+/* Permission explanation */
+"การตั้งค่าสิทธิ์" = "Permissions";
+"ขั้นตอนถัดไป iOS จะแสดงคำขอสิทธิ์ คุณเลือกอนุญาตหรือไม่อนุญาตได้ในแต่ละคำขอ" = "Next, iOS will show permission requests. You can allow or deny each request.";
+"สิทธิ์ที่ใช้คำนวณระยะและส่งเตือน ตรวจสอบหรือเปลี่ยนได้ในการตั้งค่า iPhone" = "Permissions used to calculate distance and send alerts. Review or change them in iPhone Settings.";
+"ส่งเสียงปลุกเมื่อใกล้จุดหมาย" = "Sounds a system alarm near your destination.";

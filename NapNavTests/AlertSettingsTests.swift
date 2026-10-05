@@ -6,6 +6,39 @@ import UserNotifications
 @MainActor
 @Suite("Alert settings and preferences")
 struct AlertSettingsTests {
+    @Test("Onboarding permission requests finish after denial without starting a trip")
+    func onboardingDenialReturnsToCaller() async {
+        let location = MockLocation()
+        let notifications = MockAlertDelivery()
+        notifications.prominentAlarmSupported = true
+        notifications.notificationAuthorizationGranted = false
+        notifications.readinessValue = AlarmReadiness(
+            permission: .denied,
+            alertsEnabled: false,
+            soundsEnabled: false,
+            lockScreenEnabled: false,
+            timeSensitiveSetting: .disabled
+        )
+        let store = TripStore(
+            locationClient: location,
+            notificationClient: notifications,
+            persistence: NoopTripPersistence()
+        )
+        let initialPhase = store.phase
+        await store.refreshReadiness()
+
+        await store.requestOnboardingPermissions()
+
+        #expect(location.authorizationRequestCount == 1)
+        #expect(notifications.notificationAuthorizationRequestCount == 1)
+        #expect(notifications.alarmAuthorizationRequestCount == 1)
+        #expect(!store.prominentAlarmReady)
+        #expect(store.alarmReadiness.permission == .denied)
+        #expect(!store.alertDeliveryReady)
+        #expect(store.phase == initialPhase)
+        #expect(location.startUpdatesCount == 0)
+    }
+
     @Test("Time Sensitive readiness preserves unsupported system state")
     func mapsTimeSensitiveSystemSetting() {
         #expect(LocalAlarmDelivery.timeSensitiveSetting(from: .enabled) == .enabled)
@@ -723,6 +756,9 @@ private final class MockLocation: LocationProviding {
 
 @MainActor
 private final class MockAlertDelivery: NotificationProviding {
+    var notificationAuthorizationGranted = true
+    var notificationAuthorizationRequestCount = 0
+    var alarmAuthorizationRequestCount = 0
     var arrivalCount = 0
     var testAlertCount = 0
     var lastTestAlertDelay: TimeInterval?
@@ -743,10 +779,16 @@ private final class MockAlertDelivery: NotificationProviding {
     private var arrivalStartContinuation: CheckedContinuation<Void, Never>?
 
     func authorizationIsGranted() async -> Bool { true }
-    func requestAuthorizationIfNeeded() async -> Bool { true }
+    func requestAuthorizationIfNeeded() async -> Bool {
+        notificationAuthorizationRequestCount += 1
+        return notificationAuthorizationGranted
+    }
     func prominentAlarmsAreSupported() -> Bool { prominentAlarmSupported }
     func prominentAlarmAuthorizationIsGranted() async -> Bool { prominentAlarmGranted }
-    func requestProminentAlarmAuthorizationIfAvailable() async -> Bool { prominentAlarmGranted }
+    func requestProminentAlarmAuthorizationIfAvailable() async -> Bool {
+        alarmAuthorizationRequestCount += 1
+        return prominentAlarmGranted
+    }
 
     func readiness() async -> AlarmReadiness {
         readinessValue

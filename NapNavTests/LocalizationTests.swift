@@ -212,7 +212,10 @@ struct LocalizationTests {
             ("เลือกระยะสำเร็จรูปหรือกำหนดเอง แล้วแตะเริ่มเดินทาง", "Choose a preset or custom distance, then tap Start Trip."),
             ("สัญญาณตำแหน่งไม่ดีอาจทำให้เตือนช้า Focus อาจทำให้ไม่มีเสียง", "Poor location signal may delay alerts. Focus may silence them."),
             ("นาฬิกาปลุก พร้อมแจ้งเตือนแบบเงียบ", "Alarm with a silent notification."),
-            ("อนุญาตเพื่อคำนวณระยะและส่งเตือน", "Allow access to calculate distance and send alerts.")
+            ("การตั้งค่าสิทธิ์", "Permissions"),
+            ("ขั้นตอนถัดไป iOS จะแสดงคำขอสิทธิ์ คุณเลือกอนุญาตหรือไม่อนุญาตได้ในแต่ละคำขอ", "Next, iOS will show permission requests. You can allow or deny each request."),
+            ("สิทธิ์ที่ใช้คำนวณระยะและส่งเตือน ตรวจสอบหรือเปลี่ยนได้ในการตั้งค่า iPhone", "Permissions used to calculate distance and send alerts. Review or change them in iPhone Settings."),
+            ("ส่งเสียงปลุกเมื่อใกล้จุดหมาย", "Sounds a system alarm near your destination.")
         ]
         for (thai, english) in examples {
             #expect(AppLocalization.string(thai, language: .thai) == thai)

@@ -8,6 +8,18 @@ enum OnboardingMode: Equatable, Sendable {
     func requestsPermissions(on page: OnboardingPage) -> Bool {
         requestsPermissionsOnContinue && page == .permissions
     }
+
+    func showsBackButton(on page: OnboardingPage) -> Bool {
+        page.previous != nil && !requestsPermissions(on: page)
+    }
+
+    func primaryButtonTitleKey(on page: OnboardingPage) -> String {
+        switch page {
+        case .destination: "ดำเนินการต่อ"
+        case .alertMethod: "ถัดไป"
+        case .permissions: self == .firstRun ? "ดำเนินการต่อ" : "ปิดแนะนำการใช้งาน"
+        }
+    }
 }
 
 enum OnboardingPage: Int, CaseIterable, Identifiable {

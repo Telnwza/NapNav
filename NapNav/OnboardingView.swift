@@ -19,7 +19,7 @@ struct OnboardingView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            if reduceMotion {
+            if reduceMotion || mode.requestsPermissions(on: currentPage) {
                 pageContent(for: currentPage)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
@@ -64,13 +64,13 @@ struct OnboardingView: View {
                 pageHeader(
                     icon: "checkmark.shield.fill",
                     gradientColors: [AppTheme.primary, AppTheme.dark],
-                    title: AppLocalization.string("สิทธิ์การใช้งานที่จำเป็น"),
-                    subtitle: AppLocalization.string("อนุญาตเพื่อคำนวณระยะและส่งเตือน")
+                    title: AppLocalization.string("การตั้งค่าสิทธิ์"),
+                    subtitle: AppLocalization.string(mode.requestsPermissions(on: .permissions)
+                        ? "ขั้นตอนถัดไป iOS จะแสดงคำขอสิทธิ์ คุณเลือกอนุญาตหรือไม่อนุญาตได้ในแต่ละคำขอ"
+                        : "สิทธิ์ที่ใช้คำนวณระยะและส่งเตือน ตรวจสอบหรือเปลี่ยนได้ในการตั้งค่า iPhone")
                 )
 
                 permissionsCard
-
-                privacySection
             }
             .padding(.horizontal, 20)
             .padding(.top, 24)
@@ -97,10 +97,6 @@ struct OnboardingView: View {
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
-
-                if store.prominentAlarmSupported && !alarmKitAuthorized && (store.alertPreferences.deliveryMode == .alarmKit || store.alertPreferences.deliveryMode == .both) {
-                    alarmKitPermissionTip
-                }
             }
             .padding(.horizontal, 20)
             .padding(.top, 24)
@@ -135,6 +131,8 @@ struct OnboardingView: View {
                         detail: AppLocalization.string("เลือกระยะสำเร็จรูปหรือกำหนดเอง แล้วแตะเริ่มเดินทาง")
                     )
                 }
+
+                privacySection
             }
             .padding(.horizontal, 20)
             .padding(.top, 24)
@@ -264,45 +262,6 @@ struct OnboardingView: View {
         }
     }
 
-    private var alarmKitPermissionTip: some View {
-        HStack(alignment: .center, spacing: 12) {
-            Image(systemName: "exclamationmark.triangle.fill")
-                .font(.title3)
-                .foregroundStyle(.orange)
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text(AppLocalization.string("อนุญาตนาฬิกาปลุก"))
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.primary)
-                Text(AppLocalization.string("เพื่อใช้วิธีเตือนนี้"))
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-            }
-
-            Spacer()
-
-            Button(AppLocalization.string("ขอสิทธิ์")) {
-                Task {
-                    await store.requestAlarmKitPermission()
-                    updatePermissionStatus()
-                }
-            }
-            .font(.caption.weight(.semibold))
-            .padding(.horizontal, 10)
-            .padding(.vertical, 5)
-            .frame(minWidth: 44, minHeight: 44)
-            .background(Color.orange.opacity(0.15), in: Capsule())
-            .foregroundStyle(.orange)
-            .buttonStyle(.plain)
-        }
-        .padding(12)
-        .background(Color.orange.opacity(0.08), in: RoundedRectangle(cornerRadius: 14))
-        .overlay(
-            RoundedRectangle(cornerRadius: 14)
-                .stroke(Color.orange.opacity(0.25), lineWidth: 1)
-        )
-    }
-
     // MARK: - Permissions Card
     private var permissionsCard: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -316,16 +275,6 @@ struct OnboardingView: View {
                 .textCase(.uppercase)
 
                 Spacer()
-
-                if allPermissionsAuthorized {
-                    HStack(spacing: 4) {
-                        Image(systemName: "checkmark.seal.fill")
-                            .foregroundStyle(.green)
-                        Text(AppLocalization.string("อนุญาตแล้ว"))
-                            .font(.caption2.weight(.semibold))
-                            .foregroundStyle(.green)
-                    }
-                }
             }
 
             VStack(spacing: 12) {
@@ -334,11 +283,8 @@ struct OnboardingView: View {
                     color: AppTheme.primary,
                     title: AppLocalization.string("ตำแหน่งที่ตั้ง"),
                     detail: AppLocalization.string("คำนวณระยะถึงจุดหมาย"),
-                    isGranted: locationAuthorized,
-                    actionTitle: AppLocalization.string("ขอสิทธิ์")
-                ) {
-                    store.requestLocationPermission()
-                }
+                    isGranted: locationAuthorized
+                )
 
                 Divider()
 
@@ -347,14 +293,8 @@ struct OnboardingView: View {
                     color: .orange,
                     title: AppLocalization.string("การแจ้งเตือนทั่วไป"),
                     detail: AppLocalization.string("ส่งเตือนเมื่อใกล้จุดหมาย"),
-                    isGranted: notificationAuthorized,
-                    actionTitle: AppLocalization.string("ขอสิทธิ์")
-                ) {
-                    Task {
-                        await store.requestNotificationPermission()
-                        updatePermissionStatus()
-                    }
-                }
+                    isGranted: notificationAuthorized
+                )
 
                 if store.prominentAlarmSupported {
                     Divider()
@@ -363,15 +303,9 @@ struct OnboardingView: View {
                         icon: "alarm.fill",
                         color: .purple,
                         title: AppLocalization.string("ระบบนาฬิกาปลุก"),
-                        detail: AppLocalization.string("สำหรับเสียงปลุกของระบบ"),
-                        isGranted: alarmKitAuthorized,
-                        actionTitle: AppLocalization.string("ขอสิทธิ์")
-                    ) {
-                        Task {
-                            await store.requestAlarmKitPermission()
-                            updatePermissionStatus()
-                        }
-                    }
+                        detail: AppLocalization.string("ส่งเสียงปลุกเมื่อใกล้จุดหมาย"),
+                        isGranted: alarmKitAuthorized
+                    )
                 }
             }
         }
@@ -388,9 +322,7 @@ struct OnboardingView: View {
         color: Color,
         title: String,
         detail: String,
-        isGranted: Bool,
-        actionTitle: String,
-        action: @escaping () -> Void
+        isGranted: Bool
     ) -> some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
@@ -416,17 +348,6 @@ struct OnboardingView: View {
                     .labelStyle(.iconOnly)
                     .foregroundStyle(.green)
                     .font(.title3)
-            } else {
-                Button(actionTitle) {
-                    action()
-                }
-                .font(.caption.weight(.semibold))
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-                .frame(minWidth: 44, minHeight: 44)
-                .background(AppTheme.secondary.opacity(0.4), in: Capsule())
-                .foregroundStyle(AppTheme.actionForeground)
-                .buttonStyle(.plain)
             }
         }
     }
@@ -509,7 +430,7 @@ struct OnboardingView: View {
                     Text(primaryButtonTitle)
                         .font(.headline)
 
-                    if currentPage.next != nil {
+                    if currentPage.next != nil || mode.requestsPermissions(on: currentPage) {
                         Image(systemName: "arrow.right")
                             .font(.headline)
                     } else {
@@ -523,7 +444,7 @@ struct OnboardingView: View {
             .napNavPrimaryButtonStyle()
             .disabled(isRequesting)
 
-            if currentPage.previous != nil {
+            if mode.showsBackButton(on: currentPage) {
                 Button {
                     handleSecondaryAction()
                 } label: {
@@ -542,13 +463,7 @@ struct OnboardingView: View {
     }
 
     private var primaryButtonTitle: String {
-        if currentPage.next == nil {
-            return AppLocalization.string(mode.requiresCompletion ? "เริ่มต้นใช้งาน" : "ปิดแนะนำการใช้งาน")
-        } else if currentPage == .destination {
-            return AppLocalization.string("ดำเนินการต่อ")
-        } else {
-            return AppLocalization.string("ถัดไป")
-        }
+        AppLocalization.string(mode.primaryButtonTitleKey(on: currentPage))
     }
 
     private var secondaryButtonTitle: String {
@@ -556,7 +471,7 @@ struct OnboardingView: View {
     }
 
     private func handlePrimaryAction() {
-        if mode.requestsPermissions(on: currentPage) && !allPermissionsAuthorized {
+        if mode.requestsPermissions(on: currentPage) {
             isRequesting = true
             Task {
                 await store.requestOnboardingPermissions()
@@ -586,11 +501,6 @@ struct OnboardingView: View {
     }
 
     // MARK: - Helpers
-    private var allPermissionsAuthorized: Bool {
-        let base = locationAuthorized && notificationAuthorized
-        return store.prominentAlarmSupported ? (base && alarmKitAuthorized) : base
-    }
-
     private func updatePermissionStatus() {
         let auth = CLLocationManager().authorizationStatus
         locationAuthorized = (auth == .authorizedWhenInUse || auth == .authorizedAlways)
