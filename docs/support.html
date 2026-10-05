@@ -4,8 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <link rel="icon" type="image/png" href="app-icon.png">
-    <title>ศูนย์ช่วยเหลือและคำถามที่พบบ่อย - NapNav</title>
-    <meta name="description" content="คำถามที่พบบ่อยและช่องทางติดต่อ NapNav ทางอีเมลหรือ GitHub Issues">
+    <script>
+        (function() {
+            try {
+                var theme = localStorage.getItem('napnav_theme');
+                if (theme === 'light' || theme === 'dark') {
+                    document.documentElement.setAttribute('data-theme', theme);
+                }
+            } catch(e) {}
+        })();
+    </script>
     <style>
         :root {
             --bg: #ffffff;
@@ -16,8 +24,8 @@
             --border-subtle: rgba(0, 0, 0, 0.04);
 
             --text-primary: #1d1d1f;
-            --text-secondary: #86868b;
             --text-body: #424245;
+            --text-secondary: #86868b;
             --text-muted: #6e6e73;
 
             --brand-green: #047857;
@@ -36,10 +44,12 @@
 
             --shadow-icon: 0 4px 16px rgba(0, 0, 0, 0.08);
             --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.04);
+
+            --nav-bg: rgba(255, 255, 255, 0.8);
         }
 
         @media (prefers-color-scheme: dark) {
-            :root {
+            :root:not([data-theme="light"]) {
                 --bg: #000000;
                 --bg-subtle: #161617;
                 --surface: #121212;
@@ -48,8 +58,8 @@
                 --border-subtle: rgba(255, 255, 255, 0.06);
 
                 --text-primary: #f5f5f7;
-                --text-secondary: #86868b;
                 --text-body: #d2d2d7;
+                --text-secondary: #86868b;
                 --text-muted: #a1a1a6;
 
                 --brand-green: #10b981;
@@ -61,7 +71,35 @@
 
                 --shadow-icon: 0 4px 20px rgba(0, 0, 0, 0.4);
                 --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.3);
+
+                --nav-bg: rgba(0, 0, 0, 0.75);
             }
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #000000;
+            --bg-subtle: #161617;
+            --surface: #121212;
+            --surface-secondary: #1c1c1e;
+            --border: rgba(255, 255, 255, 0.12);
+            --border-subtle: rgba(255, 255, 255, 0.06);
+
+            --text-primary: #f5f5f7;
+            --text-body: #d2d2d7;
+            --text-secondary: #86868b;
+            --text-muted: #a1a1a6;
+
+            --brand-green: #10b981;
+            --brand-green-hover: #34d399;
+            --link-color: #10b981;
+            --link-hover: #34d399;
+            --btn-bg: #10b981;
+            --btn-text: #042f22;
+
+            --shadow-icon: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.3);
+
+            --nav-bg: rgba(0, 0, 0, 0.75);
         }
 
         *, *::before, *::after {
@@ -111,17 +149,11 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(255, 255, 255, 0.8);
+            background: var(--nav-bg);
             backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
             border-bottom: 1px solid var(--border);
             padding-top: env(safe-area-inset-top);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            .global-nav {
-                background: rgba(0, 0, 0, 0.75);
-            }
         }
 
         .nav-content {
@@ -179,6 +211,12 @@
             font-weight: 600;
         }
 
+        .nav-actions {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .lang-switch {
             display: inline-flex;
             align-items: center;
@@ -205,6 +243,63 @@
         .lang-switch button.active {
             color: var(--link-color);
             font-weight: 600;
+        }
+
+        .theme-toggle-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 0;
+            transition: color 0.15s ease, background-color 0.15s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            color: var(--text-primary);
+            background-color: var(--border-subtle);
+        }
+
+        .theme-toggle-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke-width: 1.85;
+            stroke: currentColor;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* ── Smooth Theme Phase Transition ── */
+        html.theme-transitioning,
+        html.theme-transitioning *,
+        html.theme-transitioning *::before,
+        html.theme-transitioning *::after {
+            transition: background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        fill 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        stroke 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            transition-delay: 0s !important;
+        }
+
+        /* ── Smooth Language Phase Transition ── */
+        .lang-phase-out {
+            opacity: 0 !important;
+            transform: translateY(2px) !important;
+            transition: opacity 0.1s ease-out, transform 0.1s ease-out !important;
+        }
+
+        .lang-phase-in {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+            transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
 
         @keyframes pageEnter {
@@ -429,6 +524,16 @@
                 animation-duration: 0.01ms !important;
                 transition-duration: 0.01ms !important;
             }
+            html.theme-transitioning,
+            html.theme-transitioning * {
+                transition: none !important;
+            }
+            .lang-phase-out,
+            .lang-phase-in {
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none !important;
+            }
             main, .document-container {
                 animation: none !important;
             }
@@ -451,7 +556,7 @@
                 order: 1;
             }
 
-            .lang-switch {
+            .nav-actions {
                 height: 44px;
                 order: 2;
                 margin-left: auto;
@@ -460,6 +565,11 @@
             .lang-switch button {
                 min-height: 44px;
                 padding: 8px 6px;
+            }
+
+            .theme-toggle-btn {
+                min-width: 36px;
+                min-height: 44px;
             }
 
             .nav-links {
@@ -558,10 +668,15 @@
                 <li class="nav-item"><a href="support.html" class="active" data-lang-th="ศูนย์ช่วยเหลือ &amp; FAQ" data-lang-en="Support &amp; FAQ">ศูนย์ช่วยเหลือ &amp; FAQ</a></li>
             </ul>
 
-            <div class="lang-switch" role="group" aria-label="Language selection">
-                <button id="btn-th" class="active" lang="th" aria-pressed="true" onclick="setLanguage('th')">ไทย</button>
-                <span style="color: var(--text-secondary);">|</span>
-                <button id="btn-en" lang="en" aria-pressed="false" onclick="setLanguage('en')">English</button>
+            <div class="nav-actions">
+                <div class="lang-switch" role="group" aria-label="Language selection">
+                    <button id="btn-th" class="active" lang="th" aria-pressed="true" onclick="setLanguage('th')">ไทย</button>
+                    <span style="color: var(--text-secondary);">|</span>
+                    <button id="btn-en" lang="en" aria-pressed="false" onclick="setLanguage('en')">English</button>
+                </div>
+
+                <button id="btn-theme" class="theme-toggle-btn" type="button" aria-label="Theme: System" title="ธีม: อัตโนมัติตามระบบ (System)" onclick="cycleTheme()">
+                </button>
             </div>
         </div>
     </header>
@@ -694,9 +809,63 @@
         </div>
     </footer>
 
-    <!-- Bilingual switcher script -->
+    <!-- Bilingual switcher and theme script -->
     <script>
-        function setLanguage(lang) {
+        const THEME_ICONS = {
+            system: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>',
+            light: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="12" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>',
+            dark: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>'
+        };
+
+        function getThemeTitle(theme, lang) {
+            const isEn = (lang || document.documentElement.lang) === 'en';
+            if (theme === 'light') return isEn ? 'Theme: Light' : 'ธีม: สว่าง (Light)';
+            if (theme === 'dark') return isEn ? 'Theme: Dark' : 'ธีม: มืด (Dark)';
+            return isEn ? 'Theme: System' : 'ธีม: อัตโนมัติตามระบบ (System)';
+        }
+
+        function applyTheme(theme) {
+            theme = (theme === 'light' || theme === 'dark') ? theme : 'system';
+            if (theme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            } else if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            const btn = document.getElementById('btn-theme');
+            if (btn) {
+                btn.innerHTML = THEME_ICONS[theme];
+                const title = getThemeTitle(theme);
+                btn.title = title;
+                btn.setAttribute('aria-label', title);
+            }
+            try {
+                localStorage.setItem('napnav_theme', theme);
+            } catch (e) {}
+        }
+
+        let themeTransitionTimer = null;
+        function triggerThemeTransition() {
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            document.documentElement.classList.add('theme-transitioning');
+            clearTimeout(themeTransitionTimer);
+            themeTransitionTimer = setTimeout(function() {
+                document.documentElement.classList.remove('theme-transitioning');
+            }, 380);
+        }
+
+        function cycleTheme() {
+            let current = 'system';
+            try {
+                current = localStorage.getItem('napnav_theme') || 'system';
+            } catch (e) {}
+            const next = current === 'system' ? 'light' : current === 'light' ? 'dark' : 'system';
+            triggerThemeTransition();
+            applyTheme(next);
+        }
+
+        function applyLanguage(lang) {
             lang = lang === 'en' ? 'en' : 'th';
             document.documentElement.lang = lang;
             document.title = lang === 'en' ? 'Support & FAQ - NapNav' : 'ศูนย์ช่วยเหลือและคำถามที่พบบ่อย - NapNav';
@@ -737,18 +906,78 @@
                 }
             }
 
+            // Update theme button tooltip language
+            const btnTheme = document.getElementById('btn-theme');
+            if (btnTheme) {
+                let currentTheme = 'system';
+                try {
+                    currentTheme = localStorage.getItem('napnav_theme') || 'system';
+                } catch(e) {}
+                const title = getThemeTitle(currentTheme, lang);
+                btnTheme.title = title;
+                btnTheme.setAttribute('aria-label', title);
+            }
+
             try {
                 localStorage.setItem('napnav_lang', lang);
             } catch(e) {}
         }
 
-        (function initLang() {
+        let langTransitionTimer = null;
+        function setLanguage(lang) {
+            lang = lang === 'en' ? 'en' : 'th';
+            if (document.documentElement.lang === lang) return;
+
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                applyLanguage(lang);
+                return;
+            }
+
+            clearTimeout(langTransitionTimer);
+            const translatable = document.querySelectorAll('main, .nav-links, .footer-content');
+            translatable.forEach(el => {
+                el.classList.remove('lang-phase-in');
+                el.classList.add('lang-phase-out');
+            });
+
+            langTransitionTimer = setTimeout(function() {
+                applyLanguage(lang);
+                translatable.forEach(el => {
+                    el.classList.remove('lang-phase-out');
+                    el.classList.add('lang-phase-in');
+                });
+                langTransitionTimer = setTimeout(function() {
+                    translatable.forEach(el => el.classList.remove('lang-phase-in'));
+                    langTransitionTimer = null;
+                }, 240);
+            }, 110);
+        }
+
+        (function init() {
+            let savedLang = 'th';
             try {
-                const saved = localStorage.getItem('napnav_lang');
-                if (saved === 'en' || saved === 'th') {
-                    setLanguage(saved);
-                }
+                savedLang = localStorage.getItem('napnav_lang') || 'th';
             } catch(e) {}
+            applyLanguage(savedLang);
+
+            let savedTheme = 'system';
+            try {
+                savedTheme = localStorage.getItem('napnav_theme') || 'system';
+            } catch (e) {}
+            applyTheme(savedTheme);
+
+            if (window.matchMedia) {
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+                    let current = 'system';
+                    try {
+                        current = localStorage.getItem('napnav_theme') || 'system';
+                    } catch (e) {}
+                    if (current === 'system') {
+                        triggerThemeTransition();
+                        applyTheme('system');
+                    }
+                });
+            }
 
             // Smooth internal page transition
             document.querySelectorAll('a[href$=".html"]').forEach(link => {
@@ -758,6 +987,8 @@
                     if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('mailto')) return;
                     const current = window.location.pathname.split('/').pop() || 'support.html';
                     if (href === current) return;
+                    clearTimeout(langTransitionTimer);
+                    document.querySelectorAll('.lang-phase-out, .lang-phase-in').forEach(el => el.classList.remove('lang-phase-out', 'lang-phase-in'));
                     const mainEl = document.querySelector('main');
                     if (mainEl && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                         e.preventDefault();
