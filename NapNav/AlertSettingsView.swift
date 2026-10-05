@@ -6,6 +6,7 @@ struct AlertSettingsView: View {
     @Environment(\.openURL) private var openURL
     @Environment(\.scenePhase) private var scenePhase
     @Bindable var store: TripStore
+    let onRequestTutorial: (OnboardingMode) -> Void
     @AppStorage(AppLocalization.preferenceKey) private var appLanguageRawValue = AppLanguage.system.rawValue
 
     #if DEBUG
@@ -113,7 +114,11 @@ struct AlertSettingsView: View {
             NavigationLink {
                 DeveloperToolsView(
                     store: store,
-                    isDeveloperModeEnabled: $isDeveloperModeEnabled
+                    isDeveloperModeEnabled: $isDeveloperModeEnabled,
+                    onRequestTutorial: { mode in
+                        onRequestTutorial(mode)
+                        dismiss()
+                    }
                 )
             } label: {
                 Label(AppLocalization.string("เครื่องมือนักพัฒนา"), systemImage: "wrench.and.screwdriver")
@@ -142,7 +147,8 @@ struct AlertSettingsView: View {
     private var aboutSection: some View {
         Section(AppLocalization.string("เกี่ยวกับ")) {
             Button {
-                store.showsOnboarding = true
+                onRequestTutorial(.replay)
+                dismiss()
             } label: {
                 Label(AppLocalization.string("แนะนำการใช้งาน"), systemImage: "sparkles")
             }
@@ -281,7 +287,7 @@ private struct AlertDeliveryModeSelectionView: View {
                         HStack(alignment: .top, spacing: 12) {
                             Image(systemName: mode.systemImage)
                                 .frame(width: 24)
-                                .foregroundStyle(AppTheme.primary)
+                                .foregroundStyle(AppTheme.actionForeground)
 
                             VStack(alignment: .leading, spacing: 3) {
                                 Text(mode.title)
@@ -296,12 +302,16 @@ private struct AlertDeliveryModeSelectionView: View {
                             if store.alertPreferences.deliveryMode == mode {
                                 Image(systemName: "checkmark")
                                     .fontWeight(.semibold)
-                                    .foregroundStyle(AppTheme.primary)
+                                    .foregroundStyle(AppTheme.actionForeground)
                             }
                         }
                         .contentShape(.rect)
                     }
                     .buttonStyle(.plain)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel(mode.title)
+                    .accessibilityValue(mode.subtitle)
+                    .accessibilityAddTraits(store.alertPreferences.deliveryMode == mode ? .isSelected : [])
                 }
             } footer: {
                 if let reason = store.alertDeliveryPlan.fallbackReason {
@@ -427,6 +437,7 @@ private struct DeveloperToolsView: View {
     @Environment(\.dismiss) private var dismiss
     @Bindable var store: TripStore
     @Binding var isDeveloperModeEnabled: Bool
+    let onRequestTutorial: (OnboardingMode) -> Void
     @AppStorage(AppLocalization.preferenceKey) private var appLanguageRawValue = AppLanguage.system.rawValue
 
     private var appLanguage: AppLanguage {
@@ -492,7 +503,7 @@ private struct DeveloperToolsView: View {
             Section {
                 Button {
                     UserDefaults.standard.set(false, forKey: "hasCompletedOnboarding")
-                    store.showsOnboarding = true
+                    onRequestTutorial(.firstRun)
                 } label: {
                     Label(AppLocalization.string("รีเซ็ตหน้าแรก (Onboarding)"), systemImage: "sparkles.rectangle.stack")
                 }

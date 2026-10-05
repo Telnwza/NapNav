@@ -26,11 +26,13 @@ extension View {
     }
 
     @ViewBuilder
-    func napNavPrimaryButtonStyle() -> some View {
+    func napNavPrimaryButtonStyle(tint: Color = AppTheme.primaryButtonFill) -> some View {
         if #available(iOS 26.0, *) {
             buttonStyle(.glassProminent)
+                .tint(tint)
         } else {
             buttonStyle(.borderedProminent)
+                .tint(tint)
         }
     }
 
@@ -52,6 +54,7 @@ struct RootView: View {
     @State private var stopConfirmationRequest: TripStopConfirmationRequest?
     @State private var pendingDeepLinkURL: URL?
     @State private var didFinishLaunchPreparation = false
+    @State private var onboardingMode: OnboardingMode = .firstRun
     @Bindable var store: TripStore
 
     var body: some View {
@@ -128,13 +131,27 @@ struct RootView: View {
             .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $store.showsOnboarding) {
-            OnboardingView(store: store) {
-                hasCompletedOnboarding = true
-                store.showsOnboarding = false
+            NavigationStack {
+                OnboardingView(store: store, mode: onboardingMode) {
+                    if onboardingMode.requiresCompletion {
+                        hasCompletedOnboarding = true
+                    }
+                    store.showsOnboarding = false
+                }
+                .toolbar {
+                    if onboardingMode == .replay {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button(AppLocalization.string("ปิดแนะนำการใช้งาน")) {
+                                store.showsOnboarding = false
+                            }
+                            .accessibilityIdentifier("closeTutorialButton")
+                        }
+                    }
+                }
             }
             .presentationDetents([.large])
             .presentationDragIndicator(.visible)
-            .interactiveDismissDisabled(!hasCompletedOnboarding)
+            .interactiveDismissDisabled(onboardingMode.requiresCompletion)
         }
     }
 
@@ -154,7 +171,15 @@ struct RootView: View {
 
     @ViewBuilder
     private var activeScreen: some View {
-        DestinationView(store: store, onRequestStopConfirmation: requestStopConfirmation)
+        DestinationView(
+            store: store,
+            onRequestStopConfirmation: requestStopConfirmation,
+            onboardingMode: onboardingMode,
+            onRequestTutorial: { mode in
+                onboardingMode = mode
+                store.showsOnboarding = true
+            }
+        )
     }
 
     private func handleIncomingURL(_ url: URL) {
@@ -279,8 +304,7 @@ struct StopTripConfirmationSheet: View {
                     Text(AppLocalization.string(isStopping ? "หยุดทริป" : "เสร็จสิ้น"))
                         .frame(maxWidth: .infinity)
                 }
-                .napNavPrimaryButtonStyle()
-                .tint(isStopping ? .red : .green)
+                .napNavPrimaryButtonStyle(tint: isStopping ? .red : AppTheme.primaryButtonFill)
                 .controlSize(.large)
 
                 Button {
@@ -317,7 +341,7 @@ struct MapControlCluster: View {
                 Image(systemName: "location.fill")
                     .font(.system(size: 18, weight: .semibold))
                     .frame(width: 46, height: 46)
-                    .foregroundStyle(AppTheme.primary)
+                    .foregroundStyle(AppTheme.actionForeground)
                     .napNavGlass(in: Circle(), interactive: true)
             }
             .buttonStyle(.plain)
@@ -330,7 +354,7 @@ struct MapControlCluster: View {
                 Image(systemName: selection.systemImage)
                     .font(.system(size: 18, weight: .semibold))
                     .frame(width: 46, height: 46)
-                    .foregroundStyle(AppTheme.primary)
+                    .foregroundStyle(AppTheme.actionForeground)
                     .napNavGlass(in: Circle(), interactive: true)
             }
             .buttonStyle(.plain)
@@ -353,7 +377,7 @@ struct MapControlCluster: View {
                                 if selection == style {
                                     Image(systemName: "checkmark")
                                         .fontWeight(.semibold)
-                                        .foregroundStyle(AppTheme.primary)
+                                        .foregroundStyle(AppTheme.actionForeground)
                                 }
                             }
                             .contentShape(.rect)
@@ -410,6 +434,7 @@ struct MapHeaderOverlay: View {
 }
 
 struct DestinationPinView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     let color: Color
     var emphasized = false
 
@@ -441,7 +466,7 @@ struct DestinationPinView: View {
                 .offset(y: -7)
         }
         .frame(width: 34, height: 44)
-        .scaleEffect(emphasized ? 1.10 : 1, anchor: .bottom)
+        .scaleEffect(emphasized && !reduceMotion ? 1.10 : 1, anchor: .bottom)
         .shadow(
             color: .black.opacity(emphasized ? 0.32 : 0.18),
             radius: emphasized ? 8 : 3,
@@ -521,7 +546,7 @@ struct RadiusButtonStyle: ButtonStyle {
             .frame(maxWidth: .infinity)
             .padding(.vertical, 11)
             .foregroundStyle(isSelected ? Color.white : Color.primary)
-            .background(isSelected ? AppTheme.primary : Color.clear, in: .rect(cornerRadius: 14))
+            .background(isSelected ? AppTheme.primaryButtonFill : Color.clear, in: .rect(cornerRadius: 14))
             .napNavGlass(in: RoundedRectangle(cornerRadius: 14), interactive: true)
             .overlay {
                 RoundedRectangle(cornerRadius: 14)

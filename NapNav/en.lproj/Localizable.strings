@@ -266,6 +266,7 @@
 "เริ่มต้นใช้งาน" = "Get Started";
 "ตั้งค่าภายหลัง" = "Set Up Later";
 "แนะนำการใช้งาน" = "Show Tutorial";
+"ปิดแนะนำการใช้งาน" = "Close Tutorial";
 "รีเซ็ตหน้าแรก (Onboarding)" = "Reset Onboarding Screen";
 
 /* Concise Onboarding */
@@ -359,3 +360,31 @@
 "นโยบายความเป็นส่วนตัว" = "Privacy Policy";
 "ศูนย์ช่วยเหลือและแจ้งปัญหา" = "Help & Support";
 "อ่านนโยบายความเป็นส่วนตัว" = "Read Privacy Policy";
+
+"แผงเลือกจุดหมาย" = "Destination panel";
+"ขยายอยู่" = "Expanded";
+"ย่ออยู่" = "Collapsed";
+"ขยายแผง" = "Expand panel";
+"ย่อแผง" = "Collapse panel";
+"รัศมีเตือน %@" = "Alert radius %@";
+"เลือกสถานที่นี้และตั้งค่ารัศมีเตือน" = "Select this place and configure the alert radius";
+
+/* Concise tutorial */
+"อนุญาตเพื่อคำนวณระยะและส่งเตือน" = "Allow access to calculate distance and send alerts.";
+"เลือกวิธีเตือน" = "Choose an Alert Method";
+"เปลี่ยนภายหลังได้ในการตั้งค่า" = "You can change this later in Settings.";
+"สัญญาณตำแหน่งไม่ดีอาจทำให้เตือนช้า Focus อาจทำให้ไม่มีเสียง" = "Poor location signal may delay alerts. Focus may silence them.";
+"เตือนก่อนถึงจุดหมาย" = "Get Alerted Near Your Stop";
+"เลือกจุดหมาย ตั้งระยะ แล้วเริ่มทริป" = "Choose a destination, set the distance, then start your trip.";
+"เลือกจุดหมาย" = "Choose a Destination";
+"ค้นหาสถานที่ หรือเลื่อนแผนที่ให้จุดหมายอยู่ใต้หมุด" = "Search for a place, or move the map until your destination is under the pin.";
+"ตั้งระยะเตือน" = "Set the Alert Distance";
+"เลือกระยะสำเร็จรูปหรือกำหนดเอง แล้วแตะเริ่มเดินทาง" = "Choose a preset or custom distance, then tap Start Trip.";
+"นาฬิกาปลุก พร้อมแจ้งเตือนแบบเงียบ" = "Alarm with a silent notification.";
+"เสียงและแบนเนอร์แจ้งเตือน" = "A sound and notification banner.";
+"เสียงปลุกของระบบ" = "A system alarm.";
+"อนุญาตนาฬิกาปลุก" = "Allow Alarm Access";
+"เพื่อใช้วิธีเตือนนี้" = "To use this alert method.";
+"คำนวณระยะถึงจุดหมาย" = "Measures distance to your destination.";
+"ส่งเตือนเมื่อใกล้จุดหมาย" = "Sends an alert near your destination.";
+"สำหรับเสียงปลุกของระบบ" = "Enables the system alarm.";

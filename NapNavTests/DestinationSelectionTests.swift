@@ -319,6 +319,7 @@ struct DestinationSelectionTests {
         // Map stops moving -> state becomes .resolving immediately
         let stopTask = model.cameraDidStop(at: newCoord)
         #expect(model.mapPickerState == .resolving)
+        await resolver.waitForRequestCount(1)
 
         // Finish resolution
         let resolvedDest = Destination(id: "lat-phrao", name: "ห้าแยกลาดพร้าว", detail: "แยกลาดพร้าว", coordinate: newCoord)

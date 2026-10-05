@@ -41,6 +41,8 @@
 		A1000000000000000000001D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000024 /* Localizable.strings */; };
 		A1000000000000000000001E /* LocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000025 /* LocalizationTests.swift */; };
 		A1000000000000000000001F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000028 /* InfoPlist.strings */; };
+		A10000000000000000000020 /* TutorialPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000020 /* TutorialPresentation.swift */; };
+		A10000000000000000000021 /* TutorialPresentationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000021 /* TutorialPresentationTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +119,8 @@
 		B10000000000000000000025 /* LocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationTests.swift; sourceTree = "<group>"; };
 		B10000000000000000000026 /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B10000000000000000000027 /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = th.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B30000000000000000000020 /* TutorialPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialPresentation.swift; sourceTree = "<group>"; };
+		B30000000000000000000021 /* TutorialPresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialPresentationTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +162,7 @@
 		F20000000000000000000002 /* NapNav */ = {
 			isa = PBXGroup;
 			children = (
+				B30000000000000000000020 /* TutorialPresentation.swift */,
 				933252113068ED7E00DC21BC /* NapNav.entitlements */,
 				B10000000000000000000001 /* NapNavApp.swift */,
 				B10000000000000000000021 /* Localization.swift */,
@@ -188,6 +193,7 @@
 		F20000000000000000000003 /* NapNavTests */ = {
 			isa = PBXGroup;
 			children = (
+				B30000000000000000000021 /* TutorialPresentationTests.swift */,
 				B10000000000000000000025 /* LocalizationTests.swift */,
 				B10000000000000000000006 /* TriggerPolicyTests.swift */,
 				B1000000000000000000000B /* TripStoreTests.swift */,
@@ -364,6 +370,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10000000000000000000020 /* TutorialPresentation.swift in Sources */,
 				A10000000000000000000001 /* NapNavApp.swift in Sources */,
 				A1000000000000000000001A /* Localization.swift in Sources */,
 				A10000000000000000000002 /* DomainModels.swift in Sources */,
@@ -388,6 +395,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10000000000000000000021 /* TutorialPresentationTests.swift in Sources */,
 				A1000000000000000000001E /* LocalizationTests.swift in Sources */,
 				A10000000000000000000006 /* TriggerPolicyTests.swift in Sources */,
 				A10000000000000000000008 /* TripStoreTests.swift in Sources */,

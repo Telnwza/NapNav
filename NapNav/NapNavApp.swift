@@ -29,7 +29,7 @@ struct NapNavApp: App {
     var body: some Scene {
         WindowGroup {
             RootView(store: store)
-                .tint(AppTheme.primary)
+                .tint(AppTheme.actionForeground)
                 .id(appLanguageRawValue)
                 .environment(\.locale, appLanguage.locale)
         }

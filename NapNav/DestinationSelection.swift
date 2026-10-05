@@ -271,6 +271,8 @@ struct DestinationView: View {
     @Environment(\.scenePhase) private var scenePhase
     var store: TripStore
     let onRequestStopConfirmation: () -> Void
+    let onRequestTutorial: (OnboardingMode) -> Void
+    let onboardingMode: OnboardingMode
     @State private var search: PlaceSearchService
     @State private var selection: DestinationSelectionModel
     @State private var currentLocation = CurrentLocationModel()
@@ -282,6 +284,15 @@ struct DestinationView: View {
     @State private var selectionTask: Task<Void, Never>?
     @State private var panelState: PanelState = .compact
     @State private var usesCustomRadius = false
+    @State private var destinationContentHeight: CGFloat = 0
+    @State private var setupContentHeight: CGFloat = 0
+    @State private var setupActionHeight: CGFloat = 0
+    @State private var trackingBottomHeight: CGFloat = 0
+    @State private var distanceCardHeight: CGFloat = 0
+    @State private var tripInfoHeight: CGFloat = 0
+    @State private var tripActionHeight: CGFloat = 0
+    @ScaledMetric(relativeTo: .largeTitle) private var distanceFontSize = 40.0
+    @ScaledMetric(relativeTo: .title) private var arrivalFontSize = 32.0
     @State private var didCenterOnInitialLocation = false
     @State private var didFrameTrip = false
     private enum DestinationSheetItem: Identifiable {
@@ -302,6 +313,7 @@ struct DestinationView: View {
     }
 
     @State private var sheetItem: DestinationSheetItem?
+    @State private var tutorialHandoff = TutorialHandoff()
     @State private var favoritePendingDeletion: SavedDestination?
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @GestureState private var panelDragOffset: CGFloat = 0
@@ -314,10 +326,18 @@ struct DestinationView: View {
     }
 
     private let presets = [500.0, 1_000.0, 2_000.0]
+    private let settingsControlSize: CGFloat = 44
 
-    init(store: TripStore, onRequestStopConfirmation: @escaping () -> Void) {
+    init(
+        store: TripStore,
+        onRequestStopConfirmation: @escaping () -> Void,
+        onboardingMode: OnboardingMode,
+        onRequestTutorial: @escaping (OnboardingMode) -> Void
+    ) {
         self.store = store
         self.onRequestStopConfirmation = onRequestStopConfirmation
+        self.onboardingMode = onboardingMode
+        self.onRequestTutorial = onRequestTutorial
         let search = PlaceSearchService()
         _search = State(initialValue: search)
         _selection = State(
@@ -337,42 +357,44 @@ struct DestinationView: View {
 
     var body: some View {
         GeometryReader { proxy in
-            let panelHeight = planningPanelHeight(in: proxy.size.height)
+            let panelHeight = planningPanelHeight(in: proxy.size.height, bottomInset: proxy.safeAreaInsets.bottom)
 
             ZStack {
                 mapView
                 if store.screen != .tracking {
                     MapHeaderOverlay()
                 }
-                trackingDistanceOverlay
-                bottomContainer(panelHeight: panelHeight, bottomInset: proxy.safeAreaInsets.bottom)
+                trackingDistanceOverlay(availableHeight: proxy.size.height)
+                bottomContainer(panelHeight: panelHeight, bottomInset: proxy.safeAreaInsets.bottom, availableHeight: proxy.size.height)
                     .frame(maxHeight: .infinity, alignment: .bottom)
             }
             .animation(MotionTokens.morphSpring(reduceMotion: reduceMotion), value: store.screen)
             .animation(MotionTokens.morphSpring(reduceMotion: reduceMotion), value: panelHeight)
             .overlay(alignment: .bottomTrailing) {
-                if store.screen != .destination || (panelState == .compact && !searchIsFocused) {
+                if store.screen != .tracking && (store.screen != .destination || (panelState == .compact && !searchIsFocused)) {
                     mapControlsOverlay(panelHeight: panelHeight, safeBottom: proxy.safeAreaInsets.bottom)
-                        .transition(.opacity.combined(with: .scale(scale: 0.9)))
+                        .transition(reduceMotion ? .opacity : .opacity.combined(with: .scale(scale: 0.9)))
                 }
             }
             .overlay(alignment: .topTrailing) {
                 settingsButtonOverlay
+                    .padding(.trailing, 16)
+                    .padding(.top, 8)
             }
             .mapScope(mapScope)
         }
         .toolbar(.hidden, for: .navigationBar)
         .task {
-            currentLocation.requestOnce(requestAuthorizationIfNeeded: true)
+            currentLocation.requestOnce()
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
-                currentLocation.requestOnce(requestAuthorizationIfNeeded: true)
+                currentLocation.requestOnce()
             }
         }
         .onChange(of: store.showsOnboarding) { _, shows in
             if !shows {
-                currentLocation.requestOnce(requestAuthorizationIfNeeded: true)
+                currentLocation.requestOnce()
             }
         }
         .onChange(of: store.phase) { _, phase in
@@ -409,11 +431,11 @@ struct DestinationView: View {
         }
         .onChange(of: searchIsFocused) { _, focused in
             guard focused else { return }
-            withAnimation(.snappy(duration: 0.28)) {
+            withAnimation(MotionTokens.panelAnimation(reduceMotion: reduceMotion)) {
                 panelState = .expanded
             }
             if currentLocation.coordinate == nil {
-                currentLocation.requestFreshLocation(requestAuthorizationIfNeeded: true)
+                currentLocation.requestFreshLocation()
             }
         }
         .onChange(of: store.screen) { oldScreen, newScreen in
@@ -427,13 +449,13 @@ struct DestinationView: View {
                 panelState = .compact
                 selection.selectSearchDestination(store.destination)
                 programmaticTargetCoordinate = store.destination.coordinate
-                withAnimation(.easeInOut(duration: oldScreen == .tracking ? MotionTokens.cameraFly : MotionTokens.mapCamera)) {
+                withAnimation(MotionTokens.cameraAnimation(reduceMotion: reduceMotion, fly: oldScreen == .tracking)) {
                     position = Self.position(for: store.destination)
                 }
             case .setup:
                 didFrameTrip = false
                 panelState = .compact
-                withAnimation(.easeInOut(duration: MotionTokens.mapCamera)) {
+                withAnimation(MotionTokens.cameraAnimation(reduceMotion: reduceMotion)) {
                     position = .region(
                         Self.radiusRegion(
                             destination: store.destination.coordinate.clCoordinate,
@@ -445,7 +467,7 @@ struct DestinationView: View {
                 didFrameTrip = false
                 let current = store.currentCoordinate ?? currentLocation.coordinate
                 if let current {
-                    withAnimation(.easeInOut(duration: MotionTokens.cameraFly)) {
+                    withAnimation(MotionTokens.cameraAnimation(reduceMotion: reduceMotion, fly: true)) {
                         position = .region(
                             trackingRegion(
                                 current: current.clCoordinate,
@@ -455,7 +477,7 @@ struct DestinationView: View {
                         )
                     }
                 } else {
-                    withAnimation(.easeInOut(duration: MotionTokens.cameraFly)) {
+                    withAnimation(MotionTokens.cameraAnimation(reduceMotion: reduceMotion, fly: true)) {
                         position = .region(
                             trackingRegion(
                                 current: store.destination.coordinate.clCoordinate,
@@ -470,7 +492,7 @@ struct DestinationView: View {
         .onChange(of: store.currentCoordinate) { _, coordinate in
             guard store.screen == .tracking, let coordinate, didFrameTrip == false else { return }
             didFrameTrip = true
-            withAnimation(.easeInOut(duration: MotionTokens.cameraFly)) {
+            withAnimation(MotionTokens.cameraAnimation(reduceMotion: reduceMotion, fly: true)) {
                 position = .region(
                     trackingRegion(
                         current: coordinate.clCoordinate,
@@ -482,7 +504,7 @@ struct DestinationView: View {
         }
         .onChange(of: store.selectedRadiusMeters) { _, radius in
             guard store.screen == .setup else { return }
-            withAnimation(.easeInOut(duration: MotionTokens.mapCamera)) {
+            withAnimation(MotionTokens.cameraAnimation(reduceMotion: reduceMotion)) {
                 position = .region(
                     Self.radiusRegion(
                         destination: store.destination.coordinate.clCoordinate,
@@ -500,10 +522,15 @@ struct DestinationView: View {
             if store.showsSettings {
                 store.showsSettings = false
             }
+            if let mode = tutorialHandoff.consumeAfterDismissal() {
+                onRequestTutorial(mode)
+            }
         }) { item in
             switch item {
             case .settings:
-                AlertSettingsView(store: store)
+                AlertSettingsView(store: store) { mode in
+                    tutorialHandoff.request(mode)
+                }
             case .saveFavorite:
                 SaveFavoriteSheet(
                     initialTitle: selection.candidate.name,
@@ -571,7 +598,7 @@ struct DestinationView: View {
             presenting: favoritePendingDeletion
         ) { fav in
             Button(AppLocalization.string("ลบสถานที่โปรด"), role: .destructive) {
-                withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                withAnimation(MotionTokens.swipeAnimation(reduceMotion: reduceMotion, response: 0.35)) {
                     store.removeFavorite(id: fav.id)
                 }
                 HapticFeedback.warning()
@@ -663,7 +690,7 @@ struct DestinationView: View {
                 centerPin
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .allowsHitTesting(false)
-                    .transition(.scale(scale: 0.8).combined(with: .opacity))
+                    .transition(reduceMotion ? .opacity : .scale(scale: 0.8).combined(with: .opacity))
             }
         }
         .ignoresSafeArea()
@@ -671,17 +698,33 @@ struct DestinationView: View {
     }
 
     @ViewBuilder
-    private var trackingDistanceOverlay: some View {
+    private func trackingDistanceOverlay(availableHeight: CGFloat) -> some View {
         VStack {
             if store.screen == .tracking {
-                distanceCard
-                    .padding(.top, 12)
-                    .transition(
-                        .asymmetric(
-                            insertion: .move(edge: .top).combined(with: .opacity),
-                            removal: .move(edge: .top).combined(with: .opacity)
-                        )
+                ScrollView {
+                    distanceCard
+                        .fixedSize(horizontal: false, vertical: true)
+                        .onGeometryChange(for: CGFloat.self) { proxy in
+                            proxy.size.height
+                        } action: { height in
+                            distanceCardHeight = height
+                        }
+                }
+                .scrollBounceBehavior(.basedOnSize)
+                .frame(height: min(
+                    distanceCardHeight > 0 ? distanceCardHeight : 144,
+                    max(0, availableHeight - trackingBottomHeight - 24)
+                ))
+                .clipShape(.rect(cornerRadius: 22))
+                .frame(maxWidth: isRegularWidth ? 500 : .infinity)
+                .padding(.horizontal, settingsControlSize + 12)
+                .padding(.top, 12)
+                .transition(
+                    reduceMotion ? .opacity : .asymmetric(
+                        insertion: .move(edge: .top).combined(with: .opacity),
+                        removal: .move(edge: .top).combined(with: .opacity)
                     )
+                )
             }
             Spacer()
         }
@@ -715,7 +758,7 @@ struct DestinationView: View {
         } label: {
             Image(systemName: "gearshape.fill")
                 .font(.system(size: 17, weight: .semibold))
-                .frame(width: 44, height: 44)
+                .frame(width: settingsControlSize, height: settingsControlSize)
                 .foregroundStyle(.primary)
                 .napNavGlass(in: Circle(), interactive: true)
         }
@@ -723,53 +766,61 @@ struct DestinationView: View {
         .contentShape(Circle())
         .accessibilityLabel(AppLocalization.string("การตั้งค่า NapNav"))
         .accessibilityIdentifier("alertSettingsButton")
-        .padding(.trailing, 16)
-        .padding(.top, 8)
         .transition(.opacity)
     }
 
     private var mapAccessibilityLabel: String {
         store.screen == .tracking
-            ? "แผนที่ติดตามตำแหน่งปัจจุบันเทียบกับ \(store.destination.name)"
-            : "แผนที่เลือกจุดหมาย ค้นหาสถานที่หรือเลื่อนแผนที่ให้จุดหมายอยู่ใต้หมุดกลางจอ"
+            ? AppLocalization.format("แผนที่ติดตามตำแหน่งปัจจุบันเทียบกับ %@", store.destination.name)
+            : AppLocalization.string("แผนที่เลือกจุดหมาย ค้นหาสถานที่หรือเลื่อนแผนที่ให้จุดหมายอยู่ใต้หมุดกลางจอ")
     }
 
     private func clusterBottomPadding(panelHeight: CGFloat, safeBottom: CGFloat) -> CGFloat {
         if isRegularWidth {
             return max(safeBottom + 20, 28)
         }
-        if store.screen == .tracking {
-            return max(safeBottom + 96, 108)
-        } else {
-            return max(panelHeight - safeBottom + 12, 12)
-        }
+        return max(panelHeight - safeBottom + 12, 12)
     }
 
     @ViewBuilder
-    private func bottomContainer(panelHeight: CGFloat, bottomInset: CGFloat) -> some View {
+    private func bottomContainer(panelHeight: CGFloat, bottomInset: CGFloat, availableHeight: CGFloat) -> some View {
         Group {
             if store.screen == .tracking {
-                VStack(spacing: 0) {
-                    tripControlsCard
+                VStack(alignment: .trailing, spacing: 12) {
+                    MapControlCluster(
+                        selection: Binding(
+                            get: { store.mapDisplayStyle },
+                            set: { store.mapDisplayStyle = $0 }
+                        ),
+                        mapScope: mapScope,
+                        onLocate: recenterOnUser
+                    )
+
+                    tripControlsCard(availableHeight: availableHeight)
+                        .napNavGlass(in: .rect(cornerRadius: 22))
+                        .clipShape(.rect(cornerRadius: 22))
+                        .shadow(color: .black.opacity(0.12), radius: 14, y: 4)
+                        .matchedGeometryEffect(id: "bottomGlassContainer", in: cardNamespace, properties: reduceMotion ? [] : .frame)
                 }
-                .napNavGlass(in: .rect(cornerRadius: 22))
-                .clipShape(.rect(cornerRadius: 22))
-                .shadow(color: .black.opacity(0.12), radius: 14, y: 4)
                 .frame(maxWidth: isRegularWidth ? 500 : .infinity)
                 .padding(.horizontal, 16)
-                .padding(.bottom, max(bottomInset, 12))
-                .matchedGeometryEffect(id: "bottomGlassContainer", in: cardNamespace)
+                .padding(.bottom, 12)
+                .onGeometryChange(for: CGFloat.self) { proxy in
+                    proxy.size.height
+                } action: { height in
+                    trackingBottomHeight = height
+                }
                 .transition(
-                    .asymmetric(
+                    reduceMotion ? .opacity : .asymmetric(
                         insertion: .opacity.combined(with: .scale(scale: 0.96)),
                         removal: .opacity.combined(with: .scale(scale: 0.96))
                     )
                 )
             } else {
                 planningPanel(height: panelHeight, bottomInset: bottomInset)
-                    .matchedGeometryEffect(id: "bottomGlassContainer", in: cardNamespace)
+                    .matchedGeometryEffect(id: "bottomGlassContainer", in: cardNamespace, properties: reduceMotion ? [] : .frame)
                     .transition(
-                        .asymmetric(
+                        reduceMotion ? .opacity : .asymmetric(
                             insertion: .opacity.combined(with: .scale(scale: 0.98)),
                             removal: .opacity.combined(with: .scale(scale: 0.98))
                         )
@@ -786,14 +837,13 @@ struct DestinationView: View {
 
             if store.phase == .arrived {
                 Text(AppLocalization.string("ถึงจุดหมายแล้ว"))
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
+                    .font(.system(size: arrivalFontSize, weight: .bold, design: .rounded))
                     .foregroundStyle(.green)
                     .frame(minHeight: 48)
             } else if let distance = store.currentDistanceMeters {
                 Text(distanceText(distance))
-                    .font(.system(size: 40, weight: .bold, design: .rounded))
+                    .font(.system(size: distanceFontSize, weight: .bold, design: .rounded))
                     .monospacedDigit()
-                    .minimumScaleFactor(0.75)
             } else {
                 HStack {
                     ProgressView()
@@ -807,7 +857,6 @@ struct DestinationView: View {
             Text(AppLocalization.format("ถึง %@", store.destination.name))
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
-                .lineLimit(2)
         }
         .padding(.horizontal, 22)
         .padding(.vertical, 12)
@@ -816,68 +865,101 @@ struct DestinationView: View {
         .accessibilityElement(children: .combine)
     }
 
-    private var tripControlsCard: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                VStack(alignment: .leading, spacing: 2) {
-                    if store.phase == .arrived {
-                        Text(AppLocalization.string("สิ้นสุดทริป"))
+    private func tripControlsCard(availableHeight: CGFloat) -> some View {
+        let stacksAction = dynamicTypeSize.isAccessibilitySize
+        let layout = stacksAction
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 12))
+            : AnyLayout(HStackLayout(spacing: 12))
+        // Reserve a readable distance viewport, map controls, and the pinned action.
+        let actionSpace = stacksAction ? tripActionHeight + 12 : 0
+        let distanceSpace = max(144, distanceFontSize * 1.2)
+        let infoLimit = max(0, availableHeight - 46 - 12 - 12 - 36 - distanceSpace - 24 - actionSpace)
+
+        return layout {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 8) {
+                    tripSummary
+                    if let warningText {
+                        Divider()
+                        Label(warningText, systemImage: "exclamationmark.triangle.fill")
                             .font(.caption)
-                            .foregroundStyle(.secondary)
-                        if let autoStopAt = store.autoStopAt, autoStopAt > Date() {
-                            HStack(spacing: 4) {
-                                Text(AppLocalization.string("หยุดใน"))
-                                Text(timerInterval: Date()...autoStopAt, countsDown: true)
-                                    .monospacedDigit()
-                            }
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(.primary)
-                        } else {
-                            Text(AppLocalization.string("ถึงที่หมายเรียบร้อย"))
-                                .font(.subheadline.weight(.medium))
-                                .foregroundStyle(.secondary)
+                            .foregroundStyle(.orange)
+
+                        if needsSettingsButton {
+                            Button(AppLocalization.string("เปิด Settings"), action: openSettings)
+                                .napNavSecondaryButtonStyle()
+                                .controlSize(.small)
                         }
-                    } else {
-                        Text(AppLocalization.string("เตือนเมื่อเหลือ"))
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                        Text(distanceText(store.selectedRadiusMeters))
-                            .font(.headline)
                     }
                 }
-                Spacer()
-                if store.phase == .arrived {
-                    Button(AppLocalization.string("เสร็จสิ้น")) {
-                        store.completeTrip()
-                    }
-                    .napNavPrimaryButtonStyle()
-                    .tint(.green)
-                    .accessibilityIdentifier("completeTripButton")
-                } else {
-                    Button(AppLocalization.string("หยุด"), role: .destructive) {
-                        onRequestStopConfirmation()
-                    }
-                    .napNavPrimaryButtonStyle()
-                    .tint(.red)
-                    .accessibilityIdentifier("stopTripButton")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .fixedSize(horizontal: false, vertical: true)
+                .onGeometryChange(for: CGFloat.self) { proxy in
+                    proxy.size.height
+                } action: { height in
+                    tripInfoHeight = height
                 }
             }
+            .scrollBounceBehavior(.basedOnSize)
+            .frame(height: min(tripInfoHeight > 0 ? tripInfoHeight : 48, infoLimit))
+            .frame(maxWidth: .infinity, alignment: .leading)
 
-            if let warningText {
-                Divider()
-                Label(warningText, systemImage: "exclamationmark.triangle.fill")
-                    .font(.caption)
-                    .foregroundStyle(.orange)
-
-                if needsSettingsButton {
-                    Button(AppLocalization.string("เปิด Settings"), action: openSettings)
-                        .napNavSecondaryButtonStyle()
-                        .controlSize(.small)
+            tripAction
+                .fixedSize(horizontal: true, vertical: true)
+                .onGeometryChange(for: CGFloat.self) { proxy in
+                    proxy.size.height
+                } action: { height in
+                    tripActionHeight = height
                 }
-            }
         }
         .padding(18)
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var tripSummary: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            if store.phase == .arrived {
+                Text(AppLocalization.string("สิ้นสุดทริป"))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                if let autoStopAt = store.autoStopAt, autoStopAt > Date() {
+                    HStack(spacing: 4) {
+                        Text(AppLocalization.string("หยุดใน"))
+                        Text(timerInterval: Date()...autoStopAt, countsDown: true)
+                            .monospacedDigit()
+                    }
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.primary)
+                } else {
+                    Text(AppLocalization.string("ถึงที่หมายเรียบร้อย"))
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(.secondary)
+                }
+            } else {
+                Text(AppLocalization.string("เตือนเมื่อเหลือ"))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Text(distanceText(store.selectedRadiusMeters))
+                    .font(.headline)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var tripAction: some View {
+        if store.phase == .arrived {
+            Button(AppLocalization.string("เสร็จสิ้น")) {
+                store.completeTrip()
+            }
+            .napNavPrimaryButtonStyle()
+            .accessibilityIdentifier("completeTripButton")
+        } else {
+            Button(AppLocalization.string("หยุด"), role: .destructive) {
+                onRequestStopConfirmation()
+            }
+            .napNavPrimaryButtonStyle(tint: .red)
+            .accessibilityIdentifier("stopTripButton")
+        }
     }
 
     private var statusTitle: String {
@@ -987,27 +1069,37 @@ struct DestinationView: View {
     private func planningPanel(height: CGFloat, bottomInset: CGFloat) -> some View {
         let actualBottomInset = (searchIsFocused || bottomInset > 50) ? 0 : bottomInset
         VStack(spacing: 0) {
-            // Drag Handle Area with generous touch target and tap-to-toggle
-            ZStack {
-                Capsule()
-                    .fill(.secondary.opacity(0.55))
-                    .frame(width: 42, height: 5)
-            }
-            .frame(maxWidth: .infinity)
-            .frame(height: 30)
-            .contentShape(.rect)
-            .gesture(panelDragGesture)
-            .onTapGesture {
-                guard store.screen == .destination else { return }
-                HapticFeedback.selection()
-                withAnimation(.snappy(duration: 0.28)) {
-                    if panelState == .compact {
-                        panelState = .expanded
-                    } else {
-                        panelState = .compact
-                        searchIsFocused = false
+            if store.screen == .destination {
+                Button {
+                    setPanelExpanded(panelState == .compact)
+                } label: {
+                    panelHandle
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 44)
+                        .contentShape(.rect)
+                }
+                .buttonStyle(.plain)
+                .simultaneousGesture(panelDragGesture)
+                .accessibilityLabel(AppLocalization.string("แผงเลือกจุดหมาย"))
+                .accessibilityValue(AppLocalization.string(panelState == .expanded ? "ขยายอยู่" : "ย่ออยู่"))
+                .accessibilityAction(named: AppLocalization.string("ขยายแผง")) {
+                    setPanelExpanded(true)
+                }
+                .accessibilityAction(named: AppLocalization.string("ย่อแผง")) {
+                    setPanelExpanded(false)
+                }
+                .accessibilityAdjustableAction { direction in
+                    switch direction {
+                    case .increment: setPanelExpanded(true)
+                    case .decrement: setPanelExpanded(false)
+                    @unknown default: break
                     }
                 }
+            } else {
+                panelHandle
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 30)
+                    .accessibilityHidden(true)
             }
 
             planningSheet
@@ -1024,6 +1116,21 @@ struct DestinationView: View {
         .ignoresSafeArea(.container, edges: isRegularWidth ? [] : .bottom)
     }
 
+    private var panelHandle: some View {
+        Capsule()
+            .fill(.secondary.opacity(0.55))
+            .frame(width: 42, height: 5)
+    }
+
+    private func setPanelExpanded(_ expanded: Bool) {
+        guard store.screen == .destination else { return }
+        HapticFeedback.selection()
+        withAnimation(MotionTokens.panelAnimation(reduceMotion: reduceMotion)) {
+            panelState = expanded ? .expanded : .compact
+            if !expanded { searchIsFocused = false }
+        }
+    }
+
     private var panelDragGesture: some Gesture {
         DragGesture(minimumDistance: 6)
             .updating($panelDragOffset) { value, state, _ in
@@ -1034,7 +1141,7 @@ struct DestinationView: View {
                 let dragDistance = value.translation.height
                 let predictedDistance = value.predictedEndTranslation.height
 
-                withAnimation(.snappy(duration: 0.28)) {
+                withAnimation(MotionTokens.panelAnimation(reduceMotion: reduceMotion)) {
                     if panelState == .compact {
                         // In compact mode: expand if dragged up at least 25pt or flicked upward
                         if dragDistance < -25 || predictedDistance < -30 {
@@ -1055,16 +1162,25 @@ struct DestinationView: View {
             }
     }
 
-    private func planningPanelHeight(in availableHeight: CGFloat) -> CGFloat {
+    private func planningPanelHeight(in availableHeight: CGFloat, bottomInset: CGFloat) -> CGFloat {
         if store.screen == .setup {
-            let baseContentHeight: CGFloat = usesCustomRadius ? 326 : 278
-            let contentHeight: CGFloat = dynamicTypeSize.isAccessibilitySize ? baseContentHeight + 80 : baseContentHeight
-            return min(contentHeight, availableHeight * (dynamicTypeSize.isAccessibilitySize ? 0.65 : 0.50))
+            let bottomPadding = isRegularWidth ? 8 : max(bottomInset, 8)
+            let outerPadding = isRegularWidth ? max(bottomInset, 16) : 0
+            let measuredHeight = setupContentHeight + setupActionHeight + 30 + bottomPadding
+            let initialHeight: CGFloat = usesCustomRadius ? 326 : 278
+            let contentHeight = setupContentHeight > 0 && setupActionHeight > 0
+                ? measuredHeight : initialHeight
+            return min(contentHeight, max(0, availableHeight - 68 - outerPadding))
         }
 
-        let compactHeight: CGFloat = dynamicTypeSize.isAccessibilitySize ? 260 : 214
         let topClearance: CGFloat = 68
-        let maxAllowedHeight = max(availableHeight - topClearance, compactHeight)
+        let outerPadding = isRegularWidth ? max(bottomInset, 16) : 0
+        let maxAllowedHeight = max(0, availableHeight - topClearance - outerPadding)
+        let bottomPadding = isRegularWidth ? 8 : max(bottomInset, 8)
+        let compactHeight = min(
+            max(214, destinationContentHeight + 44 + bottomPadding),
+            maxAllowedHeight
+        )
 
         let expandedMaxFraction = dynamicTypeSize.isAccessibilitySize ? 0.90 : 0.82
         let normalExpandedHeight = isRegularWidth
@@ -1088,7 +1204,7 @@ struct DestinationView: View {
         case .destination:
             destinationSheet
                 .transition(
-                    .asymmetric(
+                    reduceMotion ? .opacity : .asymmetric(
                         insertion: .opacity.combined(with: .move(edge: .leading)),
                         removal: .opacity.combined(with: .move(edge: .leading))
                     )
@@ -1096,7 +1212,7 @@ struct DestinationView: View {
         case .setup:
             radiusSheet
                 .transition(
-                    .asymmetric(
+                    reduceMotion ? .opacity : .asymmetric(
                         insertion: .opacity.combined(with: .move(edge: .trailing)),
                         removal: .opacity.combined(with: .move(edge: .trailing))
                     )
@@ -1122,6 +1238,7 @@ struct DestinationView: View {
                         searchText = ""
                     }
                     .labelStyle(.iconOnly)
+                    .frame(width: 44, height: 44)
                     .foregroundStyle(.secondary)
                 }
             }
@@ -1141,6 +1258,14 @@ struct DestinationView: View {
         }
         .padding(.horizontal, 18)
         .padding(.bottom, 14)
+        .fixedSize(horizontal: false, vertical: panelState == .compact)
+        .onGeometryChange(for: CGFloat.self) { proxy in
+            proxy.size.height
+        } action: { height in
+            if panelState == .compact {
+                destinationContentHeight = height
+            }
+        }
     }
 
     private var savedPlacesList: some View {
@@ -1198,29 +1323,50 @@ struct DestinationView: View {
 
     private func favoriteCard(_ fav: SavedDestination) -> some View {
         HStack(spacing: 12) {
-            Text(fav.icon.emoji)
-                .font(.system(size: 20))
-                .frame(width: 36, height: 36)
-                .background(Color.secondary.opacity(0.12), in: Circle())
+            Button {
+                selectSaved(fav)
+            } label: {
+                HStack(spacing: 12) {
+                    Text(fav.icon.emoji)
+                        .font(.system(size: 20))
+                        .frame(width: 36, height: 36)
+                        .background(Color.secondary.opacity(0.12), in: Circle())
+                        .accessibilityHidden(true)
 
-            VStack(alignment: .leading, spacing: 2) {
-                Text(fav.title)
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.primary)
-                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? 2 : 1)
-                HStack(spacing: 4) {
-                    if fav.subtitle.isEmpty == false {
-                        Text(fav.subtitle)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(fav.title)
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(.primary)
                             .lineLimit(dynamicTypeSize.isAccessibilitySize ? 2 : 1)
-                        Text("•")
+                        HStack(spacing: 4) {
+                            if fav.subtitle.isEmpty == false {
+                                Text(fav.subtitle)
+                                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? 2 : 1)
+                                Text("•")
+                            }
+                            Text(distanceText(fav.radiusMeters))
+                        }
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                     }
-                    Text(distanceText(fav.radiusMeters))
-                }
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            }
 
-            Spacer()
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+                .contentShape(.rect)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(fav.title)
+            .accessibilityValue(
+                [fav.subtitle, AppLocalization.format("รัศมีเตือน %@", distanceText(fav.radiusMeters))]
+                    .filter { !$0.isEmpty }
+                    .joined(separator: ", ")
+            )
+            .accessibilityHint(AppLocalization.string("เลือกสถานที่นี้และตั้งค่ารัศมีเตือน"))
+            .accessibilityActions {
+                Button(AppLocalization.string("แก้ไขสถานที่โปรด")) { sheetItem = .editFavorite(fav) }
+                Button(AppLocalization.string("ลบออกจากสถานที่โปรด"), role: .destructive) { favoritePendingDeletion = fav }
+            }
 
             Button {
                 sheetItem = .editFavorite(fav)
@@ -1230,6 +1376,7 @@ struct DestinationView: View {
                     .foregroundStyle(.secondary)
                     .frame(width: 32, height: 32)
                     .background(Color.secondary.opacity(0.12), in: Circle())
+                    .frame(width: 44, height: 44)
             }
             .buttonStyle(.plain)
             .accessibilityLabel(AppLocalization.string("แก้ไขสถานที่โปรด"))
@@ -1237,10 +1384,7 @@ struct DestinationView: View {
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
         .napNavGlass(in: RoundedRectangle(cornerRadius: 12), interactive: true)
-        .contentShape(.rect)
-        .onTapGesture {
-            selectSaved(fav)
-        }
+        .accessibilityElement(children: .contain)
         .contextMenu {
             Button {
                 sheetItem = .editFavorite(fav)
@@ -1263,7 +1407,7 @@ struct DestinationView: View {
                     .foregroundStyle(.secondary)
                 Spacer()
                 Button(AppLocalization.string("ล้างประวัติ")) {
-                    withAnimation {
+                    withAnimation(MotionTokens.standardAnimation(reduceMotion: reduceMotion)) {
                         store.clearRecents()
                     }
                 }
@@ -1279,7 +1423,7 @@ struct DestinationView: View {
                         systemImage: "star.fill",
                         tint: Color(red: 1.0, green: 0.62, blue: 0.04),
                         action: {
-                            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                            withAnimation(MotionTokens.swipeAnimation(reduceMotion: reduceMotion, response: 0.35)) {
                                 store.addRecentToFavorites(item)
                             }
                             HapticFeedback.success()
@@ -1290,7 +1434,7 @@ struct DestinationView: View {
                         systemImage: "trash.fill",
                         tint: Color(red: 1.0, green: 0.27, blue: 0.27),
                         action: {
-                            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                            withAnimation(MotionTokens.swipeAnimation(reduceMotion: reduceMotion, response: 0.35)) {
                                 store.removeRecent(id: item.id)
                             }
                             HapticFeedback.warning()
@@ -1304,49 +1448,71 @@ struct DestinationView: View {
     }
 
     private func recentCard(_ item: SavedDestination) -> some View {
-        HStack(spacing: 12) {
-            Text(item.icon.emoji)
-                .font(.system(size: 16))
-                .frame(width: 32, height: 32)
-                .background(Color.secondary.opacity(0.1), in: Circle())
+        Button {
+            selectSaved(item)
+        } label: {
+            HStack(spacing: 12) {
+                Text(item.icon.emoji)
+                    .font(.system(size: 16))
+                    .frame(width: 32, height: 32)
+                    .background(Color.secondary.opacity(0.1), in: Circle())
+                    .accessibilityHidden(true)
 
-            VStack(alignment: .leading, spacing: 2) {
-                Text(item.title)
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.primary)
-                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? 2 : 1)
-                if item.subtitle.isEmpty == false {
-                    Text(item.subtitle)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(item.title)
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(.primary)
                         .lineLimit(dynamicTypeSize.isAccessibilitySize ? 2 : 1)
+                    if item.subtitle.isEmpty == false {
+                        Text(item.subtitle)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(dynamicTypeSize.isAccessibilitySize ? 2 : 1)
+                    }
                 }
+
+                Spacer()
+
+                if let current = currentLocation.coordinate ?? store.currentCoordinate {
+                    let distance = current.distance(from: item.coordinate)
+                    Text(distanceText(distance))
+                        .font(.caption.monospacedDigit())
+                        .foregroundStyle(.secondary)
+                        .fixedSize()
+                }
+
+                Image(systemName: "chevron.right")
+                    .font(.caption2.bold())
+                    .foregroundStyle(.tertiary)
+                    .accessibilityHidden(true)
             }
-
-            Spacer()
-
-            if let current = currentLocation.coordinate ?? store.currentCoordinate {
-                let distance = current.distance(from: item.coordinate)
-                Text(distanceText(distance))
-                    .font(.caption.monospacedDigit())
-                    .foregroundStyle(.secondary)
-                    .fixedSize()
+            .frame(minHeight: 44)
+            .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .accessibilityElement(children: .combine)
+        .accessibilityHint(AppLocalization.string("เลือกสถานที่นี้และตั้งค่ารัศมีเตือน"))
+        .accessibilityActions {
+            Button(AppLocalization.string("เพิ่มเป็นสถานที่โปรด")) {
+                withAnimation(MotionTokens.swipeAnimation(reduceMotion: reduceMotion, response: 0.35)) {
+                    store.addRecentToFavorites(item)
+                }
+                HapticFeedback.success()
             }
-
-            Image(systemName: "chevron.right")
-                .font(.caption2.bold())
-                .foregroundStyle(.tertiary)
+            Button(AppLocalization.string("ลบออกจากประวัติ"), role: .destructive) {
+                withAnimation(MotionTokens.swipeAnimation(reduceMotion: reduceMotion, response: 0.35)) {
+                    store.removeRecent(id: item.id)
+                }
+                HapticFeedback.warning()
+            }
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
         .napNavGlass(in: RoundedRectangle(cornerRadius: 12), interactive: true)
         .contentShape(.rect)
-        .onTapGesture {
-            selectSaved(item)
-        }
         .contextMenu {
             Button {
-                withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                withAnimation(MotionTokens.swipeAnimation(reduceMotion: reduceMotion, response: 0.35)) {
                     store.addRecentToFavorites(item)
                 }
                 HapticFeedback.success()
@@ -1354,7 +1520,7 @@ struct DestinationView: View {
                 Label(AppLocalization.string("เพิ่มเป็นสถานที่โปรด"), systemImage: "star")
             }
             Button(role: .destructive) {
-                withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                withAnimation(MotionTokens.swipeAnimation(reduceMotion: reduceMotion, response: 0.35)) {
                     store.removeRecent(id: item.id)
                 }
                 HapticFeedback.warning()
@@ -1399,6 +1565,7 @@ struct DestinationView: View {
                             .foregroundStyle(store.isFavorite(selection.candidate) ? .yellow : .secondary)
                             .frame(width: 36, height: 36)
                             .background(Color.secondary.opacity(0.12), in: Circle())
+                            .frame(width: 44, height: 44)
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel(store.isFavorite(selection.candidate) ? AppLocalization.string("แก้ไขสถานที่โปรด") : AppLocalization.string("บันทึกเป็นสถานที่โปรด"))
@@ -1471,7 +1638,7 @@ struct DestinationView: View {
                         } label: {
                             HStack(spacing: 12) {
                                 Image(systemName: "mappin.circle.fill")
-                                    .foregroundStyle(AppTheme.primary)
+                                    .foregroundStyle(AppTheme.actionForeground)
                                     .frame(width: 24, alignment: .center)
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(suggestion.title)
@@ -1513,81 +1680,128 @@ struct DestinationView: View {
     }
 
     private var radiusSheet: some View {
-        VStack(alignment: .leading) {
+        VStack(spacing: 0) {
+            ScrollView {
+                radiusSetupContent
+                    .padding(.top, 8)
+                    .padding(.bottom, 12)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .onGeometryChange(for: CGFloat.self) { proxy in
+                        proxy.size.height
+                    } action: { height in
+                        setupContentHeight = height
+                    }
+            }
+            .scrollBounceBehavior(.basedOnSize)
+            .accessibilityIdentifier("radiusSetupScrollView")
+
+            startTripButton
+                .padding(.top, 8)
+                .padding(.bottom, 14)
+                .fixedSize(horizontal: false, vertical: true)
+                .onGeometryChange(for: CGFloat.self) { proxy in
+                    proxy.size.height
+                } action: { height in
+                    setupActionHeight = height
+                }
+        }
+        .padding(.horizontal, 18)
+        .animation(MotionTokens.standardAnimation(reduceMotion: reduceMotion), value: usesCustomRadius)
+    }
+
+    private var radiusSetupContent: some View {
+        VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .firstTextBaseline) {
                 Button(AppLocalization.string("กลับไปเลือกจุดหมาย"), systemImage: "chevron.left") {
                     store.screen = .destination
                 }
                 .labelStyle(.iconOnly)
+                .frame(minWidth: 44, minHeight: 44)
                 .accessibilityLabel(AppLocalization.string("กลับไปเลือกจุดหมาย"))
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(store.destination.name)
                         .font(.title3.bold())
-                        .lineLimit(2)
                     Text(AppLocalization.string("ให้ปลุกตอนเหลือระยะเท่าไร?"))
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
-                Spacer()
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
 
-            HStack {
-                ForEach(presets, id: \.self) { radius in
-                    Button(distanceText(radius)) {
-                        store.selectedRadiusMeters = radius
-                        usesCustomRadius = false
-                    }
-                    .buttonStyle(
-                        RadiusButtonStyle(
-                            isSelected: usesCustomRadius == false
-                                && store.selectedRadiusMeters == radius
-                        )
-                    )
-                    .accessibilityLabel(distanceText(radius))
-                    .accessibilityAddTraits(usesCustomRadius == false && store.selectedRadiusMeters == radius ? [.isSelected] : [])
-                }
-            }
+            radiusPresets
 
             Button(AppLocalization.string("กำหนดระยะเอง")) {
                 usesCustomRadius.toggle()
             }
             .buttonStyle(RadiusButtonStyle(isSelected: usesCustomRadius))
+            .accessibilityAddTraits(usesCustomRadius ? [.isSelected] : [])
 
             if usesCustomRadius {
-                HStack {
-                    Text(AppLocalization.string("ระยะที่เลือก"))
+                VStack(alignment: .leading, spacing: 8) {
+                    let layout = dynamicTypeSize.isAccessibilitySize
+                        ? AnyLayout(VStackLayout(alignment: .leading, spacing: 4))
+                        : AnyLayout(HStackLayout())
+                    layout {
+                        Text(AppLocalization.string("ระยะที่เลือก"))
+                        Text(distanceText(store.selectedRadiusMeters))
+                            .foregroundStyle(AppTheme.actionForeground)
+                            .monospacedDigit()
+                    }
                     Slider(value: Binding(get: { store.selectedRadiusMeters }, set: { store.selectedRadiusMeters = $0 }), in: 100...5_000, step: 100)
                         .accessibilityIdentifier("radiusSlider")
                         .accessibilityLabel(AppLocalization.string("ระยะที่เลือก"))
                         .accessibilityValue(distanceText(store.selectedRadiusMeters))
-                    Text(distanceText(store.selectedRadiusMeters))
-                        .foregroundStyle(AppTheme.primary)
-                        .monospacedDigit()
-                        .frame(minWidth: 62, alignment: .trailing)
                 }
                 .font(.subheadline)
                 .transition(.opacity)
             }
-
-            Button(action: startTrip) {
-                HStack {
-                    if store.isStartingTrip {
-                        ProgressView()
-                            .tint(.white)
-                    }
-                    Text(AppLocalization.string("เริ่มเดินทาง"))
-                }
-                .frame(maxWidth: .infinity)
-            }
-            .napNavPrimaryButtonStyle()
-            .controlSize(.large)
-            .disabled(store.isStartingTrip)
-            .accessibilityIdentifier("startTripButton")
         }
-        .padding(.horizontal, 18)
-        .padding(.bottom, 14)
-        .animation(.easeInOut(duration: MotionTokens.standard), value: usesCustomRadius)
+    }
+
+    @ViewBuilder
+    private var radiusPresets: some View {
+        if dynamicTypeSize.isAccessibilitySize {
+            VStack(spacing: 8) { radiusPresetButtons }
+        } else {
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 8) { radiusPresetButtons }
+                VStack(spacing: 8) { radiusPresetButtons }
+            }
+        }
+    }
+
+    private var radiusPresetButtons: some View {
+        ForEach(presets, id: \.self) { radius in
+            Button {
+                store.selectedRadiusMeters = radius
+                usesCustomRadius = false
+            } label: {
+                Text(distanceText(radius))
+                    .fixedSize(horizontal: true, vertical: true)
+                    .padding(.horizontal, 12)
+            }
+            .buttonStyle(RadiusButtonStyle(isSelected: !usesCustomRadius && store.selectedRadiusMeters == radius))
+            .accessibilityLabel(distanceText(radius))
+            .accessibilityAddTraits(!usesCustomRadius && store.selectedRadiusMeters == radius ? [.isSelected] : [])
+        }
+    }
+
+    private var startTripButton: some View {
+        Button(action: startTrip) {
+            HStack {
+                if store.isStartingTrip {
+                    ProgressView()
+                        .tint(.white)
+                }
+                Text(AppLocalization.string("เริ่มเดินทาง"))
+            }
+            .frame(maxWidth: .infinity)
+        }
+        .napNavPrimaryButtonStyle()
+        .controlSize(.large)
+        .disabled(store.isStartingTrip)
+        .accessibilityIdentifier("startTripButton")
     }
 
     private var centerPin: some View {
@@ -1668,7 +1882,7 @@ struct DestinationView: View {
                 .fill(AppTheme.primary)
                 .frame(width: 4, height: 4)
         }
-        .animation(.easeInOut(duration: 0.18), value: selection.mapPickerState == .moving)
+        .animation(reduceMotion ? nil : .easeInOut(duration: 0.18), value: selection.mapPickerState == .moving)
     }
 
     private var pinOffset: CGFloat {
@@ -1720,7 +1934,7 @@ struct DestinationView: View {
             searchIsFocused = false
             panelState = .compact
             programmaticTargetCoordinate = destination.coordinate
-            withAnimation(.easeInOut(duration: reduceMotion ? 0.18 : MotionTokens.mapCamera)) {
+            withAnimation(MotionTokens.cameraAnimation(reduceMotion: reduceMotion)) {
                 position = Self.position(for: destination)
             }
         }
@@ -1759,7 +1973,7 @@ struct DestinationView: View {
         store.selectSavedDestination(saved)
         selection.selectSearchDestination(saved.asDestination)
         programmaticTargetCoordinate = saved.coordinate
-        withAnimation(.easeInOut(duration: MotionTokens.cameraFly)) {
+        withAnimation(MotionTokens.cameraAnimation(reduceMotion: reduceMotion, fly: true)) {
             position = .region(
                 MKCoordinateRegion(
                     center: saved.coordinate.clCoordinate,
@@ -1768,7 +1982,7 @@ struct DestinationView: View {
                 )
             )
         }
-        withAnimation(.snappy(duration: 0.28)) {
+        withAnimation(MotionTokens.panelAnimation(reduceMotion: reduceMotion)) {
             panelState = .compact
             searchIsFocused = false
         }
@@ -1782,7 +1996,7 @@ struct DestinationView: View {
 
     private func recenterOnUser() {
         if store.screen == .tracking {
-            withAnimation(.easeInOut(duration: MotionTokens.mapCamera)) {
+            withAnimation(MotionTokens.cameraAnimation(reduceMotion: reduceMotion)) {
                 position = .userLocation(
                     followsHeading: false,
                     fallback: Self.position(for: store.destination)
@@ -1794,7 +2008,7 @@ struct DestinationView: View {
                 centerOnUser(coordinate)
             } else {
                 programmaticTargetCoordinate = selection.candidate.coordinate
-                withAnimation(.easeInOut(duration: MotionTokens.mapCamera)) {
+                withAnimation(MotionTokens.cameraAnimation(reduceMotion: reduceMotion)) {
                     position = .userLocation(
                         followsHeading: false,
                         fallback: Self.position(for: selection.candidate)
@@ -1807,7 +2021,7 @@ struct DestinationView: View {
 
     private func centerOnUser(_ coordinate: LocationCoordinate) {
         programmaticTargetCoordinate = coordinate
-        withAnimation(.easeInOut(duration: MotionTokens.mapCamera)) {
+        withAnimation(MotionTokens.cameraAnimation(reduceMotion: reduceMotion)) {
             position = .region(
                 MKCoordinateRegion(
                     center: coordinate.clCoordinate,
@@ -1923,6 +2137,7 @@ struct HorizontalPanGesture: UIGestureRecognizerRepresentable {
 }
 
 struct AppleSwipeRow<Content: View>: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     let leadingAction: SwipeActionItem?
     let trailingAction: SwipeActionItem?
     @ViewBuilder let content: Content
@@ -1986,7 +2201,7 @@ struct AppleSwipeRow<Content: View>: View {
                     Color.clear
                         .contentShape(.rect)
                         .onTapGesture {
-                            withAnimation(.spring(response: 0.3, dampingFraction: 0.82)) {
+                            withAnimation(MotionTokens.swipeAnimation(reduceMotion: reduceMotion, response: 0.3, dampingFraction: 0.82)) {
                                 offset = 0
                                 dragOffset = 0
                             }
@@ -2002,6 +2217,7 @@ struct AppleSwipeRow<Content: View>: View {
                     .offset(x: actionWidth + spacing)
                     .opacity(effectiveOffset < 0 ? min(1.0, abs(effectiveOffset) / 20.0) : 0)
                     .allowsHitTesting(effectiveOffset < -10)
+                    .accessibilityHidden(effectiveOffset >= -10)
                 }
             }
             .overlay(alignment: .leading) {
@@ -2013,6 +2229,7 @@ struct AppleSwipeRow<Content: View>: View {
                     .offset(x: -(actionWidth + spacing))
                     .opacity(effectiveOffset > 0 ? min(1.0, abs(effectiveOffset) / 20.0) : 0)
                     .allowsHitTesting(effectiveOffset > 10)
+                    .accessibilityHidden(effectiveOffset <= 10)
                 }
             }
             .offset(x: effectiveOffset)
@@ -2032,27 +2249,27 @@ struct AppleSwipeRow<Content: View>: View {
                         let snapDistance = actionWidth + spacing
 
                         if finalRaw < -triggerDistance, let trailing = trailingAction {
-                            withAnimation(.spring(response: 0.32, dampingFraction: 0.8)) {
+                            withAnimation(MotionTokens.swipeAnimation(reduceMotion: reduceMotion)) {
                                 offset = 0
                             }
                             trailing.action()
                         } else if finalRaw < -36 && trailingAction != nil {
-                            withAnimation(.spring(response: 0.32, dampingFraction: 0.8)) {
+                            withAnimation(MotionTokens.swipeAnimation(reduceMotion: reduceMotion)) {
                                 offset = -snapDistance
                             }
                             HapticFeedback.selection()
                         } else if finalRaw > triggerDistance, let leading = leadingAction {
-                            withAnimation(.spring(response: 0.32, dampingFraction: 0.8)) {
+                            withAnimation(MotionTokens.swipeAnimation(reduceMotion: reduceMotion)) {
                                 offset = 0
                             }
                             leading.action()
                         } else if finalRaw > 36 && leadingAction != nil {
-                            withAnimation(.spring(response: 0.32, dampingFraction: 0.8)) {
+                            withAnimation(MotionTokens.swipeAnimation(reduceMotion: reduceMotion)) {
                                 offset = snapDistance
                             }
                             HapticFeedback.selection()
                         } else {
-                            withAnimation(.spring(response: 0.32, dampingFraction: 0.8)) {
+                            withAnimation(MotionTokens.swipeAnimation(reduceMotion: reduceMotion)) {
                                 offset = 0
                             }
                         }
@@ -2063,7 +2280,7 @@ struct AppleSwipeRow<Content: View>: View {
 
     private func actionButtonView(item: SwipeActionItem, isTriggered: Bool) -> some View {
         Button {
-            withAnimation(.spring(response: 0.32, dampingFraction: 0.8)) {
+            withAnimation(MotionTokens.swipeAnimation(reduceMotion: reduceMotion)) {
                 offset = 0
                 dragOffset = 0
             }
@@ -2088,9 +2305,10 @@ struct AppleSwipeRow<Content: View>: View {
             }
             .frame(width: actionWidth)
             .contentShape(.rect)
-            .scaleEffect(isTriggered ? 1.08 : 1.0)
+            .scaleEffect(isTriggered && !reduceMotion ? 1.08 : 1.0)
         }
         .buttonStyle(.plain)
+        .accessibilityLabel(item.title)
     }
 }
 

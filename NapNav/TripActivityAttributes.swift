@@ -17,6 +17,9 @@ public enum AppTheme {
     /// #065F46 - Dark deep emerald
     public static let dark = Color(red: 6.0 / 255.0, green: 95.0 / 255.0, blue: 70.0 / 255.0)
 
+    public static let primaryButtonFill = primary
+    public static let actionForeground = primary
+
     /// #ECFDF5 - Background soft mint wash
     public static let backgroundTint = Color(red: 236.0 / 255.0, green: 253.0 / 255.0, blue: 245.0 / 255.0)
 

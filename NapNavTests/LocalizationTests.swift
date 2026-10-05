@@ -192,4 +192,31 @@ struct LocalizationTests {
                 == "Used for alerts near the selected radius; delivery depends on permissions and iOS settings."
         )
     }
+    @Test("Tutorial and destination panel accessibility copy resolves in Thai and English")
+    func tutorialAndPanelAccessibilityCopy() {
+        #expect(AppLocalization.string("ปิดแนะนำการใช้งาน", language: .english) == "Close Tutorial")
+        #expect(AppLocalization.string("ปิด", language: .english) == "Off")
+        #expect(AppLocalization.string("แผงเลือกจุดหมาย", language: .english) == "Destination panel")
+        #expect(AppLocalization.string("ขยายอยู่", language: .english) == "Expanded")
+        #expect(AppLocalization.string("ย่ออยู่", language: .english) == "Collapsed")
+        #expect(AppLocalization.string("ขยายแผง", language: .thai) == "ขยายแผง")
+        #expect(AppLocalization.string("ย่อแผง", language: .english) == "Collapse panel")
+        #expect(AppLocalization.format("แผนที่ติดตามตำแหน่งปัจจุบันเทียบกับ %@", "Asok", language: .english) == "Map tracking your current location relative to Asok")
+        #expect(AppLocalization.format("รัศมีเตือน %@", "500 ม.", language: .thai) == "รัศมีเตือน 500 ม.")
+    }
+
+    @Test("Concise tutorial instructions and limitations resolve in both languages")
+    func conciseTutorialCopy() {
+        let examples = [
+            ("ค้นหาสถานที่ หรือเลื่อนแผนที่ให้จุดหมายอยู่ใต้หมุด", "Search for a place, or move the map until your destination is under the pin."),
+            ("เลือกระยะสำเร็จรูปหรือกำหนดเอง แล้วแตะเริ่มเดินทาง", "Choose a preset or custom distance, then tap Start Trip."),
+            ("สัญญาณตำแหน่งไม่ดีอาจทำให้เตือนช้า Focus อาจทำให้ไม่มีเสียง", "Poor location signal may delay alerts. Focus may silence them."),
+            ("นาฬิกาปลุก พร้อมแจ้งเตือนแบบเงียบ", "Alarm with a silent notification."),
+            ("อนุญาตเพื่อคำนวณระยะและส่งเตือน", "Allow access to calculate distance and send alerts.")
+        ]
+        for (thai, english) in examples {
+            #expect(AppLocalization.string(thai, language: .thai) == thai)
+            #expect(AppLocalization.string(thai, language: .english) == english)
+        }
+    }
 }

@@ -7,16 +7,28 @@ enum MotionTokens {
     static let mapCamera = 0.45
     static let cameraFly = 0.65
 
-    static func standardAnimation(reduceMotion: Bool) -> Animation {
-        reduceMotion ? .easeOut(duration: 0.18) : .easeInOut(duration: standard)
+    static func standardAnimation(reduceMotion: Bool) -> Animation? {
+        reduceMotion ? nil : .easeInOut(duration: standard)
     }
 
-    static func pinLanding(reduceMotion: Bool) -> Animation {
-        reduceMotion ? .easeOut(duration: 0.16) : .spring(duration: standard, bounce: 0.18)
+    static func pinLanding(reduceMotion: Bool) -> Animation? {
+        reduceMotion ? nil : .spring(duration: standard, bounce: 0.18)
     }
 
-    static func morphSpring(reduceMotion: Bool) -> Animation {
-        reduceMotion ? .easeOut(duration: 0.22) : .spring(response: 0.48, dampingFraction: 0.78)
+    static func morphSpring(reduceMotion: Bool) -> Animation? {
+        reduceMotion ? nil : .spring(response: 0.48, dampingFraction: 0.78)
+    }
+
+    static func cameraAnimation(reduceMotion: Bool, fly: Bool = false) -> Animation? {
+        reduceMotion ? nil : .easeInOut(duration: fly ? cameraFly : mapCamera)
+    }
+
+    static func panelAnimation(reduceMotion: Bool) -> Animation? {
+        reduceMotion ? nil : .snappy(duration: standard)
+    }
+
+    static func swipeAnimation(reduceMotion: Bool, response: Double = 0.32, dampingFraction: Double = 0.8) -> Animation? {
+        reduceMotion ? nil : .spring(response: response, dampingFraction: dampingFraction)
     }
 
     static func startupExit(reduceMotion: Bool) -> Animation {

@@ -2,45 +2,42 @@ import CoreLocation
 import SwiftUI
 
 struct OnboardingView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
     @AppStorage(AppLocalization.preferenceKey) private var appLanguageRawValue = AppLanguage.system.rawValue
 
     let store: TripStore
+    var mode: OnboardingMode = .firstRun
     var onComplete: () -> Void = {}
 
-    @State private var currentPage = 0
+    @State private var currentPage = OnboardingPage.destination
     @State private var isRequesting = false
     @State private var locationAuthorized = false
     @State private var notificationAuthorized = false
     @State private var alarmKitAuthorized = false
 
-    private let totalPages = 4
-
     var body: some View {
         VStack(spacing: 0) {
-            TabView(selection: $currentPage) {
-                permissionsPage
-                    .tag(0)
-
-                alertMethodPage
-                    .tag(1)
-
-                destinationSetupPage
-                    .tag(2)
-
-                liveTrackingPage
-                    .tag(3)
+            if reduceMotion {
+                pageContent(for: currentPage)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                TabView(selection: $currentPage) {
+                    ForEach(OnboardingPage.allCases) { page in
+                        pageContent(for: page).tag(page)
+                    }
+                }
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .animation(.easeInOut(duration: 0.3), value: currentPage)
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))
-            .animation(.easeInOut(duration: 0.3), value: currentPage)
 
             Divider()
 
             bottomControlsSection
         }
         .background(Color(uiColor: .systemGroupedBackground))
-        .interactiveDismissDisabled()
+        .interactiveDismissDisabled(mode.requiresCompletion)
         .onAppear {
             updatePermissionStatus()
         }
@@ -51,7 +48,16 @@ struct OnboardingView: View {
         }
     }
 
-    // MARK: - Page 0: Permissions
+    @ViewBuilder
+    private func pageContent(for page: OnboardingPage) -> some View {
+        switch page {
+        case .destination: destinationSetupPage
+        case .alertMethod: alertMethodPage
+        case .permissions: permissionsPage
+        }
+    }
+
+    // MARK: - Permissions
     private var permissionsPage: some View {
         ScrollView {
             VStack(spacing: 18) {
@@ -59,7 +65,7 @@ struct OnboardingView: View {
                     icon: "checkmark.shield.fill",
                     gradientColors: [AppTheme.primary, AppTheme.dark],
                     title: AppLocalization.string("สิทธิ์การใช้งานที่จำเป็น"),
-                    subtitle: AppLocalization.string("ใช้ตำแหน่งที่ตั้งและการแจ้งเตือนเพื่อปลุกคุณเมื่อใกล้ถึงจุดหมาย")
+                    subtitle: AppLocalization.string("อนุญาตเพื่อคำนวณระยะและส่งเตือน")
                 )
 
                 permissionsCard
@@ -73,18 +79,24 @@ struct OnboardingView: View {
         .scrollBounceBehavior(.basedOnSize)
     }
 
-    // MARK: - Page 1: Alert Method Settings
+    // MARK: - Alert Method
     private var alertMethodPage: some View {
         ScrollView {
             VStack(spacing: 18) {
                 pageHeader(
                     icon: "bell.badge.waveform.fill",
                     gradientColors: [AppTheme.primary, AppTheme.dark],
-                    title: AppLocalization.string("ตั้งค่าวิธีเตือน"),
-                    subtitle: AppLocalization.string("เลือกรูปแบบและระดับเสียงการเตือนที่เหมาะกับการเดินทางของคุณ")
+                    title: AppLocalization.string("เลือกวิธีเตือน"),
+                    subtitle: AppLocalization.string("เปลี่ยนภายหลังได้ในการตั้งค่า")
                 )
 
                 alertMethodCard
+
+                Text(AppLocalization.string("สัญญาณตำแหน่งไม่ดีอาจทำให้เตือนช้า Focus อาจทำให้ไม่มีเสียง"))
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 if store.prominentAlarmSupported && !alarmKitAuthorized && (store.alertPreferences.deliveryMode == .alarmKit || store.alertPreferences.deliveryMode == .both) {
                     alarmKitPermissionTip
@@ -97,78 +109,30 @@ struct OnboardingView: View {
         .scrollBounceBehavior(.basedOnSize)
     }
 
-    // MARK: - Page 2: Destination & Radius
+    // MARK: - Destination & Radius
     private var destinationSetupPage: some View {
         ScrollView {
             VStack(spacing: 18) {
                 pageHeader(
                     icon: "mappin.and.ellipse",
                     gradientColors: [AppTheme.primary, AppTheme.secondary],
-                    title: AppLocalization.string("ปักหมุดจุดหมายง่ายๆ"),
-                    subtitle: AppLocalization.string("หลับสบายบนรถเมล์ รถไฟฟ้า หรือรถไฟ ไม่ต้องคอยพะวงมองทาง")
+                    title: AppLocalization.string("เตือนก่อนถึงจุดหมาย"),
+                    subtitle: AppLocalization.string("เลือกจุดหมาย ตั้งระยะ แล้วเริ่มทริป")
                 )
 
                 VStack(spacing: 12) {
                     featureCard(
                         icon: "magnifyingglass.circle.fill",
                         color: AppTheme.primary,
-                        title: AppLocalization.string("ค้นหาหรือแตะบนแผนที่"),
-                        detail: AppLocalization.string("พิมพ์ค้นหาสถานี ป้ายรถเมล์ หรือเลื่อนหมุดบนแผนที่ได้")
+                        title: AppLocalization.string("เลือกจุดหมาย"),
+                        detail: AppLocalization.string("ค้นหาสถานที่ หรือเลื่อนแผนที่ให้จุดหมายอยู่ใต้หมุด")
                     )
 
                     featureCard(
                         icon: "target",
                         color: .orange,
-                        title: AppLocalization.string("เลือกระยะปลุกตามต้องการ"),
-                        detail: AppLocalization.string("กำหนดระยะเตือนล่วงหน้า เช่น 500 ม., 1 กม. หรือกำหนดระยะเอง")
-                    )
-
-                    featureCard(
-                        icon: "map.fill",
-                        color: .green,
-                        title: AppLocalization.string("แผนที่หลายรูปแบบ"),
-                        detail: AppLocalization.string("สลับมุมมองได้ทั้งแบบมาตรฐาน ขนส่งสาธารณะ และดาวเทียม")
-                    )
-                }
-            }
-            .padding(.horizontal, 20)
-            .padding(.top, 24)
-            .padding(.bottom, 16)
-        }
-        .scrollBounceBehavior(.basedOnSize)
-    }
-
-    // MARK: - Page 3: Live Activity & Tracking
-    private var liveTrackingPage: some View {
-        ScrollView {
-            VStack(spacing: 18) {
-                pageHeader(
-                    icon: "sparkles.tv.fill",
-                    gradientColors: [.purple, .indigo],
-                    title: AppLocalization.string("พักสายตาได้อย่างสบายใจ"),
-                    subtitle: AppLocalization.string("ติดตามระยะทางและปลุกให้คุณตื่นตรงเวลา แม้ขณะล็อกหน้าจอ")
-                )
-
-                VStack(spacing: 12) {
-                    featureCard(
-                        icon: "iphone.badge.play",
-                        color: .indigo,
-                        title: AppLocalization.string("Dynamic Island & หน้าจอล็อก"),
-                        detail: AppLocalization.string("ดูระยะทางที่เหลือและสถานะทริป; ตัวนับ Auto-Stop แสดงหลังถึงจุดหมาย")
-                    )
-
-                    featureCard(
-                        icon: "timer",
-                        color: .teal,
-                        title: AppLocalization.string("ตั้ง Auto-Stop หลังถึงจุดหมาย"),
-                        detail: AppLocalization.string("หลังถึงจุดหมาย ระบบจะเริ่ม Auto-Stop ตามเวลาที่เลือก; iOS อาจทำให้ล่าช้า")
-                    )
-
-                    featureCard(
-                        icon: "bolt.shield.fill",
-                        color: .green,
-                        title: AppLocalization.string("การใช้แบตเตอรี่"),
-                        detail: AppLocalization.string("ติดตามตำแหน่งขณะทริปทำงาน; การใช้แบตเตอรี่ขึ้นกับสัญญาณ อุปกรณ์ และระยะเวลาทริป")
+                        title: AppLocalization.string("ตั้งระยะเตือน"),
+                        detail: AppLocalization.string("เลือกระยะสำเร็จรูปหรือกำหนดเอง แล้วแตะเริ่มเดินทาง")
                     )
                 }
             }
@@ -202,10 +166,12 @@ struct OnboardingView: View {
                 Image(systemName: icon)
                     .font(.system(size: 26, weight: .semibold))
                     .foregroundStyle(.white)
+                    .accessibilityHidden(true)
             }
 
             Text(title)
-                .font(.system(size: 22, weight: .bold, design: .rounded))
+                .font(.title2.weight(.bold))
+                .accessibilityAddTraits(.isHeader)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.primary)
 
@@ -244,7 +210,7 @@ struct OnboardingView: View {
                         HStack(alignment: .top, spacing: 12) {
                             Image(systemName: mode.systemImage)
                                 .font(.system(size: 18))
-                                .foregroundStyle(isSelected ? AppTheme.primary : .secondary)
+                                .foregroundStyle(isSelected ? AppTheme.actionForeground : .secondary)
                                 .frame(width: 24, height: 24)
 
                             VStack(alignment: .leading, spacing: 2) {
@@ -252,7 +218,7 @@ struct OnboardingView: View {
                                     .font(.subheadline.weight(.semibold))
                                     .foregroundStyle(.primary)
 
-                                Text(mode.subtitle)
+                                Text(deliverySummary(for: mode))
                                     .font(.caption2)
                                     .foregroundStyle(.secondary)
                                     .fixedSize(horizontal: false, vertical: true)
@@ -275,6 +241,10 @@ struct OnboardingView: View {
                         )
                     }
                     .buttonStyle(.plain)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel(mode.title)
+                    .accessibilityValue(deliverySummary(for: mode))
+                    .accessibilityAddTraits(isSelected ? .isSelected : [])
                 }
             }
         }
@@ -286,6 +256,14 @@ struct OnboardingView: View {
         )
     }
 
+    private func deliverySummary(for mode: AlertDeliveryMode) -> String {
+        switch mode {
+        case .both: AppLocalization.string("นาฬิกาปลุก พร้อมแจ้งเตือนแบบเงียบ")
+        case .notification: AppLocalization.string("เสียงและแบนเนอร์แจ้งเตือน")
+        case .alarmKit: AppLocalization.string("เสียงปลุกของระบบ")
+        }
+    }
+
     private var alarmKitPermissionTip: some View {
         HStack(alignment: .center, spacing: 12) {
             Image(systemName: "exclamationmark.triangle.fill")
@@ -293,10 +271,10 @@ struct OnboardingView: View {
                 .foregroundStyle(.orange)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(AppLocalization.string("ยังไม่ได้รับอนุญาต AlarmKit"))
+                Text(AppLocalization.string("อนุญาตนาฬิกาปลุก"))
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.primary)
-                Text(AppLocalization.string("แตะขอสิทธิ์เพื่อให้ระบบนาฬิกาปลุกทำงานได้เต็มรูปแบบ"))
+                Text(AppLocalization.string("เพื่อใช้วิธีเตือนนี้"))
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }
@@ -312,6 +290,7 @@ struct OnboardingView: View {
             .font(.caption.weight(.semibold))
             .padding(.horizontal, 10)
             .padding(.vertical, 5)
+            .frame(minWidth: 44, minHeight: 44)
             .background(Color.orange.opacity(0.15), in: Capsule())
             .foregroundStyle(.orange)
             .buttonStyle(.plain)
@@ -354,7 +333,7 @@ struct OnboardingView: View {
                     icon: "location.fill",
                     color: AppTheme.primary,
                     title: AppLocalization.string("ตำแหน่งที่ตั้ง"),
-                    detail: AppLocalization.string("ช่วยคำนวณระยะจากตำแหน่งที่ได้รับ"),
+                    detail: AppLocalization.string("คำนวณระยะถึงจุดหมาย"),
                     isGranted: locationAuthorized,
                     actionTitle: AppLocalization.string("ขอสิทธิ์")
                 ) {
@@ -366,8 +345,8 @@ struct OnboardingView: View {
                 permissionRow(
                     icon: "bell.badge.fill",
                     color: .orange,
-                    title: AppLocalization.string("การแจ้งเตือน & เสียงเตือน"),
-                    detail: AppLocalization.string("ใช้สำหรับแจ้งเตือนใกล้รัศมีที่เลือก; การส่งขึ้นกับสิทธิ์และการตั้งค่า iOS"),
+                    title: AppLocalization.string("การแจ้งเตือนทั่วไป"),
+                    detail: AppLocalization.string("ส่งเตือนเมื่อใกล้จุดหมาย"),
                     isGranted: notificationAuthorized,
                     actionTitle: AppLocalization.string("ขอสิทธิ์")
                 ) {
@@ -383,8 +362,8 @@ struct OnboardingView: View {
                     permissionRow(
                         icon: "alarm.fill",
                         color: .purple,
-                        title: AppLocalization.string("ระบบนาฬิกาปลุก (AlarmKit)"),
-                        detail: AppLocalization.string("AlarmKit ส่งเสียงเตือนบนอุปกรณ์ที่รองรับ; ผลการเตือนขึ้นกับสิทธิ์และการตั้งค่า iOS (iOS 26+)"),
+                        title: AppLocalization.string("ระบบนาฬิกาปลุก"),
+                        detail: AppLocalization.string("สำหรับเสียงปลุกของระบบ"),
                         isGranted: alarmKitAuthorized,
                         actionTitle: AppLocalization.string("ขอสิทธิ์")
                     ) {
@@ -444,8 +423,9 @@ struct OnboardingView: View {
                 .font(.caption.weight(.semibold))
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)
+                .frame(minWidth: 44, minHeight: 44)
                 .background(AppTheme.secondary.opacity(0.4), in: Capsule())
-                .foregroundStyle(AppTheme.primary)
+                .foregroundStyle(AppTheme.actionForeground)
                 .buttonStyle(.plain)
             }
         }
@@ -492,26 +472,12 @@ struct OnboardingView: View {
 
     // MARK: - Privacy Notice
     private var privacySection: some View {
-        VStack(spacing: 6) {
-            HStack(alignment: .center, spacing: 6) {
-                Image(systemName: "hand.raised.fill")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-
-                Text(AppLocalization.string("ตำแหน่งใช้คำนวณระยะทางระหว่างทริป; ค้นหาสถานที่ผ่านบริการ Apple และบันทึกสถานที่โปรด/ล่าสุดไว้บนอุปกรณ์"))
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-            }
-
-            Link(
-                AppLocalization.string("อ่านนโยบายความเป็นส่วนตัว"),
-                destination: URL(string: "https://telnwza.github.io/NapNav/privacy.html")!
-            )
-            .font(.caption2.weight(.semibold))
-            .foregroundStyle(AppTheme.primary)
-        }
-        .padding(.horizontal, 4)
+        Link(
+            AppLocalization.string("นโยบายความเป็นส่วนตัว"),
+            destination: URL(string: "https://telnwza.github.io/NapNav/privacy.html")!
+        )
+        .font(.caption.weight(.semibold))
+        .foregroundStyle(AppTheme.actionForeground)
     }
 
     // MARK: - Bottom Controls
@@ -519,14 +485,15 @@ struct OnboardingView: View {
         VStack(spacing: 12) {
             // Page Indicator
             HStack(spacing: 6) {
-                ForEach(0..<totalPages, id: \.self) { index in
+                ForEach(OnboardingPage.allCases) { page in
                     Capsule()
-                        .fill(currentPage == index ? AppTheme.primary : Color(uiColor: .systemGray4))
-                        .frame(width: currentPage == index ? 20 : 6, height: 6)
-                        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: currentPage)
+                        .fill(currentPage == page ? AppTheme.primary : Color(uiColor: .systemGray4))
+                        .frame(width: currentPage == page ? 20 : 6, height: 6)
+                        .animation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.7), value: currentPage)
                 }
             }
             .padding(.top, 4)
+            .accessibilityHidden(true)
 
             // Primary Action Button
             Button {
@@ -542,7 +509,7 @@ struct OnboardingView: View {
                     Text(primaryButtonTitle)
                         .font(.headline)
 
-                    if currentPage < totalPages - 1 {
+                    if currentPage.next != nil {
                         Image(systemName: "arrow.right")
                             .font(.headline)
                     } else {
@@ -556,8 +523,7 @@ struct OnboardingView: View {
             .napNavPrimaryButtonStyle()
             .disabled(isRequesting)
 
-            // Secondary Action Button (Only show on page > 0 so permissions are never delayed on page 0)
-            if currentPage > 0 {
+            if currentPage.previous != nil {
                 Button {
                     handleSecondaryAction()
                 } label: {
@@ -566,6 +532,7 @@ struct OnboardingView: View {
                         .foregroundStyle(.secondary)
                         .padding(.vertical, 2)
                 }
+                .disabled(isRequesting)
             }
         }
         .padding(.horizontal, 24)
@@ -575,9 +542,9 @@ struct OnboardingView: View {
     }
 
     private var primaryButtonTitle: String {
-        if currentPage == totalPages - 1 {
-            return AppLocalization.string("เริ่มต้นใช้งาน")
-        } else if currentPage == 0 {
+        if currentPage.next == nil {
+            return AppLocalization.string(mode.requiresCompletion ? "เริ่มต้นใช้งาน" : "ปิดแนะนำการใช้งาน")
+        } else if currentPage == .destination {
             return AppLocalization.string("ดำเนินการต่อ")
         } else {
             return AppLocalization.string("ถัดไป")
@@ -589,19 +556,17 @@ struct OnboardingView: View {
     }
 
     private func handlePrimaryAction() {
-        if currentPage == 0 && !allPermissionsAuthorized {
+        if mode.requestsPermissions(on: currentPage) && !allPermissionsAuthorized {
+            isRequesting = true
             Task {
-                isRequesting = true
                 await store.requestOnboardingPermissions()
                 updatePermissionStatus()
                 isRequesting = false
-                withAnimation {
-                    currentPage += 1
-                }
+                completeOnboarding()
             }
-        } else if currentPage < totalPages - 1 {
-            withAnimation {
-                currentPage += 1
+        } else if let nextPage = currentPage.next {
+            withAnimation(MotionTokens.standardAnimation(reduceMotion: reduceMotion)) {
+                currentPage = nextPage
             }
         } else {
             completeOnboarding()
@@ -609,9 +574,9 @@ struct OnboardingView: View {
     }
 
     private func handleSecondaryAction() {
-        guard currentPage > 0 else { return }
-        withAnimation {
-            currentPage -= 1
+        guard let previousPage = currentPage.previous else { return }
+        withAnimation(MotionTokens.standardAnimation(reduceMotion: reduceMotion)) {
+            currentPage = previousPage
         }
     }
 
