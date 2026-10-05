@@ -67,8 +67,10 @@ fastlane/test_output
 # Local AI / Agent artifacts
 .a0-results/
 
-# Local prototypes, draft artwork, and proposals (kept locally)
+# Local prototypes, draft artwork, proposals, and internal docs (kept locally)
 docs/artwork/
 ui-prototype/
 docs/UI5_SURFACE_PROPOSALS_*.html
-archive/*.png
+archive/
+AGENTS.md
+docs/*.md
