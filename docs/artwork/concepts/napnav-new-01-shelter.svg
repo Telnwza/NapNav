@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
-  <title id="title">NapNav concept 01 — shelter</title>
-  <desc id="desc">หมุดทรงนุ่มโอบเส้นทางรูป N</desc>
-  <path fill="#fff" d="M0 0h1024v1024H0z"/>
-  <path fill="#111" d="M512 130c-190 0-344 150-344 339 0 190 139 318 320 450 15 11 33 11 48 0 181-132 320-260 320-450 0-189-154-339-344-339Z"/>
-  <path d="M338 607V410c0-44 36-67 70-37l194 221c34 39 84 15 84-34V366" fill="none" stroke="#fff" stroke-width="68" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>

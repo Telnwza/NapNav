@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
-  <title id="title">NapNav R3 — Active route</title>
-  <desc id="desc">หมุดสีครีมมีเส้นทางรูป N แบบสองช่วง ช่วงที่ผ่านแล้วสีเขียวมิ้นต์และจุดหมายสีส้ม</desc>
-  <path fill="#243B43" d="M0 0h1024v1024H0z"/>
-  <path d="M512 166c-180 0-326 146-326 326 0 180 137 295 326 438 189-143 326-258 326-438 0-180-146-326-326-326z" fill="#F1EBDA"/>
-  <path d="M349 605V378l326 227V378" fill="none" stroke="#24444C" stroke-width="85" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M349 605V378l163 113" fill="none" stroke="#77CFC2" stroke-width="37" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="675" cy="378" r="50" fill="#E99560"/>
-</svg>

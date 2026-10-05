@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
-  <title id="title">NapNav concept C — Pin path</title>
-  <desc id="desc">หมุดสีงาช้างที่มีเส้นทางรูปตัว N อยู่ภายในบนพื้นเขียวเข้ม</desc>
-  <path fill="#143C41" d="M0 0h1024v1024H0z"/>
-  <path d="M512 160c-178 0-322 144-322 322 0 190 145 309 322 453 177-144 322-263 322-453 0-178-144-322-322-322z" fill="#E7F0DF"/>
-  <path d="M345 590V368l334 230V368" fill="none" stroke="#143C41" stroke-width="78" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="679" cy="368" r="42" fill="#EAA165"/>
-</svg>

@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
-  <title id="title">NapNav — Sleep / wake</title>
-  <desc id="desc">พระจันทร์เสี้ยวและประกายที่ปลุก</desc>
-  <path fill="#fff" d="M0 0h512v512H0z"/>
-  <g fill="none" stroke="#111" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M318 110a155 155 0 1 0 83 274c-132 20-233-112-176-234 17-36 48-65 93-82Z" fill="#111" stroke="none"/><path d="M354 136v50M329 161h50" stroke-width="18"/>
-  </g>
-</svg>

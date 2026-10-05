@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
-  <title id="title">NapNav — Countdown</title>
-  <desc id="desc">วงเวลาเปิดให้เกิดช่วงเวลาที่เหมาะ</desc>
-  <path fill="#fff" d="M0 0h512v512H0z"/>
-  <g fill="none" stroke="#111" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M377 168a151 151 0 1 0 28 158"/><path d="M256 160v101l74 45"/><circle cx="377" cy="168" r="29" fill="#111" stroke="none"/>
-  </g>
-</svg>

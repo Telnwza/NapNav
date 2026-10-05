@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
-  <title id="title">NapNav — Forest and linen, soft route</title>
-  <desc id="desc">หมุดปลายโค้งมน มีเส้นทางรูป N โค้งต่อเนื่องไปถึงธงจุดหมาย</desc>
-  <path fill="#EEE7D8" d="M0 0h1024v1024H0z"/>
-  <path fill="#164449" d="M512 164C327 164 178 311 178 494c0 175 129 295 317 434 11 8 23 8 34 0 188-139 317-259 317-434 0-183-149-330-334-330Z"/>
-  <path d="M350 609c-4-79-4-171 6-210 9-37 36-45 65-23 56 43 128 135 187 169 40 23 72-2 72-45V354" fill="none" stroke="#EEE7D8" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/>
-  <path fill="#EEE7D8" d="M680 335c30-8 61-2 95-6l-24 49 24 47c-34-5-65 2-95-5Z"/>
-</svg>

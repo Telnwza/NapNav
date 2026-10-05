@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
-  <title id="title">NapNav — Landing</title>
-  <desc id="desc">เป้าหมายอยู่บนพื้นเรียบและมีช่วงเข้าใกล้</desc>
-  <path fill="#fff" d="M0 0h512v512H0z"/>
-  <g fill="none" stroke="#111" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M107 361h298"/><path d="M169 295c24-27 54-41 87-41s63 14 87 41"/><circle cx="256" cy="186" r="42" fill="#111" stroke="none"/><path d="M256 114v-30"/>
-  </g>
-</svg>

@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
-  <title id="title">NapNav concept 03 — arrival</title>
-  <desc id="desc">เส้นทางรูป N สิ้นสุดในซุ้มจุดหมาย</desc>
-  <path fill="#fff" d="M0 0h1024v1024H0z"/>
-  <path fill="#111" d="M512 130c-190 0-344 151-344 340 0 190 139 320 320 449 15 11 33 11 48 0 181-129 320-259 320-449 0-189-154-340-344-340Z"/>
-  <path d="M325 610V407c0-47 36-69 72-37l180 183c50 51 108 22 108-40V398" fill="none" stroke="#fff" stroke-width="67" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M625 350h122v49" fill="none" stroke="#fff" stroke-width="47" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>

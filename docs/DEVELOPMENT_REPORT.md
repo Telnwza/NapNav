@@ -1016,3 +1016,32 @@
   - `git diff --check` passed with 0 diagnostics.
 - **Risks / remaining work:** Awaiting user verification and approval. No git push, publish, or release actions performed.
 - **Next:** Await user feedback or proceed to next milestone per user guidance.
+## 2026-10-05 14:57 — A4 design: Thai iPhone App Store screenshot examples in Figma
+
+- **Status:** Complete for the requested Thai iPhone design example and Figma visual review.
+- **Goal:** Create five reviewable Thai iPhone promotional examples in the user's Figma template file, using the selected real app captures and editable promotional text.
+- **Baseline:** Figma file `fEMZG3CcC3HHsBNysJt1nU`, iPhone page `88:52`, Template 26 `194:5364`; original templates remain the reference. Selected captures: `14.37.34` (active trip), `14.37.18` (destination), `14.37.22` (radius), `14.38.44` (Lock Screen alert), and `14.51.06` (favorites), October 5, 2026. Existing user modifications in `NapNav/SystemClients.swift` and `NapNav/TripStore.swift` are outside this scope.
+- **Expected files / external changes:** This report and an additive five-card example group in the existing Figma iPhone page. No application source changes.
+- **Changes:** Created additive example group `2014:23` on iPhone page `88:52`, to the right of existing templates. Five separate 1320 × 2868 export frames reuse the Template 26 device shell and have editable `Anuphan` headings/supporting copy on warm white, pale green, and forest green backgrounds. Card IDs: `2014:24`, `2014:35`, `2014:46`, `2014:57`, `2014:68`. Uploaded all five original screenshot images with FIT fills and applied the existing NapNav icon to each card. Added enlarged original Live Activity + notification crop `2016:23` to the fourth card after visual review. No screenshot UI text or source pixels were rewritten. Review link: https://www.figma.com/design/fEMZG3CcC3HHsBNysJt1nU/?node-id=2014-23
+- **Verification evidence:** Figma inspection confirmed the template device structure and available `Anuphan` Thai fonts; no local Figma variables/styles or template instances/bindings were defined. All five supplied source PNGs exist and are below the asset upload size limit. An initial read-only inspection script had a syntax error; the corrected inspection returned the page, template, and font metadata successfully. Created five export frames successfully. Initial upload attempts inside the sandbox failed before transfer with DNS error `[Errno 8] nodename nor servname provided, or not known`; the authorized network-enabled retry uploaded all five screenshots and the icon with HTTP 200. Command: `python3 /tmp/NapNav-Figma-20261005/upload.py`; exit 0. Responses and image placement details: `/tmp/NapNav-Figma-20261005/upload-results.json`. `git diff --check -- docs/DEVELOPMENT_REPORT.md` exited 0. Full-composition visual review is next.
+- **Final design verification:** Figma read-back confirmed five 1320 × 2868 cards, 15 editable text layers all using `Anuphan`, complete screenshot/icon/device-frame image fills, and the original Template 26 still present. Full composition was rendered at 4096 × 1641 and visually reviewed; headings fit without clipping/overlap. Initial review found the clock visually stronger than the alert, so a single targeted inset was added and the post-fix full composition was reviewed successfully. Final manifest and structural evidence: `/tmp/NapNav-Figma-20261005/design-manifest.json`. Source/static: report diff review only; build, Simulator/GPX, and physical iPhone tests were not run for this design-only task. Supplied captures are visual source material, not independently reproduced runtime evidence.
+- **Risks / remaining work:** This is a design example using user-supplied screenshots, not new proof of physical-device alert reliability or App Store submission readiness. iPad and English examples await their source captures. Screenshot pixels, including the existing `Home` favorite label, remain unchanged. No Git mutation, application source modification, or publication occurred.
+- **Next:** User visual review of the linked Figma example. Apply further design revisions to this same group; prepare iPad/English variants when their real source captures are available.
+
+## 2026-10-05 15:10 — Repository: audit tracked files, untrack drafts/prototypes, and add git file management policy
+
+- **Status:** Complete (local changes staged and documented; no push per working agreement)
+- **Goal:** Audit git tracking, untrack non-essential drafts/prototypes/unused images from Git while keeping physical files intact on disk, update .gitignore, and establish a clear file management policy document.
+- **Baseline:** Branch `main` aligned with `origin/main` at `2ab71cf`. 48 non-essential draft/prototype/unused files tracked in Git (`archive/*.png`, `docs/artwork/`, `ui-prototype/`, `docs/UI5_SURFACE_PROPOSALS_*.html`).
+- **Files modified:** `.gitignore`, `docs/DEVELOPMENT_REPORT.md`, added `docs/GIT_FILE_MANAGEMENT_GUIDE.md`, untracked 48 non-essential files from Git index.
+- **Changes:**
+  - Untracked non-essential assets and drafts (`archive/ChatGPT Image Sep 26, 2026, 09_01_22 PM.png`, `docs/artwork/`, `ui-prototype/`, `docs/UI5_SURFACE_PROPOSALS_2026-10-05.html`) from git index via `git rm --cached`.
+  - Verified all physical files remain intact on local filesystem.
+  - Updated `.gitignore` to prevent future accidental re-tracking of `archive/*.png`, `docs/artwork/`, `ui-prototype/`, and `docs/UI5_SURFACE_PROPOSALS_*.html`.
+  - Created `docs/GIT_FILE_MANAGEMENT_GUIDE.md` detailing classification of must-commit, local-only, and never-commit files.
+- **Verification evidence:**
+  - `ls -la` verified untracked files remain intact on disk.
+  - `git status` confirmed untracked files are correctly ignored by `.gitignore` and do not appear as untracked files.
+  - `git diff --check` and `git diff --cached --check` exited 0.
+- **Risks / remaining work:** Untracked files remain on local filesystem only; any other workstation pulling this commit will see them removed from Git. No git push, publish, or signing modifications performed.
+- **Next:** Await user review and commit when approved.

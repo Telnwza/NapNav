@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
-  <title id="title">NapNav C2 — Outline pin</title>
-  <desc id="desc">หมุดเส้นหนาสีกรมท่าบนพื้นงาช้าง มีตัว N อยู่ภายในและจุดหมายสีส้ม</desc>
-  <path fill="#F4F1E7" d="M0 0h1024v1024H0z"/>
-  <path d="M512 177c-174 0-315 141-315 315 0 168 123 278 315 426 192-148 315-258 315-426 0-174-141-315-315-315z" fill="none" stroke="#193C47" stroke-width="78" stroke-linejoin="round"/>
-  <path d="M365 566V368l294 198V368" fill="none" stroke="#193C47" stroke-width="69" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="659" cy="368" r="40" fill="#DF8658"/>
-</svg>

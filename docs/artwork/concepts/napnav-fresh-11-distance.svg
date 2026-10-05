@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
-  <title id="title">NapNav — Distance</title>
-  <desc id="desc">ระยะที่หดเข้าหาจุดหมาย</desc>
-  <path fill="#fff" d="M0 0h512v512H0z"/>
-  <g fill="none" stroke="#111" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="256" cy="256" r="40" fill="#111" stroke="none"/><path d="M113 174a175 175 0 0 0 0 164M159 201a117 117 0 0 0 0 110M399 174a175 175 0 0 1 0 164M353 201a117 117 0 0 1 0 110"/>
-  </g>
-</svg>

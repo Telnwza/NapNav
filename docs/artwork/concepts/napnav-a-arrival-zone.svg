@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
-  <title id="title">NapNav concept A — Arrival zone</title>
-  <desc id="desc">เส้นทางสีฟ้าเข้าวงเขตจุดหมายสีขาวและจบที่จุดเตือนสีส้ม</desc>
-  <path fill="#102A3B" d="M0 0h1024v1024H0z"/>
-  <circle cx="512" cy="512" r="260" fill="none" stroke="#F3F4E9" stroke-width="88"/>
-  <path d="M184 766c117 0 157-65 224-155 32-43 68-78 104-99" fill="none" stroke="#73D5C5" stroke-width="87" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="512" cy="512" r="58" fill="#F6A65F"/>
-</svg>

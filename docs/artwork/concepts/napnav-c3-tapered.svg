@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
-  <title id="title">NapNav C3 — Tapered pin</title>
-  <desc id="desc">หมุดทรงสูงสีงาช้างที่ปลายเรียวบนพื้นสีเขียวเข้ม มีเส้น N กว้างและจุดหมายสีส้ม</desc>
-  <path fill="#173A3B" d="M0 0h1024v1024H0z"/>
-  <path d="M512 143c-171 0-310 139-310 310 0 188 127 326 310 476 183-150 310-288 310-476 0-171-139-310-310-310z" fill="#ECF0DB"/>
-  <path d="M351 571V362l322 209V362" fill="none" stroke="#173A3B" stroke-width="87" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="673" cy="362" r="44" fill="#EB9C62"/>
-</svg>
