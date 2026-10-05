@@ -771,3 +771,248 @@
 - **Risks / next:** Map's built-in user-location camera/annotation may also require inspection. Do not change permission API/set, trip delivery/start gate or Tutorial copy. Reproduce before editing.
 - **Round 10:06 / reproduced then scope narrowed:** Before the user's stop instruction, baseline isolated fresh-Location launch reproduced “Allow NapNav to use your location?” immediately; `baseline-location-prompt.jpg`. User then explicitly stopped Simulator verification and requested source inspection/fix only. No post-fix Simulator checks/tests will run. Plan revised to source/static + unsigned compilation; no new mirror-of-implementation unit tests for four isolated call-site changes. Removed authorization requests from passive initial load, scene activation, tutorial dismissal and search focus; they now call the existing default-false fetch path, which exits while authorization is undetermined. Tutorial's Location Request/final Get Started and explicit Show My Location/trip-start actions retain their permission APIs. Only DestinationSelection.swift differs from baseline; fingerprint `d900432f54860f96a44e74fadfcd117f79b17e1dd85b3b3169c4624c92d8b55a`, `source-manifest-after.txt`/`location-fix.patch`. Restoring the test-only Location grant and Shutdown state is cleanup of the interrupted baseline check, not continued testing. Build/static review pending; fresh post-fix prompt timing will remain unverified as requested.
 - **Final 10:07 / source and build:** Reviewed the four-call-site diff; unknown authorization is guarded before CLServiceSession/requestLocation/liveUpdates in CurrentLocationModel, while authorized fetches and explicit permission actions remain. Existing OnboardingMode final-page/replay logic, permission APIs, start gate and localization were untouched. Unsigned generic-iOS Release build passed, zero compiler errors/warnings (`release-build.log`). `git diff --check` passes and all 53 files match fingerprint `d900432f54860f96a44e74fadfcd117f79b17e1dd85b3b3169c4624c92d8b55a`, `source-manifest-final.txt`/`final-check.json`. Only one source file differs from the pre-task snapshot; no test source changed or tests run. Interrupted baseline fixture was terminated, prior Location grant restored and returned to Shutdown (all cleanup commands exit 0). No post-fix Simulator interaction occurred, primary Simulator untouched. Prompt timing after the fix is not runtime-verified; user requested code-only handling. No Git/signing/publication mutation.
+
+## 2026-10-05 11:15 — A4 web: bespoke redesign of landing, privacy, and support pages
+
+- **Status:** Reverted to baseline upon user review; superseded by phased plan under taste-skill and impeccable
+- **Goal:** Redesign all three GitHub Pages web surfaces (`docs/index.html`, `docs/privacy.html`, `docs/support.html`) from scratch using bespoke-frontend-design craft principles.
+- **Baseline:** Clean working tree at `7ece6938df1d07c087900898fa4c688849b257fb`.
+- **Outcome:** The user reviewed the generated layout and noted that decorative elements (Bento grid, phone mockup, emoji badges) felt excessively AI-generated. The user instructed to revert to the original baseline and start over from scratch, executing step by step with explicit user consultation at each phase, enforcing strict preservation of core legal and transit disclosures, and applying newly installed `taste-skill` (anti-slop) and `impeccable` (craft floor) skills.
+- **Action taken:** Reverted `docs/index.html`, `docs/privacy.html`, and `docs/support.html` cleanly to the exact baseline of commit `7ece6938df1d07c087900898fa4c688849b257fb`.
+- **Next:** Proceed with Step 1 of the new phased plan (Design Direction & Aesthetic Selection) in consultation with the user.
+
+## 2026-10-05 11:38 — A4 web: Swiss Instrument redesign of index.html (Phase 2)
+
+- **Status:** Complete for index.html source/static verification; awaiting user inspection before Phase 3
+- **Goal:** Redesign `docs/index.html` from scratch adhering strictly to the user-approved Swiss Precision / Transit Instrument aesthetic and the newly installed `taste-skill` and `impeccable` guidelines: zero decorative emojis, anti-center bias (left-aligned compact hero), subtext strictly ≤ 20 words, a technical transit telemetry panel instead of a fake phone mockup, a 3-column structural hairline grid for core specs, browser surface theming (custom `::selection`, `caret-color`, `:focus-visible`), and seamless Thai/English parity without altering any essential transit facts or legal disclosures.
+- **Baseline:** Clean working tree at `7ece6938df1d07c087900898fa4c688849b257fb`.
+- **Expected files:** `docs/DEVELOPMENT_REPORT.md` and `docs/index.html`.
+- **Changes:**
+  - Implemented Swiss Instrument architecture for `docs/index.html`:
+    - Clean typographic header with brand mark, `iOS 18+` monospace indicator, and segmented language switcher (`TH` / `EN`).
+    - Left-aligned hero with disciplined headline, concise 15-word Thai / 18-word English subtext (meeting the ≤ 20-word strict ceiling), and single-line CTA buttons.
+    - Right-column transit telemetry panel displaying real-time metrics (`TARGET`, `DISTANCE`, `RADIUS THRESHOLD`, `DELIVERY CHANNEL`, `LOCAL STORAGE`) with 3 selectable operational stages (`Cruise 1.4 km`, `Near 750 m`, `Trigger 350 m`).
+    - 3-column hairline structural grid detailing Dual Alert Mechanism, Proximity Filtering, and Zero Developer-Server Processing.
+    - Honest advisory box detailing underground rail satellite signal obstruction.
+    - Themed browser surfaces (`::selection`, `caret-color`, `:focus-visible`, `text-underline-offset: 4px`), full light/dark color calibration using deep forest `#047857` and vivid emerald `#10b981`, and zero decorative emoji clutter.
+- **Verification evidence:**
+  - Source/static verification: Python `HTMLParser` validated that all local assets (`app-icon.png`) and links (`privacy.html`, `support.html`, `index.html`) exist and resolve cleanly.
+  - Script validation: Node.js verified that inline stage-switching and bilingual scripts execute without syntax errors.
+  - `git diff --check` passed with 0 diagnostics.
+  - No application code, test suite, build, or deployment was mutated in this web-only phase.
+- **Risks / remaining work:** User review of the redesigned `index.html` is required before proceeding to Phase 3 (`docs/privacy.html`).
+- **Next:** User requested to try Option 2 (Apple Human Interface / Quiet Minimalist style) for index.html instead of Swiss Instrument.
+
+## 2026-10-05 11:42 — A4 web: Apple Human Interface redesign of index.html
+
+- **Status:** Complete for index.html source/static verification; awaiting user inspection
+- **Goal:** Redesign `docs/index.html` using the user-requested Apple Human Interface / Quiet Minimalist design direction (SF Pro typography, generous whitespace, frosted glass navigation, clean squircle app icon, calm confident copy, 3-pillar feature flow, Apple-style pill CTAs, and quiet technical disclosures) without any generic AI slop, fake phone mockups, or decorative emojis.
+- **Baseline:** Clean working tree at `7ece6938df1d07c087900898fa4c688849b257fb` (with index.html under iterative refinement).
+- **Expected files:** `docs/DEVELOPMENT_REPORT.md` and `docs/index.html`.
+- **Changes:**
+  - Implemented Apple Human Interface layout for `docs/index.html`:
+    - Frosted glass sticky global navigation header (`backdrop-filter: saturate(180%) blur(20px)`), with discreet brand link, navigation items, and minimal `[ไทย | English]` text switcher.
+    - Centered product reveal hero: 76px squircle icon (`border-radius: 22%`), subtle `NapNav for iOS` eyebrow, confident 56px headline `NapNav`, sub-tagline `หลับไม่เลยป้าย.` (`Wake at your stop.`), concise lead text, solid pill CTA button in NapNav signature emerald (`#047857` light / `#10b981` dark), and secondary chevron text link.
+    - Tailored all interactive accents to NapNav signature emerald green per user direction (replacing standard Apple blue across links, primary button, focus rings, and hover states).
+    - 3-pillar feature grid: Dual Alert Delivery (AlarmKit + Notification fallback), Adaptive Radius Selection (500m/1km/2km drift filtering), and Built for Privacy (on-device processing, zero continuous route logging, zero third-party trackers).
+    - Apple-style subtle notice card (`border-radius: 18px`, `--bg-subtle`) for underground rail and tunnel satellite limitations.
+    - Official Apple-style footer with iOS 18/iOS 26 version notes, copyright, and navigation links.
+    - Zero decorative emojis in text, tags, or buttons.
+- **Verification evidence:**
+  - Source/static verification: Python `HTMLParser` validated all local assets (`app-icon.png`) and links (`privacy.html`, `support.html`, `index.html`).
+  - Script validation: Node.js verified that inline bilingual script executes without syntax errors.
+  - `git diff --check` passed with 0 diagnostics.
+  - No application code, test suite, build, or deployment was mutated in this web-only phase.
+- **Risks / remaining work:** User review of the updated Apple Human Interface `index.html` with green accents and NapNav headline is required before proceeding to Phase 3 (`docs/privacy.html`).
+- **Next:** Remove redundant hero eyebrow from index.html per user request, re-verify static checks, and consult user.
+
+## 2026-10-05 11:52 — A4 web: Remove redundant hero eyebrow from index.html
+
+- **Status:** Complete for index.html hero refinement; ready for Phase 3
+- **Goal:** Remove redundant hero eyebrow text ("แอปสำหรับคนเดินทางบน iOS" / "Transit Utility for iOS") and its CSS rule in `docs/index.html` to eliminate visual repetition with the lead description, keeping hero clean and focused.
+- **Baseline:** `docs/index.html` Apple Human Interface layout with emerald green accents.
+- **Expected files:** `docs/index.html`, `docs/DEVELOPMENT_REPORT.md`.
+- **Changes:**
+  - Removed `.hero-eyebrow` class rule from embedded stylesheet in `docs/index.html`.
+  - Removed `<div class="hero-eyebrow">` markup from the hero section of `docs/index.html`.
+  - Icon now transitions directly to the primary `NapNav` headline and `หลับไม่เลยป้าย.` tagline.
+- **Verification evidence:**
+  - Grep verification: `grep -n "hero-eyebrow" docs/index.html` returned 0 matches.
+  - Node.js script verified document syntax and cleanliness.
+  - Python `HTMLParser` verified all local assets (`app-icon.png`) and links (`privacy.html`, `support.html`, `index.html`) resolve.
+  - `git diff --check` passed with 0 diagnostics.
+- **Risks / remaining work:** Awaiting user sign-off to proceed to Phase 3 (`docs/privacy.html`).
+- **Next:** User gave feedback that previous iteration looked too much like an Apple website clone lacking its own identity. Implement Commuter Companion identity for index.html.
+
+## 2026-10-05 11:55 — A4 web: Redesign index.html with Commuter Companion identity
+
+- **Status:** Complete for index.html redesign; awaiting user inspection
+- **Goal:** Redesign `docs/index.html` moving away from generic Apple hardware microsite mimicry toward an authentic indie transit app identity ("Commuter Companion" style inspired by apps like Flighty / Transit). Introduce a stylized transit route line motif (Metro-style commute journey from boarding to alarm trigger), commuter-focused tone, crisp wayfinding visual hierarchy, emerald transit palette, and clear distinction as an independent transit utility, while preserving all factual disclosures and bilingual capabilities.
+- **Baseline:** `docs/index.html` at previous Apple Human Interface iteration.
+- **Expected files:** `docs/index.html`, `docs/DEVELOPMENT_REPORT.md`.
+- **Changes:**
+  - Re-architected `docs/index.html` with an authentic Indie Commuter Companion identity:
+    - Navbar: Brand lockup with 34px squircle icon, NapNav title, and `ระบบเตือนสำหรับคนเดินทาง` / `Transit Proximity Alarm` badge, clean navigation items, and pill language switcher.
+    - Hero: Commuter-centric narrative ("หลับได้เต็มอิ่ม ไม่ต้องกังวลว่าจะเลยป้าย"), transit indicator tag, natural commuter lead copy, and solid emerald + clean outline buttons.
+    - Signature Visual: Stylized **Commuter Journey Route** (Metro Line diagram) mapping out the 4 stages of the commuter experience:
+      1. ปักหมุดปลายทาง (Pin Destination)
+      2. พักสายตาระหว่างทาง (Rest on the Way)
+      3. ปลุกเข้าสู่ระยะเตือน (Wake at Proximity)
+      4. ลงป้ายสบายใจ (Arrive on Time)
+    - 3 Transit Pillars: Dual Alert Delivery via AlarmKit, Adaptive Proximity & Drift Filtering, and 100% On-Device Zero Route Tracking.
+    - Transparent commuter advisory for underground transit / GPS limitations.
+    - Indie craft footer celebrating iOS transit utility development.
+    - Full light/dark mode chromatic tokens, 0 decorative emojis, themed browser surfaces (`::selection`, `:focus-visible`).
+- **Verification evidence:**
+  - Python `HTMLParser` verified all 10 links and 2 images exist and resolve cleanly.
+  - Node.js verified 1:1 bilingual attribute symmetry (43 `data-lang-th` / 43 `data-lang-en` elements).
+  - `git diff --check` passed with 0 diagnostics.
+  - No native app code, tests, or release configuration mutated.
+- **Risks / remaining work:** Awaiting user review of the new Commuter Companion identity before proceeding to Phase 3 (`docs/privacy.html`).
+- **Next:** User rejected the boxed card layout ("ไม่เอาแบบนี้ กลายเป็นเว็บ ai ไปซะแล้ว กลับไปก่อนหน้าที่ ไม่ชอบสไตล์แบบ card"). Revert index.html to the clean Quiet Minimalist / typographic layout.
+
+## 2026-10-05 12:01 — A4 web: Revert index.html to Quiet Minimalist layout (no card style)
+
+- **Status:** Complete; verified clean without card clutter
+- **Goal:** Revert `docs/index.html` back to the clean Apple Human Interface / Quiet Minimalist version that the user previously praised as "สวยๆละ", removing the boxed cards and metro-track widget, keeping typography-first columns without boxy card borders or shadows.
+- **Baseline:** Snapshot right after removing redundant eyebrow text from hero.
+- **Expected files:** `docs/index.html`, `docs/DEVELOPMENT_REPORT.md`.
+- **Changes:**
+  - Restored `docs/index.html` to the clean typographic layout:
+    - Frosted glass sticky navigation bar with quiet text switcher (`ไทย | English`).
+    - Centered hero with 76px squircle app icon, confident `NapNav` title, `หลับไม่เลยป้าย.` green tagline, and concise lead text.
+    - Pill button in emerald green and secondary link.
+    - 3-pillar features laid out in clean typographic columns (`.feature-column`), without any card boxes, card borders, or card shadows.
+    - Quiet inline notice for underground rail satellite limitations.
+    - Clean footer with version notes and navigation links.
+  - Stripped all trailing whitespace across the file.
+- **Verification evidence:**
+  - Static link and image verification: Python `HTMLParser` confirmed all links and `app-icon.png` resolve cleanly.
+  - Code hygiene: `git diff --check` passed with 0 diagnostics.
+  - Zero boxed card components or card borders.
+- **Risks / remaining work:** Awaiting user direction on whether to keep this clean version as the final baseline for index.html and proceed to Phase 3 (`docs/privacy.html`).
+- **Next:** User confirmed to use this clean minimalist style across all 3 pages ("เอาแบบนี้ไปก่อนละกัน ทำทั้ง 3 หน้า ให้เป็นแนวนี้เหมือนกันเลย"). Begin Phase 3: Redesign `docs/privacy.html`.
+
+## 2026-10-05 12:03 — A4 web: Phase 3 redesign of privacy.html
+
+- **Status:** Complete for privacy.html; ready for user review / Phase 4
+- **Goal:** Redesign `docs/privacy.html` in the exact matching Quiet Minimalist / Apple Human Interface typographic style (frosted glass sticky nav, brand lockup, clean reading measure ~720px, emerald green accents, zero emojis, full dark mode support) while preserving 100% of all legal disclosures, dates, and bilingual Thai/English text.
+- **Baseline:** `docs/privacy.html` baseline at `7ece6938df1d07c087900898fa4c688849b257fb`.
+- **Expected files:** `docs/privacy.html`, `docs/DEVELOPMENT_REPORT.md`.
+- **Changes:**
+  - Modernized `docs/privacy.html` using the exact design system established on `index.html`:
+    - Sticky frosted glass top navigation with 24px squircle brand icon, brand title, desktop links (`ภาพรวม`, `ความเป็นส่วนตัว` [active], `ศูนย์ช่วยเหลือ & FAQ`), and clean `[ไทย | English]` text switcher (no emoji flags).
+    - Centered document layout constrained to comfortable reading measure (max-width 740px, 65–75ch).
+    - Typography-first hierarchy: 36px clean title, date metadata (`อัปเดตล่าสุด: 4 ตุลาคม 2026`), and calm subtle summary highlight box with 3px emerald accent border.
+    - Preserved 100% of legal disclosures, technical terms (While In Use, UserDefaults, AlarmKit, max 10 recents, trip snapshot purge, zero developer servers, zero third-party SDKs), and external links (Apple Maps Privacy, Google Privacy, GitHub Privacy).
+    - Official minimal footer with iOS 18+ version note and repository link.
+- **Verification evidence:**
+  - Link & asset validation: Python `HTMLParser` confirmed all 20 links and `app-icon.png` resolve cleanly.
+  - Disclosure check: Automated assertion confirmed presence of all mandatory terms (`napnav.support@gmail.com`, GitHub Issues URL, Apple Maps Privacy URL, Google Privacy URL, GitHub Privacy URL, `UserDefaults`, `While In Use`, `AlarmKit`, max `10` recents, `Delete App`).
+  - Code hygiene: `git diff --check` passed with 0 diagnostics.
+- **Risks / remaining work:** Awaiting user inspection and approval before moving to Phase 4 (`docs/support.html`).
+- **Next:** Add app icon to the top-left navigation brand link on `docs/index.html` per user request to match `docs/privacy.html`.
+
+## 2026-10-05 12:07 — A4 web: Add app icon to top-left navbar in index.html
+
+- **Status:** Complete for index.html navbar brand icon; ready for Phase 4
+- **Goal:** Add 24px squircle app icon (`app-icon.png`) to the `.nav-brand` element in `docs/index.html` to achieve complete visual consistency with `docs/privacy.html`.
+- **Baseline:** `docs/index.html` and `docs/privacy.html` at clean Apple Human Interface / Quiet Minimalist style.
+- **Expected files:** `docs/index.html`, `docs/DEVELOPMENT_REPORT.md`.
+- **Changes:**
+  - Added `.nav-icon` CSS (24px by 24px, 6px squircle radius) to `docs/index.html`.
+  - Added `<img src="app-icon.png" alt="NapNav Application Icon" class="nav-icon">` to `.nav-brand` in `docs/index.html`.
+  - Header branding is now 100% identical between `index.html` and `privacy.html`.
+- **Verification evidence:**
+  - Python `HTMLParser` confirmed both images (`app-icon.png` in navbar and `app-icon.png` in hero) resolve cleanly.
+  - `git diff --check` passed with 0 diagnostics.
+- **Risks / remaining work:** Awaiting user greenlight to proceed to Phase 4 (`docs/support.html`).
+- **Next:** User observed font size and layout jump between index.html and privacy.html. Unify font sizes, typography stacks, and navbar/footer dimensions across both files.
+
+## 2026-10-05 12:10 — A4 web: Unify typography and dimensions across index.html and privacy.html
+
+- **Status:** Complete; verified 100% token and dimension parity across index.html and privacy.html
+- **Goal:** Unify font families, font sizes, line heights, and navbar/footer dimensions between `docs/index.html` and `docs/privacy.html` so that switching between pages has zero visual twitching, identical navbar sizing (48px height, 980px max-width, 22px padding), and consistent typography scale across all elements.
+- **Baseline:** `docs/index.html` and `docs/privacy.html` with minor font and dimensional divergences.
+- **Expected files:** `docs/index.html`, `docs/privacy.html`, `docs/DEVELOPMENT_REPORT.md`.
+- **Changes:**
+  - Standardized font family stack across both files: `-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Sarabun", system-ui, sans-serif`.
+  - Harmonized `body` line-height to `1.55` on both pages.
+  - Aligned navigation bar dimensions: exact 48px height, 980px max-width, 22px horizontal padding.
+  - Aligned navigation typography: `.nav-brand` at 15px/weight 600, `.nav-item a` at 13px, `.lang-switch button` at 12px with matching active link color.
+  - Aligned footer dimensions: exact 980px max-width, 22px padding, 12px font size.
+- **Verification evidence:**
+  - Automated regex validator compared 14 key selectors/tokens (`:root`, `body`, `.global-nav`, `.nav-content`, `.nav-brand`, `.nav-icon`, `.nav-links`, `.nav-item a`, `.lang-switch`, `.lang-switch button`, `.lang-switch button.active`, `.site-footer`, `.footer-content`, `.footer-nav a`) and confirmed 100% dimensional and typographic identity.
+  - Python `HTMLParser` confirmed all links and images across both files resolve cleanly.
+  - `git diff --check` passed with 0 diagnostics.
+- **Risks / remaining work:** Awaiting user verification and go-ahead to proceed to Phase 4 (`docs/support.html`).
+- **Next:** Proceed to Phase 4 redesign of `docs/support.html` using these identical tokens and components.
+
+## 2026-10-05 12:14 — A4 web: Phase 4 redesign of support.html
+
+- **Status:** Complete for support.html; all 3 pages redesigned and unified
+- **Goal:** Redesign `docs/support.html` in the exact matching Quiet Minimalist / Apple Human Interface typographic style (identical 48px sticky nav, 24px squircle app icon, 980px max-width, matching font stack, clean non-card FAQ list, refined contact box with emerald primary pill button, and matching 12px footer), while preserving 100% of all 7 FAQ questions & answers, contact email, and GitHub Issues links in both Thai and English.
+- **Baseline:** `docs/support.html` baseline at `7ece6938df1d07c087900898fa4c688849b257fb`.
+- **Expected files:** `docs/support.html`, `docs/DEVELOPMENT_REPORT.md`.
+- **Changes:**
+  - Modernized `docs/support.html` using the exact design system established on `index.html` and `privacy.html`:
+    - Sticky frosted glass top navigation (48px height, 980px width, 22px padding) with 24px squircle brand icon, brand title, desktop links (`ภาพรวม`, `ความเป็นส่วนตัว`, `ศูนย์ช่วยเหลือ & FAQ` [active]), and clean `[ไทย | English]` text switcher.
+    - Centered document layout constrained to comfortable reading measure (max-width 740px, 65–75ch).
+    - Typography-first FAQ layout (`.faq-list`): 7 questions styled cleanly with subtle hairline dividers, avoiding bulky card boxes or shadows.
+    - Refined contact box (`.contact-box`) with emerald green pill button (`mailto:napnav.support@gmail.com`) and secondary link to GitHub Issues, with the public tracker privacy advisory preserved.
+    - Official minimal footer with version notes and navigation links identical to other pages.
+- **Verification evidence:**
+  - Full cross-page test suite verified:
+    - 10 links on `index.html`, 20 on `privacy.html`, 18 on `support.html` — zero broken links.
+    - All local assets (`app-icon.png`) resolve cleanly.
+    - All 7 FAQ questions & answers in Thai and English verified present 100%.
+    - Exact 100% token and dimension identity confirmed across 14 selectors in all 3 pages.
+  - `git diff --check` passed with 0 diagnostics.
+  - No application code, test suite, build, or release configuration mutated.
+- **Risks / remaining work:** User review of the completed 3-page suite. No git push, publish, or release actions per `AGENTS.md`.
+- **Next:** Implement smooth page transition animation across all 3 pages per user request.
+
+## 2026-10-05 12:17 — A4 web: Add smooth page transition animation across all 3 pages
+
+- **Status:** Complete; verified across all 3 pages
+- **Goal:** Implement smooth, restrained page transition animations across `docs/index.html`, `docs/privacy.html`, and `docs/support.html`. Use modern `@view-transition { navigation: auto; }` combined with gentle content entrance keyframe animation (`opacity` and subtle `translateY` on `<main>`, leaving `.global-nav` rock-solid pinned) with full `@media (prefers-reduced-motion: reduce)` accessibility compliance.
+- **Baseline:** Unified 3-page web presence with identical design tokens and dimensions.
+- **Expected files:** `docs/index.html`, `docs/privacy.html`, `docs/support.html`, `docs/DEVELOPMENT_REPORT.md`.
+- **Changes:**
+  - Implemented Cross-Document View Transitions (`@view-transition { navigation: auto; }`) for modern browser engines (Chromium, Safari 18.2+).
+  - Pinned the global navigation header with `view-transition-name: site-header;` on all 3 pages so that the header does not fade or flicker during transitions.
+  - Implemented progressive entrance keyframe animation (`@keyframes pageEnter`) sliding `<main>` upward by 6px with opacity fade over 0.28s (`cubic-bezier(0.16, 1, 0.3, 1)`).
+  - Added ultra-fast 130ms client link transition listener on internal `.html` links for instant, fluid out-and-in navigation.
+  - Fully gated all animations with `@media (prefers-reduced-motion: reduce)` and JS media query checks.
+- **Verification evidence:**
+  - Automated python test confirmed `@view-transition`, `pageEnter`, `site-header`, and `prefers-reduced-motion` present on all 3 pages.
+  - Node.js verified zero syntax errors across inline scripts in all 3 files.
+  - Link check confirmed all 48 links across 3 files resolve cleanly.
+  - `git diff --check` passed with 0 diagnostics.
+- **Risks / remaining work:** Awaiting user verification and approval. No git push, publish, or release actions performed.
+- **Next:** Audit and optimize complete mobile phone responsiveness across all 3 pages (`docs/index.html`, `docs/privacy.html`, `docs/support.html`).
+
+## 2026-10-05 12:23 — A4 web: Complete mobile responsiveness & touch target optimization
+
+- **Status:** เสร็จสิ้น
+- **Goal:** Provide first-class mobile phone responsiveness across all 3 pages (`docs/index.html`, `docs/privacy.html`, `docs/support.html`). Ensure `viewport-fit=cover` and iOS safe-area-inset support, mobile navigation sub-bar so mobile users can navigate between pages in 1 tap without cramped overlapping, 44px minimum touch targets adhering to Apple HIG, comfortable mobile reading typography, and thumb-friendly CTA button wrapping on small screens (iPhone SE through Pro Max).
+- **Baseline:** Unified 3-page web presence with desktop-centric navigation (some pages hid nav-links or squished items on mobile).
+- **Files modified:** `docs/index.html`, `docs/privacy.html`, `docs/support.html`, `docs/DEVELOPMENT_REPORT.md`.
+- **Changes:**
+  - Added `<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">` across all 3 pages for edge-to-edge rendering on notched / Dynamic Island screens.
+  - Implemented safe-area insets: `padding-top: env(safe-area-inset-top);` on `.global-nav`, horizontal safe-area insets on `.nav-content`, and `padding-bottom: calc(40px + env(safe-area-inset-bottom))` on `.site-footer`.
+  - Replaced cramped/hidden navigation (`.nav-links { display: none }` removed from `privacy.html` and `support.html`) with an Apple-style 2-row mobile nav layout (`@media (max-width: 640px)`) via CSS flexbox:
+    - Row 1 (44px): App icon + "NapNav" brand on the left, language toggle (`ไทย | English`) on the right.
+    - Row 2: Subnav strip for all 3 links (`ภาพรวม`, `ความเป็นส่วนตัว`, `ศูนย์ช่วยเหลือ & FAQ`) with 44px hit-box touch targets, subtle hairline separation, active indicator, and smooth horizontal scroll fallback (`overflow-x: auto; scrollbar-width: none`).
+  - Mobile touch targets and layout optimizations:
+    - `docs/index.html`: Hero CTA buttons wrap vertically with 100% width and 46px min-height; hero typography scales down to 34px title / 21px tagline; features single-column with 28px gap.
+    - `docs/privacy.html`: Typography scales cleanly (24px doc title, 18px sections, 14.5px reading body); padding reduced to `32px 16px 56px`.
+    - `docs/support.html`: FAQ questions and contact buttons formatted with >=44px touch targets; contact actions wrap cleanly to full-width buttons on small screens.
+    - All 3 pages: Footer bottom row wraps cleanly to column layout on mobile screens.
+- **Verification evidence:**
+  - Automated python test confirmed `viewport-fit=cover`, safe-area insets, and 2-row responsive navigation rules present on all 3 pages, with 0 hidden nav items.
+  - Node.js verified 0 syntax errors across all inline scripts.
+  - Link check verified 100% resolution of internal `.html` links across all 3 pages.
+  - `git diff --check` passed with 0 diagnostics.
+- **Risks / remaining work:** Awaiting user verification and approval. No git push, publish, or release actions performed.
+- **Next:** Await user feedback or proceed to next milestone per user guidance.

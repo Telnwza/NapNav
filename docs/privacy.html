@@ -2,279 +2,656 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <link rel="icon" type="image/png" href="app-icon.png">
     <title>นโยบายความเป็นส่วนตัว - NapNav</title>
     <meta name="description" content="ข้อมูลที่ NapNav ใช้ การเก็บและลบข้อมูล สิทธิ์ของแอป และช่องทางติดต่อ">
     <style>
         :root {
-            --primary: #047857;
-            --primary-dark: #065F46;
-            --secondary: #A7F3D0;
-            --bg: #f5f5f7;
-            --card-bg: #ffffff;
-            --text-main: #1d1d1f;
-            --text-sub: #6e6e73;
-            --border: #e5e5ea;
-            --card-inner: rgba(16, 185, 129, 0.08);
+            --bg: #ffffff;
+            --bg-subtle: #f5f5f7;
+            --surface: #ffffff;
+            --surface-secondary: #fbfbfd;
+            --border: rgba(0, 0, 0, 0.08);
+            --border-subtle: rgba(0, 0, 0, 0.04);
+
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --text-body: #424245;
+            --text-muted: #6e6e73;
+
+            --brand-green: #047857;
+            --brand-green-hover: #065f46;
+            --link-color: #047857;
+            --link-hover: #065f46;
+            --btn-bg: #047857;
             --btn-text: #ffffff;
+
+            --radius-icon: 22%;
+            --radius-card: 18px;
+            --radius-pill: 980px;
+
+            --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Sarabun", system-ui, sans-serif;
+            --font-mono: "SF Mono", Menlo, Consolas, monospace;
+
+            --shadow-icon: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.04);
         }
+
         @media (prefers-color-scheme: dark) {
             :root {
-                --primary: #34D399;
-                --primary-dark: #10B981;
-                --secondary: #065F46;
                 --bg: #000000;
-                --card-bg: #1c1c1e;
-                --text-main: #f5f5f7;
-                --text-sub: #a1a1a6;
-                --border: #38383a;
-                --card-inner: rgba(52, 211, 153, 0.12);
-                --btn-text: #062b1e;
+                --bg-subtle: #161617;
+                --surface: #121212;
+                --surface-secondary: #1c1c1e;
+                --border: rgba(255, 255, 255, 0.12);
+                --border-subtle: rgba(255, 255, 255, 0.06);
+
+                --text-primary: #f5f5f7;
+                --text-secondary: #86868b;
+                --text-body: #d2d2d7;
+                --text-muted: #a1a1a6;
+
+                --brand-green: #10b981;
+                --brand-green-hover: #34d399;
+                --link-color: #10b981;
+                --link-hover: #34d399;
+                --btn-bg: #10b981;
+                --btn-text: #042f22;
+
+                --shadow-icon: 0 4px 20px rgba(0, 0, 0, 0.4);
+                --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.3);
             }
         }
-        * {
+
+        *, *::before, *::after {
             box-sizing: border-box;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: var(--text-main);
-            background-color: var(--bg);
             margin: 0;
-            padding: 32px 16px;
+            padding: 0;
         }
-        .container {
-            max-width: 760px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            padding: 36px 32px 40px;
-            border-radius: 20px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+
+        ::selection {
+            background-color: var(--brand-green);
+            color: #ffffff;
         }
-        .lang-switch {
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.55;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100dvh;
             display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-bottom: 20px;
+            flex-direction: column;
+            caret-color: var(--brand-green);
         }
-        .lang-btn {
-            background: none;
-            border: 1px solid var(--border);
-            padding: 6px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 13px;
-            color: var(--text-sub);
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-        .lang-btn.active {
-            background: var(--primary);
-            color: var(--btn-text);
-            border-color: var(--primary);
-        }
-        h1 {
-            color: var(--primary);
-            font-size: 26px;
-            margin-top: 0;
-            margin-bottom: 8px;
-            letter-spacing: -0.3px;
-        }
-        .updated-date {
-            color: var(--text-sub);
-            font-size: 13px;
-            margin-bottom: 24px;
-        }
-        .highlight-box {
-            background-color: var(--card-inner);
-            border-left: 4px solid var(--primary);
-            padding: 16px 20px;
-            border-radius: 0 12px 12px 0;
-            margin: 20px 0;
-            font-size: 15px;
-            line-height: 1.6;
-        }
-        h2 {
-            font-size: 18px;
-            margin-top: 28px;
-            margin-bottom: 12px;
-            color: var(--text-main);
-        }
-        ul {
-            padding-left: 20px;
-            margin: 0 0 16px 0;
-        }
-        li {
-            margin-bottom: 12px;
-            font-size: 14.5px;
-            color: var(--text-sub);
-            line-height: 1.6;
-        }
-        li strong {
-            color: var(--text-main);
-        }
-        p {
-            font-size: 14.5px;
-            color: var(--text-sub);
-            line-height: 1.6;
-        }
+
         a {
-            color: var(--primary);
+            color: var(--link-color);
             text-decoration: none;
+            transition: color 0.15s ease;
+            text-underline-offset: 4px;
+            overflow-wrap: anywhere;
         }
+
         a:hover {
+            color: var(--link-hover);
             text-decoration: underline;
         }
-        footer {
-            margin-top: 36px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border);
-            text-align: center;
+
+        @view-transition {
+            navigation: auto;
+        }
+
+        /* ── Unified Global Navigation Bar ── */
+        .global-nav {
+            view-transition-name: site-header;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding-top: env(safe-area-inset-top);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .global-nav {
+                background: rgba(0, 0, 0, 0.75);
+            }
+        }
+
+        .nav-content {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 max(22px, env(safe-area-inset-right)) 0 max(22px, env(safe-area-inset-left));
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .nav-brand:hover {
+            text-decoration: none;
+            opacity: 0.85;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-item a {
+            text-decoration: none;
             font-size: 13px;
-            color: var(--text-sub);
+            color: var(--text-secondary);
+            transition: color 0.15s ease;
         }
-        footer a {
-            margin: 0 8px;
+
+        .nav-item a:hover, .nav-item a.active {
+            color: var(--link-color);
         }
-        a { overflow-wrap: anywhere; }
-        .lang-btn, .btn { min-height: 44px; }
+
+        .nav-item a.active {
+            font-weight: 600;
+        }
+
+        .lang-switch {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        .lang-switch button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 4px;
+            transition: color 0.15s ease;
+        }
+
+        .lang-switch button:hover {
+            color: var(--text-primary);
+        }
+
+        .lang-switch button.active {
+            color: var(--link-color);
+            font-weight: 600;
+        }
+
+        @keyframes pageEnter {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── Main Document Reading Layout ── */
+        .document-container {
+            max-width: 740px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 56px 22px 80px;
+            flex: 1;
+            animation: pageEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        h1.doc-title {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.25;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            text-wrap: balance;
+        }
+
+        .doc-meta {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+        }
+
+        .highlight-box {
+            background-color: var(--bg-subtle);
+            border-left: 3px solid var(--brand-green);
+            padding: 18px 22px;
+            border-radius: 0 var(--radius-card) var(--radius-card) 0;
+            margin: 24px 0 32px;
+            font-size: 14.5px;
+            line-height: 1.65;
+            color: var(--text-body);
+        }
+
+        .highlight-box strong {
+            color: var(--text-primary);
+        }
+
+        h2.section-title {
+            font-size: 19px;
+            font-weight: 600;
+            letter-spacing: -0.015em;
+            color: var(--text-primary);
+            margin-top: 36px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        p.doc-p {
+            font-size: 14.5px;
+            line-height: 1.65;
+            color: var(--text-body);
+            margin-bottom: 16px;
+            text-wrap: pretty;
+        }
+
+        ul.doc-list {
+            padding-left: 20px;
+            margin: 0 0 20px 0;
+        }
+
+        li.doc-item {
+            margin-bottom: 12px;
+            font-size: 14.5px;
+            line-height: 1.65;
+            color: var(--text-body);
+        }
+
+        li.doc-item strong {
+            color: var(--text-primary);
+        }
+
+        /* ── Unified Minimalist Footer ── */
+        .site-footer {
+            background: var(--bg-subtle);
+            border-top: 1px solid var(--border);
+            padding: 36px max(22px, env(safe-area-inset-left)) calc(56px + env(safe-area-inset-bottom)) max(22px, env(safe-area-inset-right));
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .footer-content {
+            max-width: 980px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .footer-bottom-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 18px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .footer-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 12px;
+            transition: color 0.15s ease;
+        }
+
+        .footer-nav a:hover {
+            color: var(--link-color);
+            text-decoration: underline;
+        }
+
+        /* ── Accessibility & Focus ── */
         a:focus-visible, button:focus-visible {
-            outline: 3px solid var(--primary);
-            outline-offset: 4px;
+            outline: 2px solid var(--link-color);
+            outline-offset: 2px;
         }
-        @media (max-width: 480px) {
-            body { padding: 16px 12px; }
-            .container { padding: 24px 18px 28px; }
-            .lang-switch { flex-wrap: wrap; }
-        }
+
         @media (prefers-reduced-motion: reduce) {
-            .lang-btn, .btn { transition: none; }
-            .btn:hover { transform: none; }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+            main, .document-container {
+                animation: none !important;
+            }
+            ::view-transition-old(root),
+            ::view-transition-new(root) {
+                animation: none !important;
+            }
+        }
+
+        /* ── Responsive Mobile ── */
+        @media (max-width: 640px) {
+            .nav-content {
+                height: auto;
+                flex-wrap: wrap;
+                padding: 0 max(16px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left));
+            }
+
+            .nav-brand {
+                height: 44px;
+                order: 1;
+            }
+
+            .lang-switch {
+                height: 44px;
+                order: 2;
+                margin-left: auto;
+            }
+
+            .lang-switch button {
+                min-height: 44px;
+                padding: 8px 6px;
+            }
+
+            .nav-links {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                gap: 14px;
+                border-top: 1px solid var(--border-subtle);
+                padding: 4px 0 8px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            .nav-links::-webkit-scrollbar {
+                display: none;
+            }
+
+            .nav-item a {
+                min-height: 38px;
+                display: inline-flex;
+                align-items: center;
+                padding: 4px 6px;
+                white-space: nowrap;
+                font-size: 13px;
+            }
+
+            .document-container {
+                padding: 32px 16px 56px;
+            }
+
+            h1.doc-title {
+                font-size: 24px;
+            }
+
+            .doc-meta {
+                margin-bottom: 20px;
+                font-size: 12.5px;
+            }
+
+            .highlight-box {
+                padding: 16px 18px;
+                font-size: 13.5px;
+                margin: 20px 0 28px;
+            }
+
+            h2.section-title {
+                font-size: 18px;
+                margin-top: 32px;
+                margin-bottom: 12px;
+            }
+
+            .doc-p, .doc-item {
+                font-size: 14.5px;
+                line-height: 1.6;
+            }
+
+            .footer-bottom-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .site-footer {
+                padding: 32px max(16px, env(safe-area-inset-left)) calc(40px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-right));
+            }
         }
     </style>
 </head>
 <body>
-<main class="container">
-    <div class="lang-switch">
-        <button id="btn-th" class="lang-btn active" lang="th" aria-pressed="true" onclick="setLanguage('th')">🇹🇭 ภาษาไทย</button>
-        <button id="btn-en" class="lang-btn" lang="en" aria-pressed="false" onclick="setLanguage('en')">🇬🇧 English</button>
-    </div>
 
-    <!-- THAI CONTENT -->
-    <div id="content-th" lang="th">
-        <h1>นโยบายความเป็นส่วนตัว (Privacy Policy)</h1>
-        <div class="updated-date">แอปพลิเคชัน NapNav &bull; อัปเดตล่าสุด: 4 ตุลาคม 2026</div>
+    <!-- Unified Global Navigation -->
+    <header class="global-nav" role="banner">
+        <div class="nav-content">
+            <a href="index.html" class="nav-brand" aria-label="NapNav">
+                <img src="app-icon.png" alt="NapNav Application Icon" class="nav-icon">
+                <span>NapNav</span>
+            </a>
 
-        <div class="highlight-box">
-            <strong>สรุปความเป็นส่วนตัว:</strong> NapNav ใช้ตำแหน่งที่ iOS ให้ระหว่างทริปที่คุณเริ่มเพื่อคำนวณระยะทาง และไม่บันทึกเส้นทาง GPS ต่อเนื่องไว้ในแอปหรือส่งไปยังเซิร์ฟเวอร์ของผู้พัฒนา การค้นหาสถานที่และแปลงพิกัดเป็นชื่อสถานที่ใช้บริการ Apple Maps/MapKit และ Core Location; ข้อมูลที่จำเป็นต่อคำขออาจถูกส่งให้ Apple ตาม <a href="https://www.apple.com/legal/privacy/data/en/apple-maps/" target="_blank" rel="noopener">นโยบาย Apple Maps &amp; Privacy</a>
+            <ul class="nav-links">
+                <li class="nav-item"><a href="index.html" data-lang-th="ภาพรวม" data-lang-en="Overview">ภาพรวม</a></li>
+                <li class="nav-item"><a href="privacy.html" class="active" data-lang-th="ความเป็นส่วนตัว" data-lang-en="Privacy">ความเป็นส่วนตัว</a></li>
+                <li class="nav-item"><a href="support.html" data-lang-th="ศูนย์ช่วยเหลือ &amp; FAQ" data-lang-en="Support &amp; FAQ">ศูนย์ช่วยเหลือ &amp; FAQ</a></li>
+            </ul>
+
+            <div class="lang-switch" role="group" aria-label="Language selection">
+                <button id="btn-th" class="active" lang="th" aria-pressed="true" onclick="setLanguage('th')">ไทย</button>
+                <span style="color: var(--text-secondary);">|</span>
+                <button id="btn-en" lang="en" aria-pressed="false" onclick="setLanguage('en')">English</button>
+            </div>
         </div>
+    </header>
 
-        <h2>1. ข้อมูลที่ NapNav ใช้และวัตถุประสงค์</h2>
-        <ul>
-            <li><strong>ตำแหน่ง (Location):</strong> NapNav ขอสิทธิ์ตำแหน่งแบบ While In Use เพื่อคำนวณระยะทางและเตือนเมื่อเข้าใกล้จุดหมายระหว่างทริปที่กำลังทำงาน รวมถึงใช้การอัปเดตตำแหน่งเบื้องหลังตามที่ iOS อนุญาตขณะทริปยังทำงาน ตัวอย่างพิกัดปัจจุบันใช้ประมวลผลในหน่วยความจำและไม่บันทึกเป็นเส้นทางต่อเนื่องในแอป</li>
-            <li><strong>ค้นหาแผนที่และแปลงพิกัดเป็นชื่อสถานที่:</strong> การค้นหา/คำแนะนำสถานที่และการค้นหาชื่อจากพิกัดใช้ Apple Maps/MapKit และ Core Location ข้อความค้นหาหรือพิกัดที่จำเป็นต่อการให้ผลลัพธ์อาจถูกส่งไปประมวลผลโดย Apple ตาม <a href="https://www.apple.com/legal/privacy/data/en/apple-maps/" target="_blank" rel="noopener">นโยบายความเป็นส่วนตัวของ Apple Maps</a></li>
-            <li><strong>ข้อมูลที่จัดเก็บในอุปกรณ์:</strong> NapNav บันทึกค่าการเตือน สถานที่โปรด และสถานที่ล่าสุดไว้ใน UserDefaults รายการสถานที่มีชื่อ รายละเอียด พิกัด รัศมี และวันที่ใช้ล่าสุด; รายการล่าสุดเก็บได้สูงสุด 10 แห่ง ระหว่างทริป แอปบันทึก snapshot สำหรับกู้คืนซึ่งมีจุดหมาย รัศมี เวลาเริ่ม และสถานะทริป แต่ไม่บันทึกพิกัด GPS ต่อเนื่อง</li>
-            <li><strong>การแจ้งเตือน, AlarmKit และ Live Activities:</strong> ใช้สิทธิ์ที่คุณอนุญาตเพื่อส่งการเตือนและแสดงสถานะทริปบนหน้าจอล็อกหรือ Dynamic Island ตามความสามารถของอุปกรณ์และ iOS</li>
-        </ul>
+    <main class="document-container">
+        <!-- THAI CONTENT -->
+        <article id="content-th" lang="th">
+            <h1 class="doc-title">นโยบายความเป็นส่วนตัว (Privacy Policy)</h1>
+            <div class="doc-meta">แอปพลิเคชัน NapNav &bull; อัปเดตล่าสุด: 4 ตุลาคม 2026</div>
 
-        <h2>2. การส่งต่อข้อมูลและการติดตาม</h2>
-        <ul>
-            <li>NapNav ไม่มีบัญชีผู้ใช้หรือเซิร์ฟเวอร์ของผู้พัฒนาสำหรับรับหรือเก็บตำแหน่งและประวัติทริป และแอปไม่มี SDK โฆษณาหรือวิเคราะห์ข้อมูลจากผู้ให้บริการภายนอก</li>
-            <li>บริการ Apple Maps/MapKit ประมวลผลคำขอค้นหาสถานที่และพิกัดที่จำเป็นเพื่อส่งผลลัพธ์กลับมา การจัดการข้อมูลของบริการดังกล่าวเป็นไปตามนโยบายของ Apple ซึ่ง NapNav ไม่ได้ควบคุม</li>
-            <li>NapNav ไม่ใช้ข้อมูลเพื่อเชื่อมโยงกิจกรรมของคุณข้ามแอปหรือเว็บไซต์ และไม่ขายหรือให้เช่าข้อมูล</li>
-        </ul>
+            <div class="highlight-box">
+                <strong>สรุปความเป็นส่วนตัว:</strong> NapNav ใช้ตำแหน่งที่ iOS ให้ระหว่างทริปที่คุณเริ่มเพื่อคำนวณระยะทาง และไม่บันทึกเส้นทาง GPS ต่อเนื่องไว้ในแอปหรือส่งไปยังเซิร์ฟเวอร์ของผู้พัฒนา การค้นหาสถานที่และแปลงพิกัดเป็นชื่อสถานที่ใช้บริการ Apple Maps/MapKit และ Core Location; ข้อมูลที่จำเป็นต่อคำขออาจถูกส่งให้ Apple ตาม <a href="https://www.apple.com/legal/privacy/data/en/apple-maps/" target="_blank" rel="noopener">นโยบาย Apple Maps &amp; Privacy</a>
+            </div>
 
-        <h2>3. ระยะเวลาเก็บข้อมูล การลบ และการเพิกถอนสิทธิ์</h2>
-        <p>ค่าการเตือนและสถานที่โปรดจะอยู่ในอุปกรณ์จนกว่าคุณจะลบรายการหรือเลือก Delete App เพื่อลบแอป สถานที่ล่าสุดลบทีละรายการหรือล้างทั้งหมดได้จากหน้ารายการ และระบบเก็บไว้ไม่เกิน 10 แห่ง snapshot ของทริปจะถูกลบเมื่อคุณหยุดหรือจบทริป NapNav ไม่มีบัญชีผู้ใช้หรือสำเนาข้อมูลทริปบนเซิร์ฟเวอร์ของผู้พัฒนา ข้อมูลที่คุณส่งขอความช่วยเหลือมีรายละเอียดแยกไว้ในข้อ 4</p>
-        <p>คุณลบสถานที่โปรดและสถานที่ล่าสุดได้ในแอป หรือเลือก Delete App ใน iOS เพื่อลบข้อมูลแอปที่จัดเก็บในอุปกรณ์ การเอาไอคอนออกจากหน้าจอโฮมหรือเลือก Offload App ไม่ได้ลบข้อมูลแอปทั้งหมด คุณเพิกถอนหรือปรับสิทธิ์ Location, Notifications และ AlarmKit ได้ที่ <strong>Settings</strong> โดยค้นหา NapNav; เมื่อปิด Location แอปจะไม่สามารถรับตำแหน่งเพื่อทำทริปต่อได้</p>
+            <h2 class="section-title">1. ข้อมูลที่ NapNav ใช้และวัตถุประสงค์</h2>
+            <ul class="doc-list">
+                <li class="doc-item"><strong>ตำแหน่ง (Location):</strong> NapNav ขอสิทธิ์ตำแหน่งแบบ While In Use เพื่อคำนวณระยะทางและเตือนเมื่อเข้าใกล้จุดหมายระหว่างทริปที่กำลังทำงาน รวมถึงใช้การอัปเดตตำแหน่งเบื้องหลังตามที่ iOS อนุญาตขณะทริปยังทำงาน ตัวอย่างพิกัดปัจจุบันใช้ประมวลผลในหน่วยความจำและไม่บันทึกเป็นเส้นทางต่อเนื่องในแอป</li>
+                <li class="doc-item"><strong>ค้นหาแผนที่และแปลงพิกัดเป็นชื่อสถานที่:</strong> การค้นหา/คำแนะนำสถานที่และการค้นหาชื่อจากพิกัดใช้ Apple Maps/MapKit และ Core Location ข้อความค้นหาหรือพิกัดที่จำเป็นต่อการให้ผลลัพธ์อาจถูกส่งไปประมวลผลโดย Apple ตาม <a href="https://www.apple.com/legal/privacy/data/en/apple-maps/" target="_blank" rel="noopener">นโยบายความเป็นส่วนตัวของ Apple Maps</a></li>
+                <li class="doc-item"><strong>ข้อมูลที่จัดเก็บในอุปกรณ์:</strong> NapNav บันทึกค่าการเตือน สถานที่โปรด และสถานที่ล่าสุดไว้ใน UserDefaults รายการสถานที่มีชื่อ รายละเอียด พิกัด รัศมี และวันที่ใช้ล่าสุด; รายการล่าสุดเก็บได้สูงสุด 10 แห่ง ระหว่างทริป แอปบันทึก snapshot สำหรับกู้คืนซึ่งมีจุดหมาย รัศมี เวลาเริ่ม และสถานะทริป แต่ไม่บันทึกพิกัด GPS ต่อเนื่อง</li>
+                <li class="doc-item"><strong>การแจ้งเตือน, AlarmKit และ Live Activities:</strong> ใช้สิทธิ์ที่คุณอนุญาตเพื่อส่งการเตือนและแสดงสถานะทริปบนหน้าจอล็อกหรือ Dynamic Island ตามความสามารถของอุปกรณ์และ iOS</li>
+            </ul>
 
-        <h2>4. ช่องทางติดต่อและบริการช่วยเหลือ (Support)</h2>
-        <p>หากคุณมีคำถาม ข้อเสนอแนะ หรือต้องการความช่วยเหลือเกี่ยวกับการใช้งาน NapNav สามารถติดต่อทีมพัฒนาได้ที่:</p>
-        <ul>
-            <li><strong>Email:</strong> <a href="mailto:napnav.support@gmail.com">napnav.support@gmail.com</a></li>
-            <li><strong>GitHub Repository &amp; Issues:</strong> <a href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">https://github.com/Telnwza/NapNav/issues</a></li>
-        </ul>
-        <p>เมื่อคุณติดต่อขอความช่วยเหลือ ผู้พัฒนาจะได้รับอีเมลหรือชื่อบัญชี ข้อความ และไฟล์ที่คุณเลือกส่ง เช่น รุ่นอุปกรณ์ เวอร์ชันแอป หรือภาพหน้าจอ ข้อมูลเหล่านี้ใช้เพื่อตอบคำถาม ตรวจสอบและแก้ปัญหาเท่านั้น ไม่ใช้เพื่อโฆษณาหรือติดตามคุณ</p>
-        <p>อีเมลรับผ่าน Gmail ตาม <a href="https://policies.google.com/privacy">นโยบายความเป็นส่วนตัวของ Google</a> ส่วน GitHub Issues จัดการโดย GitHub ตาม <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">นโยบายความเป็นส่วนตัวของ GitHub</a> และเป็นพื้นที่สาธารณะ โปรดอย่าโพสต์ข้อมูลส่วนตัวหรือพิกัดที่ระบุตัวคุณได้ ให้ส่งเฉพาะข้อมูลที่จำเป็นทางอีเมลแทน</p>
-        <p>ผู้พัฒนาเก็บข้อความขอความช่วยเหลือเท่าที่จำเป็นต่อการแก้ปัญหาและติดตามผล คุณขอลบข้อมูลที่ผู้พัฒนาเก็บไว้ได้โดยส่งอีเมลมาที่ napnav.support@gmail.com การลบข้อมูลบนระบบของ Google หรือ GitHub รวมถึงสำเนาหรือข้อมูลสำรอง อยู่ภายใต้นโยบายและเครื่องมือของผู้ให้บริการนั้น</p>
-        <h2>5. เว็บไซต์นี้</h2>
-        <p>เว็บไซต์บันทึกเฉพาะภาษาที่คุณเลือกไว้ใน localStorage ของเบราว์เซอร์เพื่อใช้เมื่อเปิดหน้าอื่น คุณล้างค่านี้ได้โดยลบข้อมูลเว็บไซต์ในเบราว์เซอร์ เว็บไซต์โฮสต์บน GitHub Pages ซึ่งอาจประมวลผลข้อมูลการเชื่อมต่อ เช่น IP address ตามนโยบายความเป็นส่วนตัวของ GitHub</p>
-    </div>
+            <h2 class="section-title">2. การส่งต่อข้อมูลและการติดตาม</h2>
+            <ul class="doc-list">
+                <li class="doc-item">NapNav ไม่มีบัญชีผู้ใช้หรือเซิร์ฟเวอร์ของผู้พัฒนาสำหรับรับหรือเก็บตำแหน่งและประวัติทริป และแอปไม่มี SDK โฆษณาหรือวิเคราะห์ข้อมูลจากผู้ให้บริการภายนอก</li>
+                <li class="doc-item">บริการ Apple Maps/MapKit ประมวลผลคำขอค้นหาสถานที่และพิกัดที่จำเป็นเพื่อส่งผลลัพธ์กลับมา การจัดการข้อมูลของบริการดังกล่าวเป็นไปตามนโยบายของ Apple ซึ่ง NapNav ไม่ได้ควบคุม</li>
+                <li class="doc-item">NapNav ไม่ใช้ข้อมูลเพื่อเชื่อมโยงกิจกรรมของคุณข้ามแอปหรือเว็บไซต์ และไม่ขายหรือให้เช่าข้อมูล</li>
+            </ul>
 
-    <!-- ENGLISH CONTENT -->
-    <div id="content-en" lang="en" style="display: none;">
-        <h1>Privacy Policy</h1>
-        <div class="updated-date">NapNav Application &bull; Last Updated: October 4, 2026</div>
+            <h2 class="section-title">3. ระยะเวลาเก็บข้อมูล การลบ และการเพิกถอนสิทธิ์</h2>
+            <p class="doc-p">ค่าการเตือนและสถานที่โปรดจะอยู่ในอุปกรณ์จนกว่าคุณจะลบรายการหรือเลือก Delete App เพื่อลบแอป สถานที่ล่าสุดลบทีละรายการหรือล้างทั้งหมดได้จากหน้ารายการ และระบบเก็บไว้ไม่เกิน 10 แห่ง snapshot ของทริปจะถูกลบเมื่อคุณหยุดหรือจบทริป NapNav ไม่มีบัญชีผู้ใช้หรือสำเนาข้อมูลทริปบนเซิร์ฟเวอร์ของผู้พัฒนา ข้อมูลที่คุณส่งขอความช่วยเหลือมีรายละเอียดแยกไว้ในข้อ 4</p>
+            <p class="doc-p">คุณลบสถานที่โปรดและสถานที่ล่าสุดได้ในแอป หรือเลือก Delete App ใน iOS เพื่อลบข้อมูลแอปที่จัดเก็บในอุปกรณ์ การเอาไอคอนออกจากหน้าจอโฮมหรือเลือก Offload App ไม่ได้ลบข้อมูลแอปทั้งหมด คุณเพิกถอนหรือปรับสิทธิ์ Location, Notifications และ AlarmKit ได้ที่ <strong>Settings</strong> โดยค้นหา NapNav; เมื่อปิด Location แอปจะไม่สามารถรับตำแหน่งเพื่อทำทริปต่อได้</p>
 
-        <div class="highlight-box">
-            <strong>Privacy summary:</strong> NapNav uses the location provided by iOS during a trip you start to calculate distance. The app does not keep a continuous GPS route or send your live trip location to a developer-operated server. Place search and coordinate-to-place lookup use Apple Maps/MapKit and Core Location; information needed for those requests may be processed by Apple under its <a href="https://www.apple.com/legal/privacy/data/en/apple-maps/" target="_blank" rel="noopener">Apple Maps &amp; Privacy policy</a>.
+            <h2 class="section-title">4. ช่องทางติดต่อและบริการช่วยเหลือ (Support)</h2>
+            <p class="doc-p">หากคุณมีคำถาม ข้อเสนอแนะ หรือต้องการความช่วยเหลือเกี่ยวกับการใช้งาน NapNav สามารถติดต่อทีมพัฒนาได้ที่:</p>
+            <ul class="doc-list">
+                <li class="doc-item"><strong>Email:</strong> <a href="mailto:napnav.support@gmail.com">napnav.support@gmail.com</a></li>
+                <li class="doc-item"><strong>GitHub Repository &amp; Issues:</strong> <a href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">https://github.com/Telnwza/NapNav/issues</a></li>
+            </ul>
+            <p class="doc-p">เมื่อคุณติดต่อขอความช่วยเหลือ ผู้พัฒนาจะได้รับอีเมลหรือชื่อบัญชี ข้อความ และไฟล์ที่คุณเลือกส่ง เช่น รุ่นอุปกรณ์ เวอร์ชันแอป หรือภาพหน้าจอ ข้อมูลเหล่านี้ใช้เพื่อตอบคำถาม ตรวจสอบและแก้ปัญหาเท่านั้น ไม่ใช้เพื่อโฆษณาหรือติดตามคุณ</p>
+            <p class="doc-p">อีเมลรับผ่าน Gmail ตาม <a href="https://policies.google.com/privacy">นโยบายความเป็นส่วนตัวของ Google</a> ส่วน GitHub Issues จัดการโดย GitHub ตาม <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">นโยบายความเป็นส่วนตัวของ GitHub</a> และเป็นพื้นที่สาธารณะ โปรดอย่าโพสต์ข้อมูลส่วนตัวหรือพิกัดที่ระบุตัวคุณได้ ให้ส่งเฉพาะข้อมูลที่จำเป็นทางอีเมลแทน</p>
+            <p class="doc-p">ผู้พัฒนาเก็บข้อความขอความช่วยเหลือเท่าที่จำเป็นต่อการแก้ปัญหาและติดตามผล คุณขอลบข้อมูลที่ผู้พัฒนาเก็บไว้ได้โดยส่งอีเมลมาที่ napnav.support@gmail.com การลบข้อมูลบนระบบของ Google หรือ GitHub รวมถึงสำเนาหรือข้อมูลสำรอง อยู่ภายใต้นโยบายและเครื่องมือของผู้ให้บริการนั้น</p>
+
+            <h2 class="section-title">5. เว็บไซต์นี้</h2>
+            <p class="doc-p">เว็บไซต์บันทึกเฉพาะภาษาที่คุณเลือกไว้ใน localStorage ของเบราว์เซอร์เพื่อใช้เมื่อเปิดหน้าอื่น คุณล้างค่านี้ได้โดยลบข้อมูลเว็บไซต์ในเบราว์เซอร์ เว็บไซต์โฮสต์บน GitHub Pages ซึ่งอาจประมวลผลข้อมูลการเชื่อมต่อ เช่น IP address ตามนโยบายความเป็นส่วนตัวของ GitHub</p>
+        </article>
+
+        <!-- ENGLISH CONTENT -->
+        <article id="content-en" lang="en" style="display: none;">
+            <h1 class="doc-title">Privacy Policy</h1>
+            <div class="doc-meta">NapNav Application &bull; Last Updated: October 4, 2026</div>
+
+            <div class="highlight-box">
+                <strong>Privacy summary:</strong> NapNav uses the location provided by iOS during a trip you start to calculate distance. The app does not keep a continuous GPS route or send your live trip location to a developer-operated server. Place search and coordinate-to-place lookup use Apple Maps/MapKit and Core Location; information needed for those requests may be processed by Apple under its <a href="https://www.apple.com/legal/privacy/data/en/apple-maps/" target="_blank" rel="noopener">Apple Maps &amp; Privacy policy</a>.
+            </div>
+
+            <h2 class="section-title">1. Data NapNav Uses and Why</h2>
+            <ul class="doc-list">
+                <li class="doc-item"><strong>Location:</strong> NapNav requests While In Use location access to calculate distance and alert you during an active trip. iOS may provide background location updates while that trip is active, as allowed by the system. Current location samples are processed in memory and are not saved by the app as a continuous route.</li>
+                <li class="doc-item"><strong>Map search and place lookup:</strong> Place search, search suggestions, and coordinate-to-place lookup use Apple Maps/MapKit and Core Location. Search text or coordinates needed to return results may be sent to Apple for processing under the <a href="https://www.apple.com/legal/privacy/data/en/apple-maps/" target="_blank" rel="noopener">Apple Maps privacy policy</a>.</li>
+                <li class="doc-item"><strong>Information stored on your device:</strong> NapNav stores alert preferences, favorite destinations, and recent destinations in UserDefaults. Destination records include a name, details, coordinates, radius, and last-used date; up to 10 recent destinations are kept. While a trip is active, a recovery snapshot stores its destination, radius, start time, and trip/alert state, but not a continuous GPS route.</li>
+                <li class="doc-item"><strong>Notifications, AlarmKit, and Live Activities:</strong> These use permissions you grant to deliver trip alerts and show trip status on the Lock Screen or Dynamic Island, depending on device and iOS support.</li>
+            </ul>
+
+            <h2 class="section-title">2. Sharing and Tracking</h2>
+            <ul class="doc-list">
+                <li class="doc-item">NapNav has no user accounts or developer-operated server that receives or stores trip locations, and the app does not include third-party advertising or analytics SDKs.</li>
+                <li class="doc-item">Apple Maps/MapKit processes place-search requests and the coordinates needed to return map results. Apple handles that information under its own privacy policy; NapNav does not control Apple's services.</li>
+                <li class="doc-item">NapNav does not use information to track you across other companies' apps or websites, and does not sell or rent data.</li>
+            </ul>
+
+            <h2 class="section-title">3. Retention, Deletion, and Permission Controls</h2>
+            <p class="doc-p">Alert preferences and favorite destinations remain on your device until you delete them or choose Delete App. You can delete recent destinations one at a time or clear the list in the app; the list is limited to 10 entries. NapNav deletes the active-trip recovery snapshot when you stop or finish a trip. NapNav has no user account or developer-server copy of trip data. Information you voluntarily send for support is described separately in section 4.</p>
+            <p class="doc-p">You can remove favorites and recent destinations in the app, or choose Delete App in iOS to delete locally stored app data. Removing the Home Screen icon or choosing Offload App does not delete all app data. You can change or revoke Location, Notifications, and AlarmKit permissions by opening <strong>Settings</strong> and searching for NapNav. If Location is disabled, NapNav cannot receive location updates to continue a trip.</p>
+
+            <h2 class="section-title">4. Contact &amp; Support</h2>
+            <p class="doc-p">For questions, support, or feedback regarding NapNav, please reach out via:</p>
+            <ul class="doc-list">
+                <li class="doc-item"><strong>Email:</strong> <a href="mailto:napnav.support@gmail.com">napnav.support@gmail.com</a></li>
+                <li class="doc-item"><strong>GitHub Repository &amp; Issues:</strong> <a href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">https://github.com/Telnwza/NapNav/issues</a></li>
+            </ul>
+            <p class="doc-p">When you contact support, the developer receives your email address or account name, message, and any files you choose to send, such as device details, app version, or screenshots. This information is used only to respond to your request, investigate issues, and provide fixes, not for advertising or tracking.</p>
+            <p class="doc-p">Email is handled through Gmail under the <a href="https://policies.google.com/privacy">Google Privacy Policy</a>. GitHub Issues are handled by GitHub under the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub Privacy Statement</a> and are public. Do not post private information or identifying coordinates. Send only necessary private details by email instead.</p>
+            <p class="doc-p">The developer retains support correspondence only as needed to resolve the request and follow up. To request deletion of information held by the developer, email napnav.support@gmail.com. Deletion within Google or GitHub services, including copies or backups, is subject to those providers' policies and tools.</p>
+
+            <h2 class="section-title">5. This Website</h2>
+            <p class="doc-p">This website stores only your selected language in browser localStorage to remember it across pages. You can remove this preference by clearing the website's browser data. The site is hosted on GitHub Pages, which may process connection information such as your IP address under GitHub's privacy statement.</p>
+        </article>
+    </main>
+
+    <!-- Unified Minimalist Footer -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-bottom-row">
+                <span data-lang-th="&copy; 2026 NapNav. สงวนลิขสิทธิ์. พัฒนาสำหรับ iOS 18 ขึ้นไป (ฟีเจอร์ AlarmKit บน iOS 26+)" data-lang-en="&copy; 2026 NapNav. All rights reserved. Requires iOS 18+ (AlarmKit on iOS 26+).">&copy; 2026 NapNav. สงวนลิขสิทธิ์. พัฒนาสำหรับ iOS 18 ขึ้นไป (ฟีเจอร์ AlarmKit บน iOS 26+)</span>
+
+                <ul class="footer-nav">
+                    <li><a href="index.html" data-lang-th="ภาพรวม" data-lang-en="Overview">ภาพรวม</a></li>
+                    <li><a href="privacy.html" data-lang-th="ความเป็นส่วนตัว" data-lang-en="Privacy">ความเป็นส่วนตัว</a></li>
+                    <li><a href="support.html" data-lang-th="ศูนย์ช่วยเหลือ &amp; FAQ" data-lang-en="Support &amp; FAQ">ศูนย์ช่วยเหลือ &amp; FAQ</a></li>
+                    <li><a href="https://github.com/Telnwza/NapNav" target="_blank" rel="noopener">GitHub</a></li>
+                </ul>
+            </div>
         </div>
-
-        <h2>1. Data NapNav Uses and Why</h2>
-        <ul>
-            <li><strong>Location:</strong> NapNav requests While In Use location access to calculate distance and alert you during an active trip. iOS may provide background location updates while that trip is active, as allowed by the system. Current location samples are processed in memory and are not saved by the app as a continuous route.</li>
-            <li><strong>Map search and place lookup:</strong> Place search, search suggestions, and coordinate-to-place lookup use Apple Maps/MapKit and Core Location. Search text or coordinates needed to return results may be sent to Apple for processing under the <a href="https://www.apple.com/legal/privacy/data/en/apple-maps/" target="_blank" rel="noopener">Apple Maps privacy policy</a>.</li>
-            <li><strong>Information stored on your device:</strong> NapNav stores alert preferences, favorite destinations, and recent destinations in UserDefaults. Destination records include a name, details, coordinates, radius, and last-used date; up to 10 recent destinations are kept. While a trip is active, a recovery snapshot stores its destination, radius, start time, and trip/alert state, but not a continuous GPS route.</li>
-            <li><strong>Notifications, AlarmKit, and Live Activities:</strong> These use permissions you grant to deliver trip alerts and show trip status on the Lock Screen or Dynamic Island, depending on device and iOS support.</li>
-        </ul>
-
-        <h2>2. Sharing and Tracking</h2>
-        <ul>
-            <li>NapNav has no user accounts or developer-operated server that receives or stores trip locations, and the app does not include third-party advertising or analytics SDKs.</li>
-            <li>Apple Maps/MapKit processes place-search requests and the coordinates needed to return map results. Apple handles that information under its own privacy policy; NapNav does not control Apple's services.</li>
-            <li>NapNav does not use information to track you across other companies' apps or websites, and does not sell or rent data.</li>
-        </ul>
-
-        <h2>3. Retention, Deletion, and Permission Controls</h2>
-        <p>Alert preferences and favorite destinations remain on your device until you delete them or choose Delete App. You can delete recent destinations one at a time or clear the list in the app; the list is limited to 10 entries. NapNav deletes the active-trip recovery snapshot when you stop or finish a trip. NapNav has no user account or developer-server copy of trip data. Information you voluntarily send for support is described separately in section 4.</p>
-        <p>You can remove favorites and recent destinations in the app, or choose Delete App in iOS to delete locally stored app data. Removing the Home Screen icon or choosing Offload App does not delete all app data. You can change or revoke Location, Notifications, and AlarmKit permissions by opening <strong>Settings</strong> and searching for NapNav. If Location is disabled, NapNav cannot receive location updates to continue a trip.</p>
-
-        <h2>4. Contact &amp; Support</h2>
-        <p>For questions, support, or feedback regarding NapNav, please reach out via:</p>
-        <ul>
-            <li><strong>Email:</strong> <a href="mailto:napnav.support@gmail.com">napnav.support@gmail.com</a></li>
-            <li><strong>GitHub Repository &amp; Issues:</strong> <a href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">https://github.com/Telnwza/NapNav/issues</a></li>
-        </ul>
-        <p>When you contact support, the developer receives your email address or account name, message, and any files you choose to send, such as device details, app version, or screenshots. This information is used only to respond to your request, investigate issues, and provide fixes, not for advertising or tracking.</p>
-        <p>Email is handled through Gmail under the <a href="https://policies.google.com/privacy">Google Privacy Policy</a>. GitHub Issues are handled by GitHub under the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub Privacy Statement</a> and are public. Do not post private information or identifying coordinates. Send only necessary private details by email instead.</p>
-        <p>The developer retains support correspondence only as needed to resolve the request and follow up. To request deletion of information held by the developer, email napnav.support@gmail.com. Deletion within Google or GitHub services, including copies or backups, is subject to those providers' policies and tools.</p>
-        <h2>5. This Website</h2>
-        <p>This website stores only your selected language in browser localStorage to remember it across pages. You can remove this preference by clearing the website's browser data. The site is hosted on GitHub Pages, which may process connection information such as your IP address under GitHub's privacy statement.</p>
-    </div>
-
-    <footer lang="en">
-        <a href="index.html">Home</a> &bull;
-        <a href="support.html">Support</a> &bull;
-        <a href="https://github.com/Telnwza/NapNav">GitHub</a>
-        <div style="margin-top: 10px;">&copy; 2026 NapNav. All rights reserved.</div>
     </footer>
-</main>
 
-<script>
-    function setLanguage(lang) {
-        lang = lang === 'en' ? 'en' : 'th';
-        document.documentElement.lang = lang;
-        document.title = lang === 'en' ? 'Privacy Policy - NapNav' : 'นโยบายความเป็นส่วนตัว - NapNav';
-        document.querySelector('meta[name="description"]').content = lang === 'en'
-            ? 'How NapNav uses data, retention and deletion, app permissions, and support contacts.'
-            : 'ข้อมูลที่ NapNav ใช้ การเก็บและลบข้อมูล สิทธิ์ของแอป และช่องทางติดต่อ';
-        document.getElementById('content-th').style.display = lang === 'th' ? 'block' : 'none';
-        document.getElementById('content-en').style.display = lang === 'en' ? 'block' : 'none';
-        ['th', 'en'].forEach(function(language) {
-            var button = document.getElementById('btn-' + language);
-            button.classList.toggle('active', lang === language);
-            button.setAttribute('aria-pressed', String(lang === language));
-        });
-        // Language switching also works when browser storage is unavailable.
-        try { localStorage.setItem('napnav_lang', lang); } catch (error) {}
-    }
+    <!-- Bilingual switcher script -->
+    <script>
+        function setLanguage(lang) {
+            lang = lang === 'en' ? 'en' : 'th';
+            document.documentElement.lang = lang;
+            document.title = lang === 'en' ? 'Privacy Policy - NapNav' : 'นโยบายความเป็นส่วนตัว - NapNav';
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) {
+                metaDesc.content = lang === 'en'
+                    ? 'How NapNav uses data, retention and deletion, app permissions, and support contacts.'
+                    : 'ข้อมูลที่ NapNav ใช้ การเก็บและลบข้อมูล สิทธิ์ของแอป และช่องทางติดต่อ';
+            }
 
-    (function() {
-        var saved;
-        try { saved = localStorage.getItem('napnav_lang'); } catch (error) {}
-        setLanguage(saved === 'en' ? 'en' : 'th');
-    })();
-</script>
+            const thBlock = document.getElementById('content-th');
+            const enBlock = document.getElementById('content-en');
+            if (thBlock) thBlock.style.display = lang === 'th' ? 'block' : 'none';
+            if (enBlock) enBlock.style.display = lang === 'en' ? 'block' : 'none';
+
+            // Also update footer / nav translations
+            const elements = document.querySelectorAll('[data-lang-' + lang + ']');
+            elements.forEach(function(el) {
+                const text = el.getAttribute('data-lang-' + lang);
+                if (text) {
+                    el.innerHTML = text;
+                }
+            });
+
+            const btnTh = document.getElementById('btn-th');
+            const btnEn = document.getElementById('btn-en');
+            if (btnTh && btnEn) {
+                if (lang === 'th') {
+                    btnTh.classList.add('active');
+                    btnTh.setAttribute('aria-pressed', 'true');
+                    btnEn.classList.remove('active');
+                    btnEn.setAttribute('aria-pressed', 'false');
+                } else {
+                    btnEn.classList.add('active');
+                    btnEn.setAttribute('aria-pressed', 'true');
+                    btnTh.classList.remove('active');
+                    btnTh.setAttribute('aria-pressed', 'false');
+                }
+            }
+
+            try {
+                localStorage.setItem('napnav_lang', lang);
+            } catch(e) {}
+        }
+
+        (function initLang() {
+            try {
+                const saved = localStorage.getItem('napnav_lang');
+                if (saved === 'en' || saved === 'th') {
+                    setLanguage(saved);
+                }
+            } catch(e) {}
+
+            // Smooth internal page transition
+            document.querySelectorAll('a[href$=".html"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                    const href = this.getAttribute('href');
+                    if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('mailto')) return;
+                    const current = window.location.pathname.split('/').pop() || 'privacy.html';
+                    if (href === current) return;
+                    const mainEl = document.querySelector('main');
+                    if (mainEl && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                        e.preventDefault();
+                        mainEl.style.transition = 'opacity 0.14s ease, transform 0.14s ease';
+                        mainEl.style.opacity = '0';
+                        mainEl.style.transform = 'translateY(-4px)';
+                        setTimeout(() => {
+                            window.location.href = href;
+                        }, 130);
+                    }
+                });
+            });
+        })();
+    </script>
 </body>
 </html>

@@ -2,323 +2,775 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <link rel="icon" type="image/png" href="app-icon.png">
     <title>ศูนย์ช่วยเหลือและคำถามที่พบบ่อย - NapNav</title>
     <meta name="description" content="คำถามที่พบบ่อยและช่องทางติดต่อ NapNav ทางอีเมลหรือ GitHub Issues">
     <style>
         :root {
-            --primary: #047857;
-            --primary-dark: #065F46;
-            --secondary: #A7F3D0;
-            --bg: #f5f5f7;
-            --card-bg: #ffffff;
-            --text-main: #1d1d1f;
-            --text-sub: #6e6e73;
-            --border: #e5e5ea;
-            --card-inner: rgba(16, 185, 129, 0.08);
+            --bg: #ffffff;
+            --bg-subtle: #f5f5f7;
+            --surface: #ffffff;
+            --surface-secondary: #fbfbfd;
+            --border: rgba(0, 0, 0, 0.08);
+            --border-subtle: rgba(0, 0, 0, 0.04);
+
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --text-body: #424245;
+            --text-muted: #6e6e73;
+
+            --brand-green: #047857;
+            --brand-green-hover: #065f46;
+            --link-color: #047857;
+            --link-hover: #065f46;
+            --btn-bg: #047857;
             --btn-text: #ffffff;
+
+            --radius-icon: 22%;
+            --radius-card: 18px;
+            --radius-pill: 980px;
+
+            --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Sarabun", system-ui, sans-serif;
+            --font-mono: "SF Mono", Menlo, Consolas, monospace;
+
+            --shadow-icon: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.04);
         }
+
         @media (prefers-color-scheme: dark) {
             :root {
-                --primary: #34D399;
-                --primary-dark: #10B981;
-                --secondary: #065F46;
                 --bg: #000000;
-                --card-bg: #1c1c1e;
-                --text-main: #f5f5f7;
-                --text-sub: #a1a1a6;
-                --border: #38383a;
-                --card-inner: rgba(52, 211, 153, 0.12);
-                --btn-text: #062b1e;
+                --bg-subtle: #161617;
+                --surface: #121212;
+                --surface-secondary: #1c1c1e;
+                --border: rgba(255, 255, 255, 0.12);
+                --border-subtle: rgba(255, 255, 255, 0.06);
+
+                --text-primary: #f5f5f7;
+                --text-secondary: #86868b;
+                --text-body: #d2d2d7;
+                --text-muted: #a1a1a6;
+
+                --brand-green: #10b981;
+                --brand-green-hover: #34d399;
+                --link-color: #10b981;
+                --link-hover: #34d399;
+                --btn-bg: #10b981;
+                --btn-text: #042f22;
+
+                --shadow-icon: 0 4px 20px rgba(0, 0, 0, 0.4);
+                --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.3);
             }
         }
-        * {
+
+        *, *::before, *::after {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
+
+        ::selection {
+            background-color: var(--brand-green);
+            color: #ffffff;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: var(--text-main);
+            font-family: var(--font-family);
             background-color: var(--bg);
-            margin: 0;
-            padding: 32px 16px;
-        }
-        .container {
-            max-width: 760px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            padding: 36px 32px 40px;
-            border-radius: 20px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-        }
-        .lang-switch {
+            color: var(--text-primary);
+            line-height: 1.55;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100dvh;
             display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-bottom: 20px;
+            flex-direction: column;
+            caret-color: var(--brand-green);
         }
-        .lang-btn {
-            background: none;
-            border: 1px solid var(--border);
-            padding: 6px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 13px;
-            color: var(--text-sub);
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-        .lang-btn.active {
-            background: var(--primary);
-            color: var(--btn-text);
-            border-color: var(--primary);
-        }
-        h1 {
-            color: var(--primary);
-            font-size: 26px;
-            margin-top: 0;
-            margin-bottom: 8px;
-            letter-spacing: -0.3px;
-        }
-        .subtitle {
-            color: var(--text-sub);
-            font-size: 15px;
-            margin-bottom: 28px;
-        }
-        .faq-item {
-            margin-bottom: 22px;
-            padding-bottom: 18px;
-            border-bottom: 1px solid var(--border);
-        }
-        .faq-item:last-of-type {
-            border-bottom: none;
-            padding-bottom: 8px;
-        }
-        .faq-question {
-            margin-top: 0;
-            font-weight: 600;
-            font-size: 16.5px;
-            color: var(--text-main);
-            margin-bottom: 8px;
-            line-height: 1.4;
-        }
-        .faq-answer {
-            font-size: 14.5px;
-            color: var(--text-sub);
-            margin: 0;
-            line-height: 1.6;
-        }
-        .contact-box {
-            background-color: var(--card-inner);
-            border: 1px solid rgba(16, 185, 129, 0.25);
-            border-radius: 14px;
-            padding: 24px 20px;
-            margin-top: 32px;
-            text-align: center;
-        }
-        .contact-box h2 {
-            margin: 0 0 8px 0;
-            color: var(--primary);
-            font-size: 18px;
-        }
-        .btn {
-            display: inline-block;
-            background: var(--primary);
-            color: var(--btn-text);
-            padding: 11px 22px;
-            border-radius: 24px;
+
+        a {
+            color: var(--link-color);
             text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            margin-top: 14px;
-            transition: all 0.2s ease;
+            transition: color 0.15s ease;
+            text-underline-offset: 4px;
+            overflow-wrap: anywhere;
         }
-        .btn:hover {
-            transform: translateY(-1px);
-        }
-        .footer-links {
-            margin-top: 36px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border);
-            text-align: center;
-            font-size: 13px;
-            color: var(--text-sub);
-        }
-        .footer-links a {
-            color: var(--primary);
-            text-decoration: none;
-            margin: 0 8px;
-        }
-        .footer-links a:hover {
+
+        a:hover {
+            color: var(--link-hover);
             text-decoration: underline;
         }
-        a { overflow-wrap: anywhere; }
-        .lang-btn, .btn { min-height: 44px; }
+
+        @view-transition {
+            navigation: auto;
+        }
+
+        /* ── Unified Global Navigation Bar ── */
+        .global-nav {
+            view-transition-name: site-header;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding-top: env(safe-area-inset-top);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .global-nav {
+                background: rgba(0, 0, 0, 0.75);
+            }
+        }
+
+        .nav-content {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 max(22px, env(safe-area-inset-right)) 0 max(22px, env(safe-area-inset-left));
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .nav-brand:hover {
+            text-decoration: none;
+            opacity: 0.85;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-item a {
+            text-decoration: none;
+            font-size: 13px;
+            color: var(--text-secondary);
+            transition: color 0.15s ease;
+        }
+
+        .nav-item a:hover, .nav-item a.active {
+            color: var(--link-color);
+        }
+
+        .nav-item a.active {
+            font-weight: 600;
+        }
+
+        .lang-switch {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        .lang-switch button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 4px;
+            transition: color 0.15s ease;
+        }
+
+        .lang-switch button:hover {
+            color: var(--text-primary);
+        }
+
+        .lang-switch button.active {
+            color: var(--link-color);
+            font-weight: 600;
+        }
+
+        @keyframes pageEnter {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── Main Document Reading Layout ── */
+        .document-container {
+            max-width: 740px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 56px 22px 80px;
+            flex: 1;
+            animation: pageEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        h1.doc-title {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.25;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            text-wrap: balance;
+        }
+
+        .doc-meta {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            margin-bottom: 36px;
+        }
+
+        /* ── Typographic FAQ List (No boxy cards) ── */
+        .faq-list {
+            margin-bottom: 40px;
+        }
+
+        .faq-item {
+            padding-bottom: 24px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .faq-item:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 8px;
+        }
+
+        h2.faq-question {
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            line-height: 1.45;
+            text-wrap: balance;
+        }
+
+        p.faq-answer {
+            font-size: 14.5px;
+            line-height: 1.65;
+            color: var(--text-body);
+            margin: 0;
+            text-wrap: pretty;
+        }
+
+        p.faq-answer a {
+            color: var(--link-color);
+            text-decoration: underline;
+        }
+
+        /* ── Refined Contact Section ── */
+        .contact-box {
+            background-color: var(--bg-subtle);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-card);
+            padding: 32px 24px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .contact-box h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+
+        .contact-desc {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-body);
+            max-width: 580px;
+            margin: 0 auto 20px;
+            text-wrap: pretty;
+        }
+
+        .contact-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .btn-apple-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--btn-bg);
+            color: var(--btn-text);
+            font-size: 13.5px;
+            font-weight: 500;
+            padding: 10px 22px;
+            border-radius: var(--radius-pill);
+            text-decoration: none;
+            transition: opacity 0.15s ease, transform 0.1s ease;
+            min-height: 40px;
+        }
+
+        .btn-apple-primary:hover {
+            opacity: 0.88;
+            text-decoration: none;
+        }
+
+        .btn-apple-primary:active {
+            transform: scale(0.98);
+        }
+
+        .link-apple-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--link-color);
+            font-size: 13.5px;
+            font-weight: 500;
+            text-decoration: none;
+            padding: 8px 12px;
+            transition: color 0.15s ease;
+        }
+
+        .link-apple-secondary:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+
+        .contact-note {
+            font-size: 12.5px;
+            line-height: 1.55;
+            color: var(--text-secondary);
+            max-width: 580px;
+            margin: 0 auto;
+        }
+
+        .contact-note a {
+            color: var(--link-color);
+            text-decoration: underline;
+        }
+
+        /* ── Unified Minimalist Footer ── */
+        .site-footer {
+            background: var(--bg-subtle);
+            border-top: 1px solid var(--border);
+            padding: 36px max(22px, env(safe-area-inset-left)) calc(56px + env(safe-area-inset-bottom)) max(22px, env(safe-area-inset-right));
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .footer-content {
+            max-width: 980px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .footer-bottom-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 18px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .footer-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 12px;
+            transition: color 0.15s ease;
+        }
+
+        .footer-nav a:hover {
+            color: var(--link-color);
+            text-decoration: underline;
+        }
+
+        /* ── Accessibility & Focus ── */
         a:focus-visible, button:focus-visible {
-            outline: 3px solid var(--primary);
-            outline-offset: 4px;
+            outline: 2px solid var(--link-color);
+            outline-offset: 2px;
         }
-        @media (max-width: 480px) {
-            body { padding: 16px 12px; }
-            .container { padding: 24px 18px 28px; }
-            .lang-switch { flex-wrap: wrap; }
-        }
+
         @media (prefers-reduced-motion: reduce) {
-            .lang-btn, .btn { transition: none; }
-            .btn:hover { transform: none; }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+            main, .document-container {
+                animation: none !important;
+            }
+            ::view-transition-old(root),
+            ::view-transition-new(root) {
+                animation: none !important;
+            }
         }
-        .faq-answer a, .contact-box p a { color: var(--primary); text-decoration: underline; }
+
+        /* ── Responsive Mobile ── */
+        @media (max-width: 640px) {
+            .nav-content {
+                height: auto;
+                flex-wrap: wrap;
+                padding: 0 max(16px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left));
+            }
+
+            .nav-brand {
+                height: 44px;
+                order: 1;
+            }
+
+            .lang-switch {
+                height: 44px;
+                order: 2;
+                margin-left: auto;
+            }
+
+            .lang-switch button {
+                min-height: 44px;
+                padding: 8px 6px;
+            }
+
+            .nav-links {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                gap: 14px;
+                border-top: 1px solid var(--border-subtle);
+                padding: 4px 0 8px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            .nav-links::-webkit-scrollbar {
+                display: none;
+            }
+
+            .nav-item a {
+                min-height: 38px;
+                display: inline-flex;
+                align-items: center;
+                padding: 4px 6px;
+                white-space: nowrap;
+                font-size: 13px;
+            }
+
+            .document-container {
+                padding: 32px 16px 56px;
+            }
+
+            h1.doc-title {
+                font-size: 24px;
+            }
+
+            .doc-meta {
+                margin-bottom: 24px;
+                font-size: 12.5px;
+            }
+
+            h2.faq-question {
+                font-size: 16px;
+                line-height: 1.4;
+            }
+
+            p.faq-answer {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            .contact-box {
+                padding: 24px 16px;
+                margin-top: 32px;
+            }
+
+            .contact-actions {
+                flex-direction: column;
+                align-items: stretch;
+                width: 100%;
+                max-width: 320px;
+                margin: 0 auto 16px;
+                gap: 10px;
+            }
+
+            .btn-apple-primary, .link-apple-secondary {
+                width: 100%;
+                justify-content: center;
+                min-height: 44px;
+            }
+
+            .footer-bottom-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .site-footer {
+                padding: 32px max(16px, env(safe-area-inset-left)) calc(40px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-right));
+            }
+        }
     </style>
 </head>
 <body>
-<main class="container">
-    <div class="lang-switch">
-        <button id="btn-th" class="lang-btn active" lang="th" aria-pressed="true" onclick="setLanguage('th')">🇹🇭 ภาษาไทย</button>
-        <button id="btn-en" class="lang-btn" lang="en" aria-pressed="false" onclick="setLanguage('en')">🇬🇧 English</button>
-    </div>
 
-    <!-- THAI CONTENT -->
-    <div id="content-th" lang="th">
-        <h1>ศูนย์ช่วยเหลือ &amp; คำถามที่พบบ่อย</h1>
-        <div class="subtitle">คำแนะนำการใช้งาน NapNav และช่องทางติดต่อผู้พัฒนา</div>
+    <!-- Unified Global Navigation -->
+    <header class="global-nav" role="banner">
+        <div class="nav-content">
+            <a href="index.html" class="nav-brand" aria-label="NapNav">
+                <img src="app-icon.png" alt="NapNav Application Icon" class="nav-icon">
+                <span>NapNav</span>
+            </a>
 
-        <div class="faq-item">
-            <h2 class="faq-question">1. NapNav ขอสิทธิ์ตำแหน่งแบบใด และทำไมต้องใช้?</h2>
-            <p class="faq-answer">NapNav ขอสิทธิ์ "ขณะใช้แอป (When In Use)" ไม่ได้ขอ Always เมื่อคุณเริ่มทริป แอปใช้ตำแหน่งเพื่อคำนวณระยะทางและเตือนเมื่อเข้าใกล้จุดหมาย รวมถึงรับตำแหน่งเบื้องหลังขณะทริปยังทำงานตามที่ iOS อนุญาต การค้นหาสถานที่ใช้บริการ Apple Maps/MapKit; โปรดอ่าน <a href="privacy.html">นโยบายความเป็นส่วนตัว</a> สำหรับข้อมูลที่จัดเก็บและบริการ Apple</p>
+            <ul class="nav-links">
+                <li class="nav-item"><a href="index.html" data-lang-th="ภาพรวม" data-lang-en="Overview">ภาพรวม</a></li>
+                <li class="nav-item"><a href="privacy.html" data-lang-th="ความเป็นส่วนตัว" data-lang-en="Privacy">ความเป็นส่วนตัว</a></li>
+                <li class="nav-item"><a href="support.html" class="active" data-lang-th="ศูนย์ช่วยเหลือ &amp; FAQ" data-lang-en="Support &amp; FAQ">ศูนย์ช่วยเหลือ &amp; FAQ</a></li>
+            </ul>
+
+            <div class="lang-switch" role="group" aria-label="Language selection">
+                <button id="btn-th" class="active" lang="th" aria-pressed="true" onclick="setLanguage('th')">ไทย</button>
+                <span style="color: var(--text-secondary);">|</span>
+                <button id="btn-en" lang="en" aria-pressed="false" onclick="setLanguage('en')">English</button>
+            </div>
         </div>
+    </header>
 
-        <div class="faq-item">
-            <h2 class="faq-question">2. โหมดเตือนคู่ "Use Both" ทำงานอย่างไร เมื่อใดจึงใช้ได้?</h2>
-            <p class="faq-answer">Use Both ใช้ AlarmKit เป็นเสียงหลักบน iOS 26 ขึ้นไปเมื่อคุณอนุญาต พร้อมการแจ้งเตือนแบบไม่มีเสียงเมื่อระบบอนุญาต หาก AlarmKit ใช้ไม่ได้ แอปจะใช้เส้นทาง Notification เมื่อระบบอนุญาต ผลการเตือนขึ้นกับสิทธิ์ การตั้งค่า iOS และความแม่นยำของตำแหน่ง จึงไม่รับประกันว่าจะปลุกได้ทุกกรณี</p>
+    <main class="document-container">
+        <!-- THAI CONTENT -->
+        <article id="content-th" lang="th">
+            <h1 class="doc-title">ศูนย์ช่วยเหลือ &amp; คำถามที่พบบ่อย</h1>
+            <div class="doc-meta">คำแนะนำการใช้งาน NapNav และช่องทางติดต่อผู้พัฒนา</div>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <h2 class="faq-question">1. NapNav ขอสิทธิ์ตำแหน่งแบบใด และทำไมต้องใช้?</h2>
+                    <p class="faq-answer">NapNav ขอสิทธิ์ "ขณะใช้แอป (When In Use)" ไม่ได้ขอ Always เมื่อคุณเริ่มทริป แอปใช้ตำแหน่งเพื่อคำนวณระยะทางและเตือนเมื่อเข้าใกล้จุดหมาย รวมถึงรับตำแหน่งเบื้องหลังขณะทริปยังทำงานตามที่ iOS อนุญาต การค้นหาสถานที่ใช้บริการ Apple Maps/MapKit; โปรดอ่าน <a href="privacy.html">นโยบายความเป็นส่วนตัว</a> สำหรับข้อมูลที่จัดเก็บและบริการ Apple</p>
+                </div>
+
+                <div class="faq-item">
+                    <h2 class="faq-question">2. โหมดเตือนคู่ "Use Both" ทำงานอย่างไร เมื่อใดจึงใช้ได้?</h2>
+                    <p class="faq-answer">Use Both ใช้ AlarmKit เป็นเสียงหลักบน iOS 26 ขึ้นไปเมื่อคุณอนุญาต พร้อมการแจ้งเตือนแบบไม่มีเสียงเมื่อระบบอนุญาต หาก AlarmKit ใช้ไม่ได้ แอปจะใช้เส้นทาง Notification เมื่อระบบอนุญาต ผลการเตือนขึ้นกับสิทธิ์ การตั้งค่า iOS และความแม่นยำของตำแหน่ง จึงไม่รับประกันว่าจะปลุกได้ทุกกรณี</p>
+                </div>
+
+                <div class="faq-item">
+                    <h2 class="faq-question">3. เปิดระบบตรวจจับตำแหน่งแบบนี้ จะกินแบตเตอรี่ไหม?</h2>
+                    <p class="faq-answer">NapNav ใช้การอัปเดตตำแหน่งระหว่างทริปที่กำลังทำงาน การใช้แบตเตอรี่ขึ้นกับระยะเวลาทริป สภาพสัญญาณ อุปกรณ์ และการตั้งค่า iOS หากไม่ต้องการติดตามต่อ ให้หยุดหรือจบทริปในแอป</p>
+                </div>
+
+                <div class="faq-item">
+                    <h2 class="faq-question">4. ถ้าเครื่องดับ หรือเผลอปิดแอปไปกลางทาง จะทำอย่างไร?</h2>
+                    <p class="faq-answer">NapNav บันทึกข้อมูลทริปที่กำลังทำงานไว้เพื่อให้แอปแสดงตัวเลือกกู้คืนเมื่อเปิดแอปอีกครั้ง แต่การปิดแอปหรือรีสตาร์ตเครื่องอาจทำให้การรับตำแหน่งสะดุด และ iOS อาจพักหรือยุติกระบวนการของแอปได้ การเตือนจึงอาจล่าช้าหรือไม่เกิดขึ้นในช่วงดังกล่าว</p>
+                </div>
+
+                <div class="faq-item">
+                    <h2 class="faq-question">5. บันทึกสถานที่ที่ไปบ่อย หรือปรับรัศมีเตือนตรงไหน?</h2>
+                    <p class="faq-answer">ก่อนเริ่มเดินทาง คุณสามารถเลื่อนแถบเพื่อเลือกระยะเตือนล่วงหน้าได้ตามต้องการ (เช่น 500 ม., 1 กม. หรือปรับแบบละเอียด) และสามารถกดไอคอนรูปดาวเพื่อบันทึกไว้เป็น "สถานที่โปรด" (Favorites) เช่น บ้าน หรือที่ทำงาน เพื่อเลือกจุดหมายและเริ่มทริปได้สะดวกในครั้งถัดไป</p>
+                </div>
+
+                <div class="faq-item">
+                    <h2 class="faq-question">6. NapNav รับประกันเวลาเตือนหรือความแม่นยำของ GPS ได้ไหม?</h2>
+                    <p class="faq-answer">ไม่ได้ครับ ตำแหน่งอาจคลาดเคลื่อนหรืออัปเดตช้า โดยเฉพาะในอาคาร อุโมงค์ พื้นที่สัญญาณอ่อน หรือเมื่อ iOS จำกัดการทำงานเบื้องหลัง NapNav ช่วยเตือนจากตำแหน่งที่ได้รับ แต่ไม่ควรใช้แทนการสังเกตป้ายและประกาศระหว่างเดินทาง</p>
+                </div>
+
+                <div class="faq-item">
+                    <h2 class="faq-question">7. ทำไม NapNav จึงอาจเตือนไม่ได้เมื่อใช้รถไฟฟ้าใต้ดิน?</h2>
+                    <p class="faq-answer">NapNav ใช้ตำแหน่งที่ iPhone ได้รับเพื่อคำนวณระยะทางถึงจุดหมาย เมื่อรถไฟอยู่ในอุโมงค์ สิ่งกีดขวางอาจทำให้เครื่องรับสัญญาณ GPS จากดาวเทียมไม่ได้ แม้ iOS จะใช้ Wi-Fi หรือเครือข่ายมือถือช่วยระบุตำแหน่งได้ แต่ตำแหน่งอาจคลาดเคลื่อนหรืออัปเดตไม่ทันการเดินทาง การมีสัญญาณมือถือหรืออินเทอร์เน็ตจึงไม่ได้รับประกันว่าแอปจะรู้ตำแหน่งได้แม่นยำ</p>
+                    <p class="faq-answer" style="margin-top: 10px;">หากไม่มีตำแหน่งที่ใหม่และแม่นยำพอ NapNav อาจเตือนช้าหรือไม่เตือน แอปไม่ได้ใช้ตารางเดินรถหรือการนับสถานีแทนตำแหน่ง จึงไม่ควรพึ่ง NapNav เพื่อปลุกเมื่อนั่งรถไฟในช่วงใต้ดิน ให้สังเกตป้ายและฟังประกาศสถานี ส่วนช่วงที่วิ่งเหนือพื้นดินอาจใช้ได้เมื่อเครื่องรับตำแหน่งได้ตามปกติ แต่ยังขึ้นกับสัญญาณและการตั้งค่า iOS</p>
+                </div>
+            </div>
+
+            <!-- Contact Box -->
+            <div class="contact-box">
+                <h2>พบปัญหาการใช้งาน หรือมีข้อเสนอแนะ?</h2>
+                <p class="contact-desc">ส่งคำถามหรือแจ้งปัญหาทางอีเมลได้ที่ <a href="mailto:napnav.support@gmail.com">napnav.support@gmail.com</a> โปรดระบุรุ่น iPhone เวอร์ชัน iOS เวอร์ชัน NapNav และขั้นตอนที่พบปัญหา โดยส่งเฉพาะข้อมูลที่จำเป็น</p>
+                <div class="contact-actions">
+                    <a class="btn-apple-primary" href="mailto:napnav.support@gmail.com">ส่งอีเมลถึงฝ่ายสนับสนุน</a>
+                    <a class="link-apple-secondary" href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">เปิดแจ้งปัญหาบน GitHub Issues ›</a>
+                </div>
+                <p class="contact-note">GitHub Issues เป็นพื้นที่สาธารณะ โปรดอย่าโพสต์อีเมลส่วนตัว พิกัดบ้านหรือที่ทำงาน หรือภาพที่มีข้อมูลส่วนตัว หากต้องส่งข้อมูลดังกล่าว ให้ใช้อีเมลแทน อ่านรายละเอียดการจัดการข้อมูลใน <a href="privacy.html">นโยบายความเป็นส่วนตัว</a></p>
+            </div>
+        </article>
+
+        <!-- ENGLISH CONTENT -->
+        <article id="content-en" lang="en" style="display: none;">
+            <h1 class="doc-title">Support &amp; FAQ</h1>
+            <div class="doc-meta">Answers to common NapNav questions and ways to contact the developer.</div>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <h2 class="faq-question">1. What location permission does NapNav request and why?</h2>
+                    <p class="faq-answer">NapNav requests "While In Use" location access, not Always. While a trip is active, the app uses location updates to calculate distance and alert you near the destination, including background updates when allowed by iOS. Place search uses Apple Maps/MapKit. See the <a href="privacy.html">Privacy Policy</a> for details about stored information and Apple services.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h2 class="faq-question">2. How does the "Use Both" alert mode work?</h2>
+                    <p class="faq-answer">Use Both uses AlarmKit as its primary sound on iOS 26 or later when you authorize it, with a silent notification when available. If AlarmKit cannot be used, NapNav uses the notification path when available. Delivery depends on permissions, iOS settings, and location accuracy, so an alert cannot be guaranteed in every situation.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h2 class="faq-question">3. Does continuous background tracking drain battery life?</h2>
+                    <p class="faq-answer">NapNav receives location updates while a trip is active. Battery use varies with trip duration, signal conditions, device, and iOS settings. Stop or finish the trip in the app when you no longer want location tracking.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h2 class="faq-question">4. What happens if my iPhone restarts or the app terminates mid-journey?</h2>
+                    <p class="faq-answer">NapNav saves an active-trip snapshot so it can offer a recovery choice when reopened. Closing the app or restarting the device may interrupt location updates, and iOS may suspend or terminate the app process. An alert may be delayed or may not occur during such an interruption.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h2 class="faq-question">5. How do I change the alert radius or save favorite destinations?</h2>
+                    <p class="faq-answer">When choosing your destination, select a preset radius (500m, 1km, 2km) or drag the custom distance slider. Tap the star icon on any destination card to save it to your Favorites (like Home or Office) to select them quickly on your next trip.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h2 class="faq-question">6. Can NapNav guarantee GPS accuracy or an exact alert time?</h2>
+                    <p class="faq-answer">No. Location can be inaccurate or delayed, especially indoors, in tunnels, in areas with weak reception, or when iOS limits background activity. NapNav alerts using the location it receives; continue to watch station signs and listen for transit announcements.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h2 class="faq-question">7. Why might NapNav fail to alert me on underground trains?</h2>
+                    <p class="faq-answer">NapNav uses the location supplied by your iPhone to calculate the distance to your destination. In tunnels, obstructions can prevent the phone from receiving GPS satellite signals. Although iOS can also use Wi-Fi or cellular networks to estimate location, those estimates may be inaccurate or may not update quickly enough as the train moves. Having mobile reception or internet access does not guarantee accurate location.</p>
+                    <p class="faq-answer" style="margin-top: 10px;">Without sufficiently recent and accurate location updates, NapNav may alert late or not at all. The app does not substitute train timetables or station counting for location, so do not rely on NapNav to wake you during underground sections. Watch station signs and listen for announcements. Above-ground sections may work when normal location updates are available, but still depend on reception and iOS settings.</p>
+                </div>
+            </div>
+
+            <!-- Contact Box -->
+            <div class="contact-box">
+                <h2>Need further help or found a bug?</h2>
+                <p class="contact-desc">Email <a href="mailto:napnav.support@gmail.com">napnav.support@gmail.com</a> with your iPhone model, iOS version, NapNav version, and steps to reproduce the issue. Share only information needed for support.</p>
+                <div class="contact-actions">
+                    <a class="btn-apple-primary" href="mailto:napnav.support@gmail.com">Email Support</a>
+                    <a class="link-apple-secondary" href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">Open an Issue on GitHub ›</a>
+                </div>
+                <p class="contact-note">GitHub Issues are public. Do not post personal email addresses, home or work coordinates, or screenshots containing private information. Use email if private details are needed. See the <a href="privacy.html">Privacy Policy</a> for how support information is handled.</p>
+            </div>
+        </article>
+    </main>
+
+    <!-- Unified Minimalist Footer -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-bottom-row">
+                <span data-lang-th="&copy; 2026 NapNav. สงวนลิขสิทธิ์. พัฒนาสำหรับ iOS 18 ขึ้นไป (ฟีเจอร์ AlarmKit บน iOS 26+)" data-lang-en="&copy; 2026 NapNav. All rights reserved. Requires iOS 18+ (AlarmKit on iOS 26+).">&copy; 2026 NapNav. สงวนลิขสิทธิ์. พัฒนาสำหรับ iOS 18 ขึ้นไป (ฟีเจอร์ AlarmKit บน iOS 26+)</span>
+
+                <ul class="footer-nav">
+                    <li><a href="index.html" data-lang-th="ภาพรวม" data-lang-en="Overview">ภาพรวม</a></li>
+                    <li><a href="privacy.html" data-lang-th="ความเป็นส่วนตัว" data-lang-en="Privacy">ความเป็นส่วนตัว</a></li>
+                    <li><a href="support.html" data-lang-th="ศูนย์ช่วยเหลือ &amp; FAQ" data-lang-en="Support &amp; FAQ">ศูนย์ช่วยเหลือ &amp; FAQ</a></li>
+                    <li><a href="https://github.com/Telnwza/NapNav" target="_blank" rel="noopener">GitHub</a></li>
+                </ul>
+            </div>
         </div>
+    </footer>
 
-        <div class="faq-item">
-            <h2 class="faq-question">3. เปิดระบบตรวจจับตำแหน่งแบบนี้ จะกินแบตเตอรี่ไหม?</h2>
-            <p class="faq-answer">NapNav ใช้การอัปเดตตำแหน่งระหว่างทริปที่กำลังทำงาน การใช้แบตเตอรี่ขึ้นกับระยะเวลาทริป สภาพสัญญาณ อุปกรณ์ และการตั้งค่า iOS หากไม่ต้องการติดตามต่อ ให้หยุดหรือจบทริปในแอป</p>
-        </div>
+    <!-- Bilingual switcher script -->
+    <script>
+        function setLanguage(lang) {
+            lang = lang === 'en' ? 'en' : 'th';
+            document.documentElement.lang = lang;
+            document.title = lang === 'en' ? 'Support & FAQ - NapNav' : 'ศูนย์ช่วยเหลือและคำถามที่พบบ่อย - NapNav';
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) {
+                metaDesc.content = lang === 'en'
+                    ? 'NapNav frequently asked questions and support by email or GitHub Issues.'
+                    : 'คำถามที่พบบ่อยและช่องทางติดต่อ NapNav ทางอีเมลหรือ GitHub Issues';
+            }
 
-        <div class="faq-item">
-            <h2 class="faq-question">4. ถ้าเครื่องดับ หรือเผลอปิดแอปไปกลางทาง จะทำอย่างไร?</h2>
-            <p class="faq-answer">NapNav บันทึกข้อมูลทริปที่กำลังทำงานไว้เพื่อให้แอปแสดงตัวเลือกกู้คืนเมื่อเปิดแอปอีกครั้ง แต่การปิดแอปหรือรีสตาร์ตเครื่องอาจทำให้การรับตำแหน่งสะดุด และ iOS อาจพักหรือยุติกระบวนการของแอปได้ การเตือนจึงอาจล่าช้าหรือไม่เกิดขึ้นในช่วงดังกล่าว</p>
-        </div>
+            const thBlock = document.getElementById('content-th');
+            const enBlock = document.getElementById('content-en');
+            if (thBlock) thBlock.style.display = lang === 'th' ? 'block' : 'none';
+            if (enBlock) enBlock.style.display = lang === 'en' ? 'block' : 'none';
 
-        <div class="faq-item">
-            <h2 class="faq-question">5. บันทึกสถานที่ที่ไปบ่อย หรือปรับรัศมีเตือนตรงไหน?</h2>
-            <p class="faq-answer">ก่อนเริ่มเดินทาง คุณสามารถเลื่อนแถบเพื่อเลือกระยะเตือนล่วงหน้าได้ตามต้องการ (เช่น 500 ม., 1 กม. หรือปรับแบบละเอียด) และสามารถกดไอคอนรูปดาวเพื่อบันทึกไว้เป็น "สถานที่โปรด" (Favorites) เช่น บ้าน หรือที่ทำงาน เพื่อเลือกจุดหมายและเริ่มทริปได้สะดวกในครั้งถัดไป</p>
-        </div>
+            // Also update footer / nav translations
+            const elements = document.querySelectorAll('[data-lang-' + lang + ']');
+            elements.forEach(function(el) {
+                const text = el.getAttribute('data-lang-' + lang);
+                if (text) {
+                    el.innerHTML = text;
+                }
+            });
 
-        <div class="faq-item">
-            <h2 class="faq-question">6. NapNav รับประกันเวลาเตือนหรือความแม่นยำของ GPS ได้ไหม?</h2>
-            <p class="faq-answer">ไม่ได้ครับ ตำแหน่งอาจคลาดเคลื่อนหรืออัปเดตช้า โดยเฉพาะในอาคาร อุโมงค์ พื้นที่สัญญาณอ่อน หรือเมื่อ iOS จำกัดการทำงานเบื้องหลัง NapNav ช่วยเตือนจากตำแหน่งที่ได้รับ แต่ไม่ควรใช้แทนการสังเกตป้ายและประกาศระหว่างเดินทาง</p>
-        </div>
+            const btnTh = document.getElementById('btn-th');
+            const btnEn = document.getElementById('btn-en');
+            if (btnTh && btnEn) {
+                if (lang === 'th') {
+                    btnTh.classList.add('active');
+                    btnTh.setAttribute('aria-pressed', 'true');
+                    btnEn.classList.remove('active');
+                    btnEn.setAttribute('aria-pressed', 'false');
+                } else {
+                    btnEn.classList.add('active');
+                    btnEn.setAttribute('aria-pressed', 'true');
+                    btnTh.classList.remove('active');
+                    btnTh.setAttribute('aria-pressed', 'false');
+                }
+            }
 
-        <div class="faq-item">
-            <h2 class="faq-question">7. ทำไม NapNav จึงอาจเตือนไม่ได้เมื่อใช้รถไฟฟ้าใต้ดิน?</h2>
-            <p class="faq-answer">NapNav ใช้ตำแหน่งที่ iPhone ได้รับเพื่อคำนวณระยะทางถึงจุดหมาย เมื่อรถไฟอยู่ในอุโมงค์ สิ่งกีดขวางอาจทำให้เครื่องรับสัญญาณ GPS จากดาวเทียมไม่ได้ แม้ iOS จะใช้ Wi-Fi หรือเครือข่ายมือถือช่วยระบุตำแหน่งได้ แต่ตำแหน่งอาจคลาดเคลื่อนหรืออัปเดตไม่ทันการเดินทาง การมีสัญญาณมือถือหรืออินเทอร์เน็ตจึงไม่ได้รับประกันว่าแอปจะรู้ตำแหน่งได้แม่นยำ</p>
-            <p class="faq-answer" style="margin-top: 10px;">หากไม่มีตำแหน่งที่ใหม่และแม่นยำพอ NapNav อาจเตือนช้าหรือไม่เตือน แอปไม่ได้ใช้ตารางเดินรถหรือการนับสถานีแทนตำแหน่ง จึงไม่ควรพึ่ง NapNav เพื่อปลุกเมื่อนั่งรถไฟในช่วงใต้ดิน ให้สังเกตป้ายและฟังประกาศสถานี ส่วนช่วงที่วิ่งเหนือพื้นดินอาจใช้ได้เมื่อเครื่องรับตำแหน่งได้ตามปกติ แต่ยังขึ้นกับสัญญาณและการตั้งค่า iOS</p>
-        </div>
+            try {
+                localStorage.setItem('napnav_lang', lang);
+            } catch(e) {}
+        }
 
-        <div class="contact-box">
-            <h2>พบปัญหาการใช้งาน หรือมีข้อเสนอแนะ?</h2>
-            <p style="margin: 0; font-size: 14px; color: var(--text-sub);">ส่งคำถามหรือแจ้งปัญหาทางอีเมลได้ที่ <a href="mailto:napnav.support@gmail.com">napnav.support@gmail.com</a> โปรดระบุรุ่น iPhone เวอร์ชัน iOS เวอร์ชัน NapNav และขั้นตอนที่พบปัญหา โดยส่งเฉพาะข้อมูลที่จำเป็น</p>
-            <a class="btn" href="mailto:napnav.support@gmail.com">napnav.support@gmail.com</a>
-            <a class="btn" href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">เปิดแจ้งปัญหาบน GitHub Issues</a>
-            <p>GitHub Issues เป็นพื้นที่สาธารณะ โปรดอย่าโพสต์อีเมลส่วนตัว พิกัดบ้านหรือที่ทำงาน หรือภาพที่มีข้อมูลส่วนตัว หากต้องส่งข้อมูลดังกล่าว ให้ใช้อีเมลแทน อ่านรายละเอียดการจัดการข้อมูลใน <a href="privacy.html">นโยบายความเป็นส่วนตัว</a></p>
-        </div>
+        (function initLang() {
+            try {
+                const saved = localStorage.getItem('napnav_lang');
+                if (saved === 'en' || saved === 'th') {
+                    setLanguage(saved);
+                }
+            } catch(e) {}
 
-        <div class="footer-links">
-            <a href="index.html">หน้าแรก (Home)</a>
-            <span>•</span>
-            <a href="privacy.html">นโยบายความเป็นส่วนตัว (Privacy Policy)</a>
-            <span>•</span>
-            <a href="https://github.com/Telnwza/NapNav">GitHub Repository</a>
-        </div>
-    </div>
-
-    <!-- ENGLISH CONTENT -->
-    <div id="content-en" lang="en" style="display: none;">
-        <h1>Support &amp; FAQ</h1>
-        <div class="subtitle">Answers to common NapNav questions and ways to contact the developer.</div>
-
-        <div class="faq-item">
-            <h2 class="faq-question">1. What location permission does NapNav request and why?</h2>
-            <p class="faq-answer">NapNav requests "While In Use" location access, not Always. While a trip is active, the app uses location updates to calculate distance and alert you near the destination, including background updates when allowed by iOS. Place search uses Apple Maps/MapKit. See the <a href="privacy.html">Privacy Policy</a> for details about stored information and Apple services.</p>
-        </div>
-
-        <div class="faq-item">
-            <h2 class="faq-question">2. How does the "Use Both" alert mode work?</h2>
-            <p class="faq-answer">Use Both uses AlarmKit as its primary sound on iOS 26 or later when you authorize it, with a silent notification when available. If AlarmKit cannot be used, NapNav uses the notification path when available. Delivery depends on permissions, iOS settings, and location accuracy, so an alert cannot be guaranteed in every situation.</p>
-        </div>
-
-        <div class="faq-item">
-            <h2 class="faq-question">3. Does continuous background tracking drain battery life?</h2>
-            <p class="faq-answer">NapNav receives location updates while a trip is active. Battery use varies with trip duration, signal conditions, device, and iOS settings. Stop or finish the trip in the app when you no longer want location tracking.</p>
-        </div>
-
-        <div class="faq-item">
-            <h2 class="faq-question">4. What happens if my iPhone restarts or the app terminates mid-journey?</h2>
-            <p class="faq-answer">NapNav saves an active-trip snapshot so it can offer a recovery choice when reopened. Closing the app or restarting the device may interrupt location updates, and iOS may suspend or terminate the app process. An alert may be delayed or may not occur during such an interruption.</p>
-        </div>
-
-        <div class="faq-item">
-            <h2 class="faq-question">5. How do I change the alert radius or save favorite destinations?</h2>
-            <p class="faq-answer">When choosing your destination, select a preset radius (500m, 1km, 2km) or drag the custom distance slider. Tap the star icon on any destination card to save it to your Favorites (like Home or Office) to select them quickly on your next trip.</p>
-        </div>
-
-        <div class="faq-item">
-            <h2 class="faq-question">6. Can NapNav guarantee GPS accuracy or an exact alert time?</h2>
-            <p class="faq-answer">No. Location can be inaccurate or delayed, especially indoors, in tunnels, in areas with weak reception, or when iOS limits background activity. NapNav alerts using the location it receives; continue to watch station signs and listen for transit announcements.</p>
-        </div>
-
-        <div class="faq-item">
-            <h2 class="faq-question">7. Why might NapNav fail to alert me on underground trains?</h2>
-            <p class="faq-answer">NapNav uses the location supplied by your iPhone to calculate the distance to your destination. In tunnels, obstructions can prevent the phone from receiving GPS satellite signals. Although iOS can also use Wi-Fi or cellular networks to estimate location, those estimates may be inaccurate or may not update quickly enough as the train moves. Having mobile reception or internet access does not guarantee accurate location.</p>
-            <p class="faq-answer" style="margin-top: 10px;">Without sufficiently recent and accurate location updates, NapNav may alert late or not at all. The app does not substitute train timetables or station counting for location, so do not rely on NapNav to wake you during underground sections. Watch station signs and listen for announcements. Above-ground sections may work when normal location updates are available, but still depend on reception and iOS settings.</p>
-        </div>
-
-        <div class="contact-box">
-            <h2>Need further help or found a bug?</h2>
-            <p style="margin: 0; font-size: 14px; color: var(--text-sub);">Email <a href="mailto:napnav.support@gmail.com">napnav.support@gmail.com</a> with your iPhone model, iOS version, NapNav version, and steps to reproduce the issue. Share only information needed for support.</p>
-            <a class="btn" href="mailto:napnav.support@gmail.com">napnav.support@gmail.com</a>
-            <a class="btn" href="https://github.com/Telnwza/NapNav/issues" target="_blank" rel="noopener">Open an Issue on GitHub</a>
-            <p>GitHub Issues are public. Do not post personal email addresses, home or work coordinates, or screenshots containing private information. Use email if private details are needed. See the <a href="privacy.html">Privacy Policy</a> for how support information is handled.</p>
-        </div>
-
-        <div class="footer-links">
-            <a href="index.html">Home</a>
-            <span>•</span>
-            <a href="privacy.html">Privacy Policy</a>
-            <span>•</span>
-            <a href="https://github.com/Telnwza/NapNav">GitHub Repository</a>
-        </div>
-    </div>
-</main>
-
-<script>
-    function setLanguage(lang) {
-        lang = lang === 'en' ? 'en' : 'th';
-        document.documentElement.lang = lang;
-        document.title = lang === 'en' ? 'NapNav Support & FAQ' : 'ศูนย์ช่วยเหลือและคำถามที่พบบ่อย - NapNav';
-        document.querySelector('meta[name="description"]').content = lang === 'en'
-            ? 'NapNav frequently asked questions and support by email or GitHub Issues.'
-            : 'คำถามที่พบบ่อยและช่องทางติดต่อ NapNav ทางอีเมลหรือ GitHub Issues';
-        document.getElementById('content-th').style.display = lang === 'th' ? 'block' : 'none';
-        document.getElementById('content-en').style.display = lang === 'en' ? 'block' : 'none';
-        ['th', 'en'].forEach(function(language) {
-            var button = document.getElementById('btn-' + language);
-            button.classList.toggle('active', lang === language);
-            button.setAttribute('aria-pressed', String(lang === language));
-        });
-        // Language switching also works when browser storage is unavailable.
-        try { localStorage.setItem('napnav_lang', lang); } catch (error) {}
-    }
-
-    (function() {
-        var saved;
-        try { saved = localStorage.getItem('napnav_lang'); } catch (error) {}
-        setLanguage(saved === 'en' ? 'en' : 'th');
-    })();
-</script>
+            // Smooth internal page transition
+            document.querySelectorAll('a[href$=".html"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                    const href = this.getAttribute('href');
+                    if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('mailto')) return;
+                    const current = window.location.pathname.split('/').pop() || 'support.html';
+                    if (href === current) return;
+                    const mainEl = document.querySelector('main');
+                    if (mainEl && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                        e.preventDefault();
+                        mainEl.style.transition = 'opacity 0.14s ease, transform 0.14s ease';
+                        mainEl.style.opacity = '0';
+                        mainEl.style.transform = 'translateY(-4px)';
+                        setTimeout(() => {
+                            window.location.href = href;
+                        }, 130);
+                    }
+                });
+            });
+        })();
+    </script>
 </body>
 </html>
