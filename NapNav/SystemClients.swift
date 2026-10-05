@@ -35,13 +35,7 @@ final class LiveLocationClient: LocationProviding {
         let sessionID = UUID()
         activeSessionID = sessionID
         serviceSession = CLServiceSession(authorization: .whenInUse)
-        #if canImport(ActivityKit)
-        if !ActivityAuthorizationInfo().areActivitiesEnabled {
-            backgroundSession = CLBackgroundActivitySession()
-        }
-        #else
         backgroundSession = CLBackgroundActivitySession()
-        #endif
 
         return AsyncStream { continuation in
             self.continuation = continuation
@@ -131,6 +125,7 @@ protocol AlarmDelivering: AnyObject {
     func requestProminentAlarmAuthorizationIfAvailable() async -> Bool
     func readiness() async -> AlarmReadiness
     func deliveryCapabilities() async -> AlertDeliveryCapabilities
+    func deliveryCapabilities(readiness: AlarmReadiness) async -> AlertDeliveryCapabilities
     func sendArrivalAlert(destination: Destination, distanceMeters: Double) async throws
     func sendArrivalAlert(
         destination: Destination,
@@ -142,6 +137,13 @@ protocol AlarmDelivering: AnyObject {
         destination: Destination,
         distanceMeters: Double,
         preferences: UserAlertPreferences
+    ) async -> AlertDeliveryResult
+    func sendArrivalAlert(
+        tripID: UUID?,
+        destination: Destination,
+        distanceMeters: Double,
+        preferences: UserAlertPreferences,
+        capabilities: AlertDeliveryCapabilities?
     ) async -> AlertDeliveryResult
     func scheduleSnoozeAlert(destination: Destination, after delay: TimeInterval) async throws
     func scheduleSnoozeAlert(tripID: UUID?, destination: Destination, after delay: TimeInterval) async throws
@@ -176,9 +178,13 @@ extension AlarmDelivering {
 
     func deliveryCapabilities() async -> AlertDeliveryCapabilities {
         let notificationReadiness = await readiness()
-        return AlertDeliveryCapabilities(
-            notificationReady: notificationReadiness.canDeliverVisibleAlert,
-            notificationSoundsEnabled: notificationReadiness.soundsEnabled,
+        return await deliveryCapabilities(readiness: notificationReadiness)
+    }
+
+    func deliveryCapabilities(readiness: AlarmReadiness) async -> AlertDeliveryCapabilities {
+        AlertDeliveryCapabilities(
+            notificationReady: readiness.canDeliverVisibleAlert,
+            notificationSoundsEnabled: readiness.soundsEnabled,
             alarmKitSupported: prominentAlarmsAreSupported(),
             alarmKitAuthorized: await prominentAlarmAuthorizationIsGranted()
         )
@@ -209,6 +215,21 @@ extension AlarmDelivering {
         preferences: UserAlertPreferences
     ) async -> AlertDeliveryResult {
         await sendArrivalAlert(
+            destination: destination,
+            distanceMeters: distanceMeters,
+            preferences: preferences
+        )
+    }
+
+    func sendArrivalAlert(
+        tripID: UUID?,
+        destination: Destination,
+        distanceMeters: Double,
+        preferences: UserAlertPreferences,
+        capabilities: AlertDeliveryCapabilities?
+    ) async -> AlertDeliveryResult {
+        await sendArrivalAlert(
+            tripID: tripID,
             destination: destination,
             distanceMeters: distanceMeters,
             preferences: preferences
@@ -484,7 +505,27 @@ final class LocalAlarmDelivery: AlarmDelivering {
         distanceMeters: Double,
         preferences: UserAlertPreferences
     ) async -> AlertDeliveryResult {
-        let capabilities = await deliveryCapabilities()
+        await sendArrivalAlert(
+            tripID: tripID,
+            destination: destination,
+            distanceMeters: distanceMeters,
+            preferences: preferences,
+            capabilities: nil
+        )
+    }
+
+    func sendArrivalAlert(
+        tripID: UUID?,
+        destination: Destination,
+        distanceMeters: Double,
+        preferences: UserAlertPreferences,
+        capabilities: AlertDeliveryCapabilities?
+    ) async -> AlertDeliveryResult {
+        let capabilities = if let capabilities {
+            capabilities
+        } else {
+            await deliveryCapabilities()
+        }
         let plan = AlertDeliveryPolicy.plan(
             preferences: preferences,
             capabilities: capabilities
@@ -970,22 +1011,42 @@ final class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate, @u
     @MainActor
     var onTripAction: (@MainActor @Sendable (String, UUID?) -> Void)?
 
-    func userNotificationCenter(
+    nonisolated func userNotificationCenter(
         _ center: UNUserNotificationCenter,
-        willPresent notification: UNNotification
-    ) async -> UNNotificationPresentationOptions {
-        [.banner, .sound]
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        if Thread.isMainThread {
+            completionHandler([.banner, .sound])
+        } else {
+            nonisolated(unsafe) let completion = completionHandler
+            DispatchQueue.main.async {
+                completion([.banner, .sound])
+            }
+        }
     }
 
-    func userNotificationCenter(
+    nonisolated func userNotificationCenter(
         _ center: UNUserNotificationCenter,
-        didReceive response: UNNotificationResponse
-    ) async {
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
         let rawTripID = response.notification.request.content.userInfo["tripID"] as? String
-        await handleActionIdentifier(
-            response.actionIdentifier,
-            tripID: rawTripID.flatMap(UUID.init(uuidString:))
-        )
+        let actionIdentifier = response.actionIdentifier
+        let tripID = rawTripID.flatMap(UUID.init(uuidString:))
+
+        if Thread.isMainThread {
+            MainActor.assumeIsolated {
+                self.handleActionIdentifier(actionIdentifier, tripID: tripID)
+            }
+            completionHandler()
+        } else {
+            nonisolated(unsafe) let completion = completionHandler
+            DispatchQueue.main.async {
+                self.handleActionIdentifier(actionIdentifier, tripID: tripID)
+                completion()
+            }
+        }
     }
 
     @MainActor

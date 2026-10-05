@@ -232,7 +232,7 @@ final class TripStore {
             _ = await notificationClient.requestAuthorizationIfNeeded()
             readiness = await notificationClient.readiness()
         }
-        let capabilities = await notificationClient.deliveryCapabilities()
+        let capabilities = await notificationClient.deliveryCapabilities(readiness: readiness)
         applyReadiness(readiness, capabilities: capabilities)
     }
 
@@ -244,7 +244,7 @@ final class TripStore {
             guard lifecycleGeneration == generation else { return false }
             readiness = await notificationClient.readiness()
         }
-        let capabilities = await notificationClient.deliveryCapabilities()
+        let capabilities = await notificationClient.deliveryCapabilities(readiness: readiness)
         guard lifecycleGeneration == generation else { return false }
         alarmReadiness = readiness
         applyReadiness(readiness, capabilities: capabilities)
@@ -254,7 +254,7 @@ final class TripStore {
     private func refreshReadiness(forTripID tripID: UUID) async -> Bool {
         let readiness = await notificationClient.readiness()
         guard activeTripID == tripID else { return false }
-        let capabilities = await notificationClient.deliveryCapabilities()
+        let capabilities = await notificationClient.deliveryCapabilities(readiness: readiness)
         guard activeTripID == tripID else { return false }
         alarmReadiness = readiness
         applyReadiness(readiness, capabilities: capabilities)
@@ -828,7 +828,8 @@ final class TripStore {
             tripID: tripID,
             destination: destination,
             distanceMeters: distanceMeters,
-            preferences: alertPreferences
+            preferences: alertPreferences,
+            capabilities: alertDeliveryCapabilities
         )
         guard activeTripID == tripID, alertTriggered, alertSent == false else {
             applyAlertCancellationResult(notificationClient.cancelTripAlerts(
