@@ -5,6 +5,8 @@
 
   <h3>แอปแจ้งเตือนพิกัดจุดหมาย สำหรับคนเดินทาง — หลับได้สบายใจ ไม่ต้องกลัวเลยป้าย</h3>
 
+  <p><a href="https://apps.apple.com/us/app/napnav-%E0%B8%AB%E0%B8%A5-%E0%B8%9A%E0%B9%84%E0%B8%A1-%E0%B9%80%E0%B8%A5%E0%B8%A2%E0%B8%9B-%E0%B8%B2%E0%B8%A2/id6816610764">ดาวน์โหลด NapNav บน App Store</a></p>
+
   <p>
     <a href="https://telnwza.github.io/NapNav/"><img src="https://img.shields.io/badge/Website-Live-2e7d32?logo=safari" alt="Website"></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL_v3-blue.svg" alt="License: GPL v3"></a>
@@ -53,6 +55,7 @@
 
 ## เว็บไซต์และเอกสาร (Website & Links)
 
+- **ดาวน์โหลดแอป:** [NapNav บน App Store](https://apps.apple.com/us/app/napnav-%E0%B8%AB%E0%B8%A5-%E0%B8%9A%E0%B9%84%E0%B8%A1-%E0%B9%80%E0%B8%A5%E0%B8%A2%E0%B8%9B-%E0%B8%B2%E0%B8%A2/id6816610764)
 - **หน้าเว็บไซต์หลัก:** [telnwza.github.io/NapNav](https://telnwza.github.io/NapNav/)
 - **นโยบายความเป็นส่วนตัว (Privacy Policy):** [telnwza.github.io/NapNav/privacy.html](https://telnwza.github.io/NapNav/privacy.html)
 - **ศูนย์ช่วยเหลือและคำถามที่พบบ่อย (Support & FAQ):** [telnwza.github.io/NapNav/support.html](https://telnwza.github.io/NapNav/support.html)
